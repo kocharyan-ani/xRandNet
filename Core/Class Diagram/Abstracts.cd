@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Core.AbstractEnsembleManager">
+    <Position X="4.25" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAQAgEAACAAAgAgBQAAgABAACBAAAAIEAQAAI=</HashCode>
+      <FileName>AbstractEnsembleManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Core.AbstractNetwork">
+    <Position X="7.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAoAAACBAAgCApAAAAAgABABAIAAAEAAIEA=</HashCode>
+      <FileName>AbstractNetwork.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Core.AbstractResearch">
+    <Position X="0.5" Y="0.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="Core.AbstractResearch.ManagerRunner" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>AbstractResearch.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ABQAACSQAIQkEAGABAgAABQISIgkAADRAAAAAAFQAkA=</HashCode>
+      <FileName>AbstractResearch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Core.AbstractResultStorage">
+    <Position X="4.25" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAgIAAAAAAAAAAAIAAAAAAAAEAAEBAAAAABAAAAAA=</HashCode>
+      <FileName>AbstractResultStorage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Core.Model.AbstractHierarchicContainer">
+    <Position X="10.75" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Model\AbstractHierarchicContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Core.Model.AbstractNetworkAnalyzer">
+    <Position X="13.25" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>BgCAABQBBgCIAAQAgAIBEAACAgEACIQQNAkEABwEiAA=</HashCode>
+      <FileName>Model\AbstractNetworkAnalyzer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.Model.AbstractNetworkContainer">
+    <Position X="10.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgABEgAAAAAAAiACAAAAAADAACAAAACAIAjA=</HashCode>
+      <FileName>Model\AbstractNetworkContainer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.Model.AbstractNetworkGenerator">
+    <Position X="16.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAQAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\AbstractNetworkGenerator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

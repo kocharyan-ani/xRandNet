@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Enum Name="Core.Enumerations.AnalyzeOption">
+    <Position X="7.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABDEAAAIAAABQAABgBgAAAQEIYEIABhAEAgBE=</HashCode>
+      <FileName>Enumerations\AnalyzeOption.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.GenerationParameter">
+    <Position X="3.25" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAEAgAAIAAAAAACEAAAAAYIBAAAAABABEAAAAAAEAAA=</HashCode>
+      <FileName>Enumerations\GenerationParameter.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.GenerationType">
+    <Position X="5.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Enumerations\GenerationType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.ManagerType">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enumerations\ManagerType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.ModelType">
+    <Position X="3.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQAAACAAAAAAAAAAAAAgEAAAAAQAIAAoAAAAAAAAACA=</HashCode>
+      <FileName>Enumerations\ModelType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.ResearchParameter">
+    <Position X="0.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CAACAgAAAiAAAAAAAEAAAAAAEAAAAAAgABEAAAAAEAQ=</HashCode>
+      <FileName>Enumerations\ResearchParameter.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.ResearchType">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAAAAkAACAEAA=</HashCode>
+      <FileName>Enumerations\ResearchType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.ResearchStatus">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAIAAAIAAAAAAAAAAAAAAAAIABAAAAAAAAA=</HashCode>
+      <FileName>Enumerations\ResearchStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.StorageType">
+    <Position X="5.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAQAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enumerations\StorageType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.ApproximationType">
+    <Position X="10.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAQAAAgAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Enumerations\ApproximationType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.NetworkStatus">
+    <Position X="10.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAABAAAAAAAAA=</HashCode>
+      <FileName>Enumerations\NetworkStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.ThickeningType">
+    <Position X="10.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAEAAAA=</HashCode>
+      <FileName>Enumerations\ThickeningType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Core.Enumerations.TracingType">
+    <Position X="10.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enumerations\TracingType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
