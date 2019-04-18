@@ -71,6 +71,7 @@
     <Compile Include="SessionManager.cs" />
     <Compile Include="StatEngine\StatisticResult.cs" />
     <Compile Include="StatSessionManager.cs" />
+    <Compile Include="WebSessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BAModel\BAModel.csproj">
