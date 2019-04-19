@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Api.Model
+namespace Api.Models
 {
     public class Research
     {
@@ -14,5 +14,7 @@ namespace Api.Model
         public string generation { get; set; }
         public bool connected { get; set; }
         public int count { get; set; }
+        public AnalyzeOption[] analyzeOptions { get; set; }
+        public Parameter[] parameters { get; set; }
     }
 }

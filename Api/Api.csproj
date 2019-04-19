@@ -165,6 +165,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AnalyzeOption.cs" />
+    <Compile Include="Models\Parameter.cs" />
     <Compile Include="Models\Research.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -252,6 +254,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Session\Session.csproj">
       <Project>{ccfa6e32-253e-4e0d-a8fa-5856069268f9}</Project>
       <Name>Session</Name>

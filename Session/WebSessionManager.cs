@@ -69,5 +69,25 @@ namespace Session
         {
             research.RealizationCount = realizationCount;
         }
+
+        public AnalyzeOption GetAnalyzeOptions()
+        {
+            return research.AnalyzeOption;
+        }
+
+        public void SetAnalyzeOptions(AnalyzeOption o)
+        {
+            research.AnalyzeOption = o;
+        }
+
+        public void SetResearchParameterValue(ResearchParameter p, Object value)
+        {
+            research.ResearchParameterValues[p] = value;
+        }
+
+        public void SetGenerationParameterValue(GenerationParameter p, Object value)
+        {
+            research.GenerationParameterValues[p] = value;
+        }
     }
 }
