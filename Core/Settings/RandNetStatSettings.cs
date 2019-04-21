@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
-
+using System.Web;
 using Core.Enumerations;
 using Core.Exceptions;
 
@@ -24,7 +24,14 @@ namespace Core.Settings
 
         static RandNetStatSettings()
         {
-            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (HttpContext.Current != null)
+            {
+                config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+            }
+            else
+            {
+                config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            }
 
             try
             {

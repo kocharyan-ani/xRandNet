@@ -42,13 +42,9 @@ namespace Core.Settings
 
             try
             {
-                Utility.CustomLogger.Write(config.AppSettings.Settings["LoggingDirectory"]);
                 loggingDirectory = config.AppSettings.Settings["LoggingDirectory"].Value;
-                Utility.CustomLogger.Write("asad");
                 storageDirectory = config.AppSettings.Settings["StorageDirectory"].Value;
-                Utility.CustomLogger.Write("asad");
                 tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
-                Utility.CustomLogger.Write("asad");
                 tracingType = (TracingType)Enum.Parse(typeof(TracingType),
                     config.AppSettings.Settings["Tracingtype"].Value);
                 workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
@@ -58,9 +54,9 @@ namespace Core.Settings
                 modelCheckingToolDirectory = config.AppSettings.Settings["ModelCheckingToolDirectory"].Value;
                 dataConvertionToolDirectory = config.AppSettings.Settings["DataConvertionToolDirectory"].Value;
             }
-            catch(Exception e)
+            catch
             {
-                throw new CoreException(e.Message);
+                throw new CoreException("The structure of Configuration file is not correct.");
             }
         }
 
