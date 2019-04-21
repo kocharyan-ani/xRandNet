@@ -1,5 +1,6 @@
 ﻿using Api.Models;
 using Core.Enumerations;
+using Core.Utility;
 using Session;
 using System;
 using System.Web.Http;
@@ -42,9 +43,10 @@ namespace Api.Controllers
                     manager.SetGenerationParameterValue(gp, parameter.value);
             }
 
+            string filePath = manager.GetFilePath();
             manager.StartResearch();
 
-            return research.analyzeOptions[0].key;
+            return filePath;
         }
 
 

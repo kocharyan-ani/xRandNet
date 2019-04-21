@@ -46,15 +46,11 @@ namespace Storage
 
         public override void Save(ResearchResult result)
         {
-            string fileName = storageStr + result.ResearchName;
-            if (File.Exists(fileName + ".xml"))
-                fileName += result.ResearchID;
-
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = "\t";
             settings.NewLineOnAttributes = true;
-            using (writer = XmlWriter.Create(fileName + ".xml", settings))
+            using (writer = XmlWriter.Create(GetFileName(result.ResearchID, result.ResearchName), settings))
             {
                 writer.WriteStartDocument(true);
                 writer.WriteStartElement("Research");
@@ -74,6 +70,15 @@ namespace Storage
 
                 writer.WriteEndElement();
             }
+        }
+
+        public override string GetFileName(Guid researchID, string researchName)
+        {
+            string fileName = storageStr + researchName;
+            if (File.Exists(fileName + ".xml"))
+                fileName += researchID;
+
+            return fileName + ".xml";
         }
 
         public override void Delete(Guid researchID)

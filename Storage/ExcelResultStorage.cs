@@ -53,9 +53,7 @@ namespace Storage
 
         public override void Save(ResearchResult result)
         {
-            string fileName = storageStr + result.ResearchName;
-            if (File.Exists(fileName + ".xls") || File.Exists(fileName + ".xlsx"))
-                fileName += result.ResearchID;
+            string fileName = GetFileName(result.ResearchID, result.ResearchName);
 
             InitializeExcelApplication();
             workbook = excelApp.Workbooks.Add();
@@ -71,9 +69,18 @@ namespace Storage
             }
 
             workbook.Sheets[1].Activate();
-            workbook.SaveAs(fileName + ".xlsx");
+            workbook.SaveAs(fileName);
 
             DestroyExcelApplication();
+        }
+
+        public override string GetFileName(Guid researchID, string researchName)
+        {
+            string fileName = storageStr + researchID;
+            if (File.Exists(fileName + ".xls") || File.Exists(fileName + ".xlsx"))
+                fileName += researchName;
+
+            return fileName + ".xlsx";
         }
 
         public override void Delete(Guid researchID)

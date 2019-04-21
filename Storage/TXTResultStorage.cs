@@ -39,9 +39,7 @@ namespace Storage
 
         public override void Save(ResearchResult result)
         {
-            string dirName = storageStr + result.ResearchName;
-            if (Directory.Exists(dirName))
-                dirName += result.ResearchID;
+            string dirName = GetFileName(result.ResearchID, result.ResearchName);
 
             Directory.CreateDirectory(dirName);
 
@@ -54,6 +52,15 @@ namespace Storage
             {
                 SaveEnsembleResult(dirName, result.ResearchName, result.EnsembleResults[i], i);
             }
+        }
+
+        public override string GetFileName(Guid researchID, string researchName)
+        {
+            string dirName = storageStr + researchName;
+            if (Directory.Exists(dirName))
+                dirName += researchID;
+
+            return dirName;
         }
 
         public override void Delete(Guid researchID)

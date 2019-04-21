@@ -98,6 +98,11 @@ namespace Session
             research.GenerationParameterValues[p] = value;
         }
 
+        public string GetFilePath()
+        {
+            return research.Storage.GetFileName(research.ResearchID, research.ResearchName);
+        }
+
         public void StartResearch()
         {
             research.StartResearch();

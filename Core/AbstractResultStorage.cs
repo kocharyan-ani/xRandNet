@@ -76,5 +76,7 @@ namespace Core
         /// <param name="name">File name for XML, EXCEL and research name for SQL.</param>
         /// <returns>Loaded research result data.</returns>
         public abstract ResearchResult Load(String name);
+
+        public abstract string GetFileName(Guid researchID, string researchName);
     }
 }
