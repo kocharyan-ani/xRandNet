@@ -3,15 +3,19 @@ using Core.Enumerations;
 using Core.Utility;
 using Session;
 using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace Api.Controllers
 {
     public class ResearchController : ApiController
     {
         [HttpPost]
-        public String Index([System.Web.Http.FromBody] Research research)
+        public string Index([FromBody] Research research)
         {
             WebSessionManager manager = new WebSessionManager();
             manager.CreateResearch(research.research);
@@ -46,9 +50,32 @@ namespace Api.Controllers
             string filePath = manager.GetFilePath();
             manager.StartResearch();
 
+            while(!manager.IsCompleted())
+            {
+                Thread.Sleep(300);
+            }
+
             return filePath;
         }
 
+        [HttpGet]
+        public HttpResponseMessage Donwload([FromUri] string path)
+        {
+            var stream = new MemoryStream();
+
+            using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                byte[] bytes = new byte[file.Length];
+                file.Read(bytes, 0, (int)file.Length);
+                stream.Write(bytes, 0, (int)file.Length);
+            }
+            
+            stream.Seek(0, SeekOrigin.Begin);
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = path };
+
+            return response;
+        }
 
         private T GetType<T>(string name)
         {

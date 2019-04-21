@@ -103,6 +103,11 @@ namespace Session
             return research.Storage.GetFileName(research.ResearchID, research.ResearchName);
         }
 
+        public bool IsCompleted()
+        {
+            return research.StatusInfo.Status == ResearchStatus.Completed;
+        }
+
         public void StartResearch()
         {
             research.StartResearch();
