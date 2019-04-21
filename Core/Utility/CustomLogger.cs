@@ -1,19 +1,13 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace Core.Utility
 {
     public static class CustomLogger
     {
-        public static bool webMode = false;
-
         public static void Write(object message)
         {
-            if(webMode)
+            if (HttpContext.Current != null)
             {
                 System.Diagnostics.Debug.WriteLine(message);
             } else

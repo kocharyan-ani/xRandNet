@@ -16,11 +16,6 @@ namespace Session
     {
         AbstractResearch research;
 
-        public WebSessionManager()
-        {
-            CustomLogger.webMode = true;
-        }
-
         public Guid CreateResearch(String type)
         {
             research = AbstractResearch.CreateResearchByType(GetType<ResearchType>(type));
@@ -89,6 +84,7 @@ namespace Session
 
         public void SetResearchStorage(StorageType storageType)
         {
+            CustomLogger.Write(RandNetSettings.StorageDirectory);
             research.Storage = AbstractResultStorage.CreateStorage(storageType, RandNetSettings.StorageDirectory);
         }
 

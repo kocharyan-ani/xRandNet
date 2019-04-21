@@ -1,12 +1,9 @@
 ﻿using System;
+using System.Web;
 using System.Configuration;
 using System.IO;
 using System.Diagnostics;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Logging.Configuration;
-
 using Core.Exceptions;
 using Core.Enumerations;
 
@@ -34,13 +31,24 @@ namespace Core.Settings
 
         static RandNetSettings()
         {
-            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (HttpContext.Current != null)
+            {
+                config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+            }
+            else
+            {
+                config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            }
 
             try
             {
+                Utility.CustomLogger.Write(config.AppSettings.Settings["LoggingDirectory"]);
                 loggingDirectory = config.AppSettings.Settings["LoggingDirectory"].Value;
+                Utility.CustomLogger.Write("asad");
                 storageDirectory = config.AppSettings.Settings["StorageDirectory"].Value;
+                Utility.CustomLogger.Write("asad");
                 tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
+                Utility.CustomLogger.Write("asad");
                 tracingType = (TracingType)Enum.Parse(typeof(TracingType),
                     config.AppSettings.Settings["Tracingtype"].Value);
                 workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
@@ -50,9 +58,9 @@ namespace Core.Settings
                 modelCheckingToolDirectory = config.AppSettings.Settings["ModelCheckingToolDirectory"].Value;
                 dataConvertionToolDirectory = config.AppSettings.Settings["DataConvertionToolDirectory"].Value;
             }
-            catch
+            catch(Exception e)
             {
-                throw new CoreException("The structure of Configuration file is not correct.");
+                throw new CoreException(e.Message);
             }
         }
 
