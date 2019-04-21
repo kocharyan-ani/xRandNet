@@ -18,7 +18,7 @@ namespace Core.Utility
                 // @ToDo
             } else
             {
-                CustomLogger.Write(message);
+                Logger.Write(message);
             }
         }
     }
