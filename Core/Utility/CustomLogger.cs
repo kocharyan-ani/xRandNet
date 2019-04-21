@@ -5,9 +5,11 @@ namespace Core.Utility
 {
     public static class CustomLogger
     {
+        public static bool webMode = false;
+
         public static void Write(object message)
         {
-            if (HttpContext.Current != null)
+            if (webMode)
             {
                 System.Diagnostics.Debug.WriteLine(message);
             } else

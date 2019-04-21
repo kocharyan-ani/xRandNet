@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
-using Core.Exceptions;
 using Core.Settings;
 using Core.Utility;
 
@@ -15,6 +11,11 @@ namespace Session
     public class WebSessionManager
     {
         AbstractResearch research;
+
+        public WebSessionManager()
+        {
+            CustomLogger.webMode = true;
+        }
 
         public Guid CreateResearch(String type)
         {
@@ -84,7 +85,6 @@ namespace Session
 
         public void SetResearchStorage(StorageType storageType)
         {
-            CustomLogger.Write(RandNetSettings.StorageDirectory);
             research.Storage = AbstractResultStorage.CreateStorage(storageType, RandNetSettings.StorageDirectory);
         }
 
