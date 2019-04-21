@@ -14,6 +14,7 @@ namespace Api.Models
         public string generation { get; set; }
         public bool connected { get; set; }
         public int count { get; set; }
+        public string storage { get; set; }
         public AnalyzeOption[] analyzeOptions { get; set; }
         public Parameter[] parameters { get; set; }
     }

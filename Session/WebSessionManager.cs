@@ -7,6 +7,7 @@ using Core;
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Exceptions;
+using Core.Settings;
 using Core.Utility;
 
 namespace Session
@@ -84,6 +85,11 @@ namespace Session
         public void SetAnalyzeOptions(AnalyzeOption o)
         {
             research.AnalyzeOption = o;
+        }
+
+        public void SetResearchStorage(StorageType storageType)
+        {
+            research.Storage = AbstractResultStorage.CreateStorage(storageType, RandNetSettings.StorageDirectory);
         }
 
         public void SetResearchParameterValue(ResearchParameter p, Object value)

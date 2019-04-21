@@ -19,6 +19,7 @@ namespace Api.Controllers
             manager.SetResearchGenerationType(research.generation);
             manager.SetResearchCheckConnected(research.connected);
             manager.SetResearchRealizationCount(research.count);
+            manager.SetResearchStorage(GetType<StorageType>(research.storage));
 
             Core.Enumerations.AnalyzeOption opts = manager.GetAnalyzeOptions();
             foreach (Models.AnalyzeOption option in research.analyzeOptions)

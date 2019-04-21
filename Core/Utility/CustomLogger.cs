@@ -15,7 +15,7 @@ namespace Core.Utility
         {
             if(webMode)
             {
-                // @ToDo
+                System.Diagnostics.Debug.WriteLine(message);
             } else
             {
                 Logger.Write(message);
