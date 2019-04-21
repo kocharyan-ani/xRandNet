@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
 using Core.Result;
 using Core.Events;
-using Core.Settings;
+using Core.Utility;
 
 namespace Core
 {
@@ -153,7 +150,7 @@ namespace Core
 
             CreateEnsembleManager();
             StatusInfo = new ResearchStatusInfo(ResearchStatus.Running, 0);
-            Logger.Write("Research ID - " + ResearchID.ToString() +
+            CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                 ". Research - " + ResearchName + ". STARTED " + GetResearchType() + " RESEARCH.");
 
             ManagerRunner r = new ManagerRunner(currentManager.Run);
@@ -167,7 +164,7 @@ namespace Core
         {
             currentManager.Cancel();
             StatusInfo = new ResearchStatusInfo(ResearchStatus.Stopped, StatusInfo.CompletedStepsCount);
-            Logger.Write("Research ID - " + ResearchID.ToString() +
+            CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                 ". Research - " + ResearchName + ". STOPPED " + GetResearchType() + " RESEARCH.");
         }
 
@@ -190,7 +187,7 @@ namespace Core
         /// <exception>InvalidResearchParameters.</exception>
         protected virtual void ValidateResearchParameters()
         {
-            Logger.Write("Research - " + ResearchName + ". Validated research parameters.");
+            CustomLogger.Write("Research - " + ResearchName + ". Validated research parameters.");
         }
 
         /// <summary>
@@ -258,10 +255,10 @@ namespace Core
             Storage.Save(result);
             StatusInfo = new ResearchStatusInfo(ResearchStatus.Completed, StatusInfo.CompletedStepsCount + 1);
 
-            Logger.Write("Research - " + ResearchName + ". Result is SAVED");
+            CustomLogger.Write("Research - " + ResearchName + ". Result is SAVED");
 
             result.Clear();
-            Logger.Write("Research - " + ResearchName + ". Result is CLEARED.");
+            CustomLogger.Write("Research - " + ResearchName + ". Result is CLEARED.");
         }
 
         protected int GetAnalyzeOptionsCount()

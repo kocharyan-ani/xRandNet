@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Exceptions;
+using Core.Utility;
 
 namespace Research
 {
@@ -58,7 +56,7 @@ namespace Research
                 !ResearchParameterValues.ContainsKey(ResearchParameter.TracingStepIncrement) ||
                 !ResearchParameterValues.ContainsKey(ResearchParameter.InitialActivationProbability))
             {
-                Logger.Write("Research - " + ResearchName + ". Invalid research parameters.");
+                CustomLogger.Write("Research - " + ResearchName + ". Invalid research parameters.");
                 throw new InvalidResearchParameters();
             }
 
@@ -69,7 +67,7 @@ namespace Research
 
             if (Time <= 0 || Lambda < 0 || Mu < 0|| IP < 0 || IP > 1)
             {
-                Logger.Write("Research - " + ResearchName + ". Invalid research parameters.");
+                CustomLogger.Write("Research - " + ResearchName + ". Invalid research parameters.");
                 throw new InvalidResearchParameters();
             }
 

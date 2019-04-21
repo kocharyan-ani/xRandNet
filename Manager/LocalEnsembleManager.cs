@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Events;
 using Core.Exceptions;
 using Core.Result;
+using Core.Utility;
 
 namespace Manager
 {
@@ -138,7 +136,7 @@ namespace Manager
             }
             catch (SystemException ex)
             {
-                Logger.Write("Exception is thrown in LocalEnsembleManager. Exception message is: " + ex.Message);
+                CustomLogger.Write("Exception is thrown in LocalEnsembleManager. Exception message is: " + ex.Message);
             }
             finally
             {

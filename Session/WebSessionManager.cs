@@ -7,12 +7,18 @@ using Core;
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Exceptions;
+using Core.Utility;
 
 namespace Session
 {
     public class WebSessionManager
     {
         AbstractResearch research;
+
+        public WebSessionManager()
+        {
+            CustomLogger.webMode = true;
+        }
 
         public Guid CreateResearch(String type)
         {
@@ -88,6 +94,11 @@ namespace Session
         public void SetGenerationParameterValue(GenerationParameter p, Object value)
         {
             research.GenerationParameterValues[p] = value;
+        }
+
+        public void StartResearch()
+        {
+            research.StartResearch();
         }
     }
 }

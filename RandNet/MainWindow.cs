@@ -1,22 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.IO;
-using System.Threading;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-
 using Session;
-using Core;
 using Core.Exceptions;
 using Core.Enumerations;
-using Core.Attributes;
 using Core.Events;
 using Core.Settings;
 using Core.Utility;
@@ -28,7 +16,7 @@ namespace RandNet
         public MainWindow()
         {
             RandNetSettings.InitializeLogging("randnet_" + DateTime.Now.AddHours(4).ToString("yyyy_MM_dd_HH_mm_ss"));
-            Logger.Write("-------------------------------- xRandNet STARTED --------------------------------");
+            CustomLogger.Write("-------------------------------- xRandNet STARTED --------------------------------");
 
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
@@ -40,7 +28,7 @@ namespace RandNet
         {
             if (!CheckClosing())
                 e.Cancel = true;
-            Logger.Write("-------------------------------- xRandNet FINISHED --------------------------------");
+            CustomLogger.Write("-------------------------------- xRandNet FINISHED --------------------------------");
         }
 
         private void basicToolStripMenuItem_Click(Object sender, EventArgs e)
@@ -144,29 +132,29 @@ namespace RandNet
 
         private void classicalTestsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            Logger.Write("-------------------------------- CLASSICAL TESTS STARTED --------------------------------");
+            CustomLogger.Write("-------------------------------- CLASSICAL TESTS STARTED --------------------------------");
             RunTestsWindow w = new RunTestsWindow();
             w.ModelType = ModelType.ER;
             w.ShowDialog();
-            Logger.Write("-------------------------------- CLASSICAL TESTS FINISHED --------------------------------");
+            CustomLogger.Write("-------------------------------- CLASSICAL TESTS FINISHED --------------------------------");
         }
 
         private void regularHierarchicTestsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            Logger.Write("-------------------------------- REGULAR HIERARCHIC TESTS STARTED --------------------------------");
+            CustomLogger.Write("-------------------------------- REGULAR HIERARCHIC TESTS STARTED --------------------------------");
             RunTestsWindow w = new RunTestsWindow();
             w.ModelType = ModelType.RegularHierarchic;
             w.ShowDialog();
-            Logger.Write("-------------------------------- REGULAR HIERARCHIC TESTS FINISHED --------------------------------");
+            CustomLogger.Write("-------------------------------- REGULAR HIERARCHIC TESTS FINISHED --------------------------------");
         }
 
         private void nonRegularHierarchicTestsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            Logger.Write("-------------------------------- NON REGULAR HIERARCHIC TESTS STARTED --------------------------------");
+            CustomLogger.Write("-------------------------------- NON REGULAR HIERARCHIC TESTS STARTED --------------------------------");
             RunTestsWindow w = new RunTestsWindow();
             w.ModelType = ModelType.NonRegularHierarchic;
             w.ShowDialog();
-            Logger.Write("-------------------------------- NON REGULAR HIERARCHIC TESTS FINISHED --------------------------------");
+            CustomLogger.Write("-------------------------------- NON REGULAR HIERARCHIC TESTS FINISHED --------------------------------");
         }
 
         private void researchTable_SelectionChanged(Object sender, EventArgs e)

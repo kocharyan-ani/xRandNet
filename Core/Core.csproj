@@ -117,6 +117,7 @@
     <Compile Include="Model\INetworkAnalyzer.cs" />
     <Compile Include="Model\INetworkContainer.cs" />
     <Compile Include="Model\INetworkGenerator.cs" />
+    <Compile Include="Utility\CustomLogger.cs" />
     <Compile Include="Utility\MatrixInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result\EnsembleResult.cs" />

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Events;
 using Core.Exceptions;
+using Core.Utility;
 
 namespace Research
 {
@@ -71,7 +69,7 @@ namespace Research
             delta = Double.Parse(ResearchParameterValues[ResearchParameter.ProbabilityDelta].ToString(), CultureInfo.InvariantCulture);
 
             StatusInfo = new ResearchStatusInfo(ResearchStatus.Running, 0);
-            Logger.Write("Research ID - " + ResearchID.ToString() +
+            CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                 ". Research - " + ResearchName + ". STARTED Threshold RESEARCH.");
 
             StartCurrentEnsemble();
@@ -100,7 +98,7 @@ namespace Research
             if (!ResearchParameterValues.ContainsKey(ResearchParameter.ProbabilityDelta) ||
                 !ResearchParameterValues.ContainsKey(ResearchParameter.ProbabilityMax))
             {
-                Logger.Write("Research - " + ResearchName + ". Invalid research parameters.");
+                CustomLogger.Write("Research - " + ResearchName + ". Invalid research parameters.");
                 throw new InvalidResearchParameters();
             }
 

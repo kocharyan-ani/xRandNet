@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Exceptions;
@@ -12,7 +9,6 @@ using Core.Events;
 using Core.Model;
 using Core.Result;
 using Core.Utility;
-using Core.Settings;
 
 namespace Core
 {
@@ -89,7 +85,7 @@ namespace Core
         {
             try
             {
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                     ". GENERATION STARTED for network - " + NetworkID.ToString());
 
                 if (GenerationType == GenerationType.Static)
@@ -100,7 +96,7 @@ namespace Core
                     NetworkInfoToRead ni = FileManager.Read(fp.Path, fp.Size);
                     networkGenerator.StaticGeneration(ni);
 
-                    Logger.Write("Research - " + ResearchName +
+                    CustomLogger.Write("Research - " + ResearchName +
                         ". Static GENERATION FINISHED for network - " + NetworkID.ToString());
                 }
                 else
@@ -115,7 +111,7 @@ namespace Core
                         (networkGenerator.Container as AbstractNetworkContainer).RandomActivating(IP);
                     }
 
-                    Logger.Write("Research - " + ResearchName +
+                    CustomLogger.Write("Research - " + ResearchName +
                         ". Random GENERATION FINISHED for network - " + NetworkID.ToString());
                 }
 
@@ -125,7 +121,7 @@ namespace Core
             {
                 UpdateStatus(NetworkStatus.Failed);
 
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                     "GENERATION FAILED for network - " + NetworkID.ToString() +
                     ". Exception message: " + ex.Message);
                 return false;
@@ -138,7 +134,7 @@ namespace Core
         {
             try
             {
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                     ". CHECK CONNECTED STARTED for network - " + NetworkID.ToString());
 
                 bool result = false;
@@ -153,7 +149,7 @@ namespace Core
                     UpdateStatus(NetworkStatus.StepCompleted);  // for analyze
                 }
 
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                         ". CHECK COMPLETED FINISHED for network - " + NetworkID.ToString());
 
                 return result;
@@ -162,7 +158,7 @@ namespace Core
             {
                 UpdateStatus(NetworkStatus.Failed);
 
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                     "CHECK COMPLETED FAILED for network - " + NetworkID.ToString() +
                     ". Exception message: " + ex.Message);
                 return false;
@@ -179,7 +175,7 @@ namespace Core
             
             try
             {
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                     ". ANALYZE STARTED for network - " + NetworkID.ToString());
 
                 NetworkResult.NetworkSize = networkAnalyzer.Container.Size;
@@ -193,7 +189,7 @@ namespace Core
                         NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt));
                         UpdateStatus(NetworkStatus.StepCompleted);
 
-                        Logger.Write("Research - " + ResearchName +
+                        CustomLogger.Write("Research - " + ResearchName +
                             ". CALCULATED analyze option: " +  opt.ToString() +
                             " for network - " + NetworkID.ToString());
                     }
@@ -201,14 +197,14 @@ namespace Core
 
                 SuccessfullyCompleted = true;
 
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                         ". ANALYZE FINISHED for network - " + NetworkID.ToString());
             }
             catch (SystemException ex)
             {
                 UpdateStatus(NetworkStatus.Failed);
 
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                     ". ANALYZE FAILED for network - " + NetworkID.ToString() +
                     ". Exception message: " + ex.Message);
                 return false;
@@ -224,7 +220,7 @@ namespace Core
         {
             try
             {
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                     ". TRACING STARTED for network - " + NetworkID.ToString());
 
                 if (TracingIsNotSupported())
@@ -253,14 +249,14 @@ namespace Core
 
                 UpdateStatus(NetworkStatus.StepCompleted);
 
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                         ". TRACING FINISHED for network - " + NetworkID.ToString());
             }
             catch (CoreException ex)
             {
                 UpdateStatus(NetworkStatus.Failed);
 
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                     "TRACING FAILED for network - " + NetworkID.ToString() +
                     ". Exception message: " + ex.Message);
                 return false;
@@ -283,7 +279,7 @@ namespace Core
             {
                 UpdateStatus(NetworkStatus.StepCompleted);
 
-                Logger.Write("Research - " + ResearchName +
+                CustomLogger.Write("Research - " + ResearchName +
                         ". TRACING is SKIPPED for network - " + NetworkID.ToString());
             }
 

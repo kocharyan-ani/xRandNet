@@ -41,6 +41,8 @@ namespace Api.Controllers
                     manager.SetGenerationParameterValue(gp, parameter.value);
             }
 
+            manager.StartResearch();
+
             return research.analyzeOptions[0].key;
         }
 

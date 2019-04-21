@@ -4,15 +4,10 @@ using System.Linq;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
-using Core.Model;
 using Core.Utility;
-using Core.Settings;
 using Core.Events;
 using Core.Exceptions;
 
@@ -71,7 +66,7 @@ namespace Research
             ValidateResearchParameters();
 
             StatusInfo = new ResearchStatusInfo(ResearchStatus.Running, 0);
-            Logger.Write("Research ID - " + ResearchID.ToString() +
+            CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                 ". Research - " + ResearchName + ". STARTED COLLECTION RESEARCH.");
 
             MatrixPath mp = ((MatrixPath)ResearchParameterValues[ResearchParameter.InputPath]);
@@ -198,7 +193,7 @@ namespace Research
 
                 StatusInfo = new ResearchStatusInfo(ResearchStatus.Stopped, StatusInfo.CompletedStepsCount);
 
-                Logger.Write("Research ID - " + ResearchID.ToString() +
+                CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                     ". Research - " + ResearchName + ". STOPPED COLLECTION RESEARCH.");
             }
         }
@@ -225,19 +220,19 @@ namespace Research
                 ResearchParameterValues[ResearchParameter.InputPath] == null ||
                 ((MatrixPath)ResearchParameterValues[ResearchParameter.InputPath]).Path == "")
             {
-                Logger.Write("Research - " + ResearchName + ". Invalid research parameters.");
+                CustomLogger.Write("Research - " + ResearchName + ". Invalid research parameters.");
                 throw new InvalidResearchParameters();
             }
 
             MatrixPath mp = ((MatrixPath)ResearchParameterValues[ResearchParameter.InputPath]);
             if ((File.GetAttributes(mp.Path) & FileAttributes.Directory) != FileAttributes.Directory)
             {
-                Logger.Write("Research - " + ResearchName + ". Invalid research parameters." +
+                CustomLogger.Write("Research - " + ResearchName + ". Invalid research parameters." +
                     " Directory should be specified.");
                 throw new InvalidResearchParameters();
             }
 
-            Logger.Write("Research - " + ResearchName + ". Validated research parameters.");
+            CustomLogger.Write("Research - " + ResearchName + ". Validated research parameters.");
         }
 
         protected override void FillParameters(AbstractEnsembleManager m) {}

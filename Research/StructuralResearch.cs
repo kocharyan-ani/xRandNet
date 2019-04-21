@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
 using System.Collections;
 using System.Diagnostics;
 using System.Threading;
-
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Exceptions;
-using Core.Model;
 using Core.Utility;
 using Core.Settings;
 using Core.Events;
@@ -62,7 +57,7 @@ namespace Research
             ValidateResearchParameters();
 
             StatusInfo = new ResearchStatusInfo(ResearchStatus.Running, 0);
-            Logger.Write("Research ID - " + ResearchID.ToString() +
+            CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                 ". Research - " + ResearchName + ". STARTED STRUCTURAL RESEARCH.");
 
             MatrixPath mp = ((MatrixPath)ResearchParameterValues[ResearchParameter.InputPath]);
@@ -168,7 +163,7 @@ namespace Research
 
                 StatusInfo = new ResearchStatusInfo(ResearchStatus.Stopped, StatusInfo.CompletedStepsCount);
 
-                Logger.Write("Research ID - " + ResearchID.ToString() +
+                CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                     ". Research - " + ResearchName + ". STOPPED STRUCTURAL RESEARCH.");
             }
         }
@@ -193,21 +188,21 @@ namespace Research
                 ResearchParameterValues[ResearchParameter.InputPath] == null ||
                 ((MatrixPath)ResearchParameterValues[ResearchParameter.InputPath]).Path == "")
             {
-                Logger.Write("Research - " + ResearchName + ". Invalid research parameters.");
+                CustomLogger.Write("Research - " + ResearchName + ". Invalid research parameters.");
                 throw new InvalidResearchParameters();
             }
 
             MatrixPath mp = ((MatrixPath)ResearchParameterValues[ResearchParameter.InputPath]);
             if ((File.GetAttributes(mp.Path) & FileAttributes.Directory) != FileAttributes.Directory)
             {
-                Logger.Write("Research - " + ResearchName + ". Invalid research parameters." +
+                CustomLogger.Write("Research - " + ResearchName + ". Invalid research parameters." +
                     " Directory should be specified.");
                 throw new InvalidResearchParameters();
             }
 
             if (Directory.GetFiles(mp.Path, "*.txt").Count() != 1)
             {
-                Logger.Write("Research - " + ResearchName + ". Invalid research parameters." +
+                CustomLogger.Write("Research - " + ResearchName + ". Invalid research parameters." +
                     " Directory should contain only 1 .txt file.");
                 throw new InvalidResearchParameters();
             }

@@ -20,6 +20,7 @@ using NonRegularHierarchicModel;
 using Research;
 using Storage;
 using WSModel;
+using Core.Utility;
 
 namespace Session
 {
@@ -45,7 +46,8 @@ namespace Session
 
         static SessionManager()
         {
-            Logger.Write("---------------------- SESSION MANAGER STARTED ----------------------");
+            CustomLogger.webMode = false;
+            CustomLogger.Write("---------------------- SESSION MANAGER STARTED ----------------------");
             existingResearches = new Dictionary<Guid, AbstractResearch>();
         }
 
