@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28809.33
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonRegularHierarchicModel", "NonRegularHierarchicModel\NonRegularHierarchicModel.csproj", "{09ADFD58-61A9-4A46-B9CF-4B7BA6466EC0}"
 EndProject
@@ -166,6 +166,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMNModel", "HMNModel\HMNModel.csproj", "{6D6AF5BB-B73C-4A48-B798-3B2CF22A70AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{854BB370-F593-4B1E-AA64-D42C22365BC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBModel", "BBModel\BBModel.csproj", "{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -379,6 +381,18 @@ Global
 		{854BB370-F593-4B1E-AA64-D42C22365BC1}.Release|x64.Build.0 = Release|Any CPU
 		{854BB370-F593-4B1E-AA64-D42C22365BC1}.Release|x86.ActiveCfg = Release|Any CPU
 		{854BB370-F593-4B1E-AA64-D42C22365BC1}.Release|x86.Build.0 = Release|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Debug|x64.Build.0 = Debug|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Debug|x86.Build.0 = Debug|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Release|x64.ActiveCfg = Release|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Release|x64.Build.0 = Release|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Release|x86.ActiveCfg = Release|Any CPU
+		{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,6 +11,7 @@ namespace Research
     /// </summary>
     [AvailableModelType(ModelType.ER)]
     [AvailableModelType(ModelType.BA)]
+    [AvailableModelType(ModelType.BB)]
     [AvailableModelType(ModelType.WS)]
     [AvailableModelType(ModelType.RegularHierarchic)]   
     [AvailableModelType(ModelType.NonRegularHierarchic)]

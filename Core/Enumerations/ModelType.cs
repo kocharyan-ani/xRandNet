@@ -25,6 +25,11 @@ namespace Core.Enumerations
             "BAModel.BANetwork, BAModel")]
         BA,
 
+        [ModelTypeInfo("Biancony-Baraba´si model",
+            "Random network, which represents the scale-free property.",
+            "BBModel.BBNetwork, BBModel")]
+        BB,
+
         [ModelTypeInfo("Regular Hierarchical model", 
             "Random regularly branching block-hierarchical network.",
             "RegularHierarchicModel.RegularHierarchicNetwork, RegularHierarchicModel")]

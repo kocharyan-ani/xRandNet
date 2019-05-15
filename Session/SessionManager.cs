@@ -12,6 +12,7 @@ using Core.Settings;
 
 // dummy
 using BAModel;
+using BBModel;
 using ERModel;
 using HMNModel;
 using Manager;
@@ -35,6 +36,7 @@ namespace Session
         BasicResearch n7 = null;
         XMLResultStorage n8 = null;
         WSNetwork n9 = null;
+        BBNetwork n10 = null;
     }
 
     /// <summary>
