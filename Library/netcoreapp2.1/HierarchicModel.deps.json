@@ -1,0 +1,134 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.1",
+    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.1": {
+      "HierarchicModel/1.0.0": {
+        "dependencies": {
+          "Core": "1.0.0",
+          "NetworkModel": "1.0.0"
+        },
+        "runtime": {
+          "HierarchicModel.dll": {}
+        }
+      },
+      "Core/1.0.0": {
+        "dependencies": {
+          "RandomNumberGeneration": "1.0.0",
+          "Microsoft.Practices.EnterpriseLibrary.Logging": "5.0.414.0",
+          "Microsoft.Practices.EnterpriseLibrary.Common": "5.0.414.0",
+          "Microsoft.Practices.Unity.Interception": "2.0.414.0",
+          "Microsoft.Practices.ServiceLocation": "1.0.0.0",
+          "Microsoft.Practices.Unity": "2.0.414.0"
+        },
+        "runtime": {
+          "Core.dll": {}
+        }
+      },
+      "NetworkModel/1.0.0": {
+        "dependencies": {
+          "Core": "1.0.0",
+          "RandomNumberGeneration": "1.0.0"
+        },
+        "runtime": {
+          "NetworkModel.dll": {}
+        }
+      },
+      "RandomNumberGeneration/1.0.0": {
+        "runtime": {
+          "RandomNumberGeneration.dll": {}
+        }
+      },
+      "Microsoft.Practices.EnterpriseLibrary.Logging.Reference/5.0.414.0": {
+        "runtime": {
+          "Microsoft.Practices.EnterpriseLibrary.Logging.dll": {
+            "assemblyVersion": "5.0.414.0",
+            "fileVersion": "5.0.414.0"
+          }
+        }
+      },
+      "Microsoft.Practices.EnterpriseLibrary.Common.Reference/5.0.414.0": {
+        "runtime": {
+          "Microsoft.Practices.EnterpriseLibrary.Common.dll": {
+            "assemblyVersion": "5.0.414.0",
+            "fileVersion": "5.0.414.0"
+          }
+        }
+      },
+      "Microsoft.Practices.Unity.Interception.Reference/2.0.414.0": {
+        "runtime": {
+          "Microsoft.Practices.Unity.Interception.dll": {
+            "assemblyVersion": "2.0.414.0",
+            "fileVersion": "2.0.414.0"
+          }
+        }
+      },
+      "Microsoft.Practices.ServiceLocation.Reference/1.0.0.0": {
+        "runtime": {
+          "Microsoft.Practices.ServiceLocation.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Microsoft.Practices.Unity.Reference/2.0.414.0": {
+        "runtime": {
+          "Microsoft.Practices.Unity.dll": {
+            "assemblyVersion": "2.0.414.0",
+            "fileVersion": "2.0.414.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "HierarchicModel/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NetworkModel/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RandomNumberGeneration/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Practices.EnterpriseLibrary.Logging.Reference/5.0.414.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Practices.EnterpriseLibrary.Common.Reference/5.0.414.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Practices.Unity.Interception.Reference/2.0.414.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Practices.ServiceLocation.Reference/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Practices.Unity.Reference/2.0.414.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

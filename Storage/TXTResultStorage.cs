@@ -59,7 +59,7 @@ namespace Storage
             string dirName = storageStr + researchName;
             if (Directory.Exists(dirName))
                 dirName += researchID;
-
+            FileName = Path.GetFileName(dirName);
             return dirName;
         }
 

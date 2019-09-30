@@ -77,7 +77,7 @@ namespace Storage
             string fileName = storageStr + researchName;
             if (File.Exists(fileName + ".xml"))
                 fileName += researchID;
-
+            FileName = Path.GetFileName(fileName);
             return fileName + ".xml";
         }
 

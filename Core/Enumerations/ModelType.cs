@@ -35,15 +35,15 @@ namespace Core.Enumerations
             "RegularHierarchicModel.RegularHierarchicNetwork, RegularHierarchicModel")]
         RegularHierarchic,
 
-        [ModelTypeInfo("Regular Hierarchical model, L-links",
-            "Random regularly branching block-hierarchical network with L-links.",
-            "RegularHierarchicModelLLinks.RegularHierarchicNetworkLLinks, RegularHierarchicLLinks")]
-        RegularHierarchicLLinks,
-
         [ModelTypeInfo("Non Regular Hierarchical model", 
             "Random non-regularly branching block-hierarchical network.",
             "NonRegularHierarchicModel.NonRegularHierarchicNetwork, NonRegularHierarchicModel")]
         NonRegularHierarchic,
+
+        [ModelTypeInfo("Generalized Hierarchical model",
+            "Random generalized block-hierarchical network.",
+            "HierarchicModel.HierarchicNetwork, HierarchicModel")]
+        GeneralizedHierarchic,
 
         [ModelTypeInfo("HMN-1 model",
             "Random hierarchical modular networks (HMN-1)",

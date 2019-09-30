@@ -19,6 +19,8 @@ namespace Core
             get { return storageStr; }
         }
 
+        public String FileName { get; protected set; }
+
         /// <summary>
         /// Creates a storage of specified type using metadata information of enumeration value.
         /// </summary>

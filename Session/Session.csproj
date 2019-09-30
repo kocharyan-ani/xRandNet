@@ -90,6 +90,10 @@
       <Project>{f89973d5-0b32-4daa-80b7-8a5a7f717168}</Project>
       <Name>ERModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HierarchicModel\HierarchicModel.csproj">
+      <Project>{19356fbc-a1c0-4227-ae84-ea9ed3dc2d74}</Project>
+      <Name>HierarchicModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HMNModel\HMNModel.csproj">
       <Project>{6d6af5bb-b73c-4a48-b798-3b2cf22a70ab}</Project>
       <Name>HMNModel</Name>

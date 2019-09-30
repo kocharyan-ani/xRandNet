@@ -18,6 +18,7 @@ using HMNModel;
 using Manager;
 using RegularHierarchicModel;
 using NonRegularHierarchicModel;
+using HierarchicModel;
 using Research;
 using Storage;
 using WSModel;
@@ -33,10 +34,11 @@ namespace Session
         LocalEnsembleManager n4 = null;
         RegularHierarchicNetwork n5 = null;
         NonRegularHierarchicNetwork n6 = null;
-        BasicResearch n7 = null;
-        XMLResultStorage n8 = null;
-        WSNetwork n9 = null;
-        BBNetwork n10 = null;
+        HierarchicNetwork n7 = null;
+        BasicResearch n8 = null;
+        XMLResultStorage n9 = null;
+        WSNetwork n10 = null;
+        BBNetwork n11 = null;
     }
 
     /// <summary>

@@ -58,6 +58,18 @@ namespace Core
 
         public String ResearchName { get; set; }
 
+        public String ResearchFileName
+        {
+            get
+            {
+                if(Storage != null)
+                {
+                    return Storage.FileName;
+                }
+                return null;
+            }
+        }
+
         public ModelType ModelType
         {
             get { return modelType; }

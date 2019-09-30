@@ -79,7 +79,7 @@ namespace Storage
             string fileName = storageStr + researchID;
             if (File.Exists(fileName + ".xls") || File.Exists(fileName + ".xlsx"))
                 fileName += researchName;
-
+            FileName = Path.GetFileName(fileName);
             return fileName + ".xlsx";
         }
 
