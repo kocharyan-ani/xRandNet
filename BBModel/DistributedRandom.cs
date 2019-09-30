@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
+using RandomNumberGeneration;
+
 namespace BBModel
 {
     class DistributedRandom
@@ -352,7 +354,7 @@ namespace BBModel
         public DistributedRandom(string function_str)
         {
             function_ = new SimpleFunction(function_str);
-            random_ = new Random();
+            random_ = new RNGCrypto();
         }
         public double get_probability()
         {
@@ -420,7 +422,7 @@ namespace BBModel
         }
 
         private SimpleFunction function_;
-        private Random random_;
+        private RNGCrypto random_;
 
     }
 }

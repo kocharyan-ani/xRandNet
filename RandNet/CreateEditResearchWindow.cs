@@ -175,11 +175,11 @@ namespace RandNet
                 if (rt != typeof(Boolean))
                     AddLabelToParametersPanel(r.ToString(), f, location);
                 if (rt == typeof(Int32) || rt == typeof(Double))
-                    AddTextBoxToParametersPanel(r.ToString(), GetResearchParameterValue(r), rt, s, location);
+                    AddNumericTextBoxToParametersPanel(r.ToString(), GetResearchParameterValue(r), rt, s, location);
                 else if (rt == typeof(Boolean))
                     AddCheckBoxToParametersPanel(r.ToString(), GetResearchParameterValue(r), s, location);
                 else if (rt == typeof(ResearchType))
-                    AddTextBoxToParametersPanel(r.ToString(), "Basic", rt, s, location);
+                    AddStringTextBoxToParametersPanel(r.ToString(), "Basic", rt, s, location);
                 else if (rt == typeof(MatrixPath))
                     AddFileInputToParametersPanel(r.ToString(), FileInputType.Folder, GetResearchParameterValue(r), s, location);
                 else
@@ -193,11 +193,13 @@ namespace RandNet
                 if (gt != typeof(Boolean))
                     AddLabelToParametersPanel(g.ToString(), f, location);
                 if (gt == typeof(Int32) || gt == typeof(Double))
-                    AddTextBoxToParametersPanel(g.ToString(), GetGenerationParameterValue(g), gt, s, location);
+                    AddNumericTextBoxToParametersPanel(g.ToString(), GetGenerationParameterValue(g), gt, s, location);
                 else if (gt == typeof(Boolean))
                     AddCheckBoxToParametersPanel(g.ToString(), GetGenerationParameterValue(g), s, location);
                 else if (gt == typeof(MatrixPath))
                     AddFileInputToParametersPanel(g.ToString(), FileInputType.File, GetGenerationParameterValue(g), s, location);
+                else if(gt == typeof(String))
+                    AddStringTextBoxToParametersPanel(g.ToString(), GetGenerationParameterValue(g), gt, s, location);
                 else
                     throw new CoreException("Undefined type for generation parameter.");
                 ++location;
@@ -374,7 +376,7 @@ namespace RandNet
             parametersPanel.Controls.Add(l);
         }
 
-        private void AddTextBoxToParametersPanel(String text, Object value, Type vType, Int32 x, Int32 y)
+        private void AddNumericTextBoxToParametersPanel(String text, Object value, Type vType, Int32 x, Int32 y)
         {
             TextBox tb = new TextBox
             {
@@ -386,6 +388,17 @@ namespace RandNet
                 tb.Validating += new CancelEventHandler(integer_validator);
             else if (vType == typeof(Double))
                 tb.Validating += new CancelEventHandler(float_validator);
+            tb.Text = value.ToString();
+            parametersPanel.Controls.Add(tb);
+        }
+
+        private void AddStringTextBoxToParametersPanel(String text, Object value, Type vType, Int32 x, Int32 y)
+        {
+            TextBox tb = new TextBox
+            {
+                Name = text,
+                Location = new Point(x, y * 30 + 5)
+            };
             tb.Text = value.ToString();
             parametersPanel.Controls.Add(tb);
         }

@@ -15,8 +15,7 @@ namespace BBModel
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Edges)]
     [RequiredGenerationParameter(GenerationParameter.FitnessDensityFunction)]
-    [RequiredGenerationParameter(GenerationParameter.VerticesPerStep)]
-    [RequiredGenerationParameter(GenerationParameter.InternalEdgesPerStep)]
+    [RequiredGenerationParameter(GenerationParameter.Probability)]
     [AvailableAnalyzeOption(
         // Globals //
           AnalyzeOption.AvgPathLength

@@ -76,18 +76,8 @@ namespace Core.Enumerations
         [GenerationParameterInfo("Fitness Density Function",
             "",
             // TODO change to string
-            typeof(Int32), "1")]
+            typeof(String), "1")]
         FitnessDensityFunction,
-
-        [GenerationParameterInfo("Vertices Count Per Step",
-            "",
-            typeof(Int32), "1")]
-        VerticesPerStep,
-
-        [GenerationParameterInfo("Internal Edges Count Per Step",
-            "",
-            typeof(Int32), "0")]
-        InternalEdgesPerStep,
 
         [GenerationParameterInfo("Adjacency matrix",
             "Adjacency matrix and branches of the networks.",
