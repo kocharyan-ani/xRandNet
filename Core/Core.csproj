@@ -91,6 +91,7 @@
     <Compile Include="Attributes\ResearchParameterInfo.cs" />
     <Compile Include="Attributes\ResearchTypeInfo.cs" />
     <Compile Include="Attributes\StorageTypeInfo.cs" />
+    <Compile Include="EdgesAddedOrRemoved.cs" />
     <Compile Include="Enumerations\AnalyzeOption.cs" />
     <Compile Include="Enumerations\ApproximationType.cs" />
     <Compile Include="Enumerations\GenerationParameter.cs" />
