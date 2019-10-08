@@ -291,5 +291,11 @@ namespace RandNetLab
                 pngEncoder.Save(fs);
             }
         }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings settings = new Settings();
+            settings.Show();
+        }
     }
 }

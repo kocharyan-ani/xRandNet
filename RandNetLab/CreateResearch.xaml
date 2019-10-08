@@ -5,12 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandNetLab"
         mc:Ignorable="d"
-        Title="CreateResearch" Height="450" Width="800" WindowStyle="ToolWindow">
+        Title="CreateResearch" Height="450" Width="800" WindowStyle="ToolWindow" Background="#F0F0F0">
     <Window.Resources>
         <Style TargetType="Button" x:Key="ButtonStyle">
             <Setter Property="Height" Value="23"></Setter>
+            <Setter Property="Width" Value="85"></Setter>
             <Setter Property="BorderBrush" Value="LightGray"></Setter>
             <Setter Property="Padding" Value="10, 0"></Setter>
+            <Setter Property="Background" Value="#F0F0F0"></Setter>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="0.4"></Setter>
         </Style>
     </Window.Resources>
     <Grid Name="CreateResearchGrid">
@@ -20,7 +26,7 @@
             <RowDefinition Height="0.15*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Margin="10, 5, 10, 5" Header="General" BorderBrush="LightGray">
+        <GroupBox Grid.Row="0" Margin="10, 5, 10, 5" Header="General">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -30,7 +36,7 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <TextBlock Margin="3" VerticalAlignment="Center">Research Type:</TextBlock>
-                    <TextBox Margin="3" Padding="10, 0" Height="20" Width="100" Name="ResearchTypeTextBox" IsReadOnly="True"></TextBox>
+                    <TextBox Margin="3" Padding="10, 0" Height="20" Width="100" Name="ResearchTypeTextBox" IsReadOnly="True" HorizontalContentAlignment="Center" Background="#F0F0F0"></TextBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="1"  FocusManager.FocusedElement ="{Binding ElementName=ResearchNameTextBox}">
@@ -54,7 +60,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="0" Margin="10, 0, 5, 0" Header="Parameters"  BorderBrush="LightGray">
+            <GroupBox Grid.Column="0" Margin="10, 0, 5, 0" Header="Parameters">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -69,7 +75,7 @@
                 </Grid>
             </GroupBox>
 
-            <GroupBox Grid.Column="1" Margin="5, 0, 10, 0" Header="Analyze Options" BorderBrush="LightGray">
+            <GroupBox Grid.Column="1" Margin="5, 0, 10, 0" Header="Analyze Options">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -86,8 +92,8 @@
                         </StackPanel>
                     </ScrollViewer>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Margin="3"  Style="{StaticResource ButtonStyle}" Click="SelectAll_Button_Click">Sellect All</Button>
-                        <Button Margin="3"  Style="{StaticResource ButtonStyle}" Click="DeselectAll_Button_Click">Desellect All</Button>
+                        <Button Margin="3"  Style="{StaticResource ButtonStyle}" Click="SelectAll_Button_Click">Select All</Button>
+                        <Button Margin="3"  Style="{StaticResource ButtonStyle}" Click="DeselectAll_Button_Click">Deselect All</Button>
                     </StackPanel>
                 </Grid>
             </GroupBox>
