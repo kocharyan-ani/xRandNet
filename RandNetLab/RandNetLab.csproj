@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9B7A5CA-B171-4ABA-A3F3-0AD75B8C62AC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RandNetLab</RootNamespace>
+    <AssemblyName>RandNetLab</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CreateResearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CreateResearch.xaml.cs">
+      <DependentUpon>CreateResearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Draw\AbstractDraw.cs" />
+    <Compile Include="Draw\BADraw.cs" />
+    <Compile Include="Draw\DrawFactory.cs" />
+    <Compile Include="Draw\ERDraw.cs" />
+    <Compile Include="Draw\FactoryDraw.cs" />
+    <Compile Include="Draw\HMNDraw.cs" />
+    <Compile Include="Draw\NonHierarchicDraw.cs" />
+    <Compile Include="Draw\NonRegularHierarchicDraw.cs" />
+    <Compile Include="Draw\RegularHierarchicDraw.cs" />
+    <Compile Include="Draw\WSDraw.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BAModel\BAModel.csproj">
+      <Project>{ec12671d-fb67-4e24-9cb7-0785ce78bd06}</Project>
+      <Name>BAModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{479c57f7-2b45-48f4-b434-c7e59d0b0f7b}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ERModel\ERModel.csproj">
+      <Project>{f89973d5-0b32-4daa-80b7-8a5a7f717168}</Project>
+      <Name>ERModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HMNModel\HMNModel.csproj">
+      <Project>{6d6af5bb-b73c-4a48-b798-3b2cf22a70ab}</Project>
+      <Name>HMNModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Manager\Manager.csproj">
+      <Project>{815a286d-daf5-42b6-90e6-9cb1aa73ccb2}</Project>
+      <Name>Manager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModelChecking\ModelChecking.csproj">
+      <Project>{8f6b53cf-9e41-4535-bab4-ccf1f34a8238}</Project>
+      <Name>ModelChecking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetworkModel\NetworkModel.csproj">
+      <Project>{8c7de68f-5fcc-4779-ae38-5eaceb84a4ec}</Project>
+      <Name>NetworkModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NonRegularHierarchicModel\NonRegularHierarchicModel.csproj">
+      <Project>{09adfd58-61a9-4a46-b9cf-4b7ba6466ec0}</Project>
+      <Name>NonRegularHierarchicModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RandNetStat\RandNetStat.csproj">
+      <Project>{566c1f0e-aa95-4d41-9a0c-bb7d919108ad}</Project>
+      <Name>RandNetStat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RandNet\RandNet.csproj">
+      <Project>{3a01decf-0c90-4078-8d0f-242230eabdeb}</Project>
+      <Name>RandNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RandomNumberGeneration\RandomNumberGeneration.csproj">
+      <Project>{c64d64ac-5910-485f-9ee3-60e525952ece}</Project>
+      <Name>RandomNumberGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RegularHierarchicModel\RegularHierarchicModel.csproj">
+      <Project>{14d01a9a-6a57-4e91-b06a-fb9f4e674924}</Project>
+      <Name>RegularHierarchicModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Research\Research.csproj">
+      <Project>{9eae0fea-76b8-4c94-9580-6d0902d9d328}</Project>
+      <Name>Research</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Session\Session.csproj">
+      <Project>{ccfa6e32-253e-4e0d-a8fa-5856069268f9}</Project>
+      <Name>Session</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{0f69615e-50d1-40d9-896a-2887a8c68b09}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WSModel\WSModel.csproj">
+      <Project>{f5e77d3f-86e7-435b-b269-c1f618eb829c}</Project>
+      <Name>WSModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

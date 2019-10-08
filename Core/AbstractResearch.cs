@@ -22,6 +22,8 @@ namespace Core
         protected int processStepCount = -1;
 
         private ManagerType managerType = ManagerType.Local;
+        private List<int> degrees;
+
         protected AbstractEnsembleManager currentManager;
         protected delegate void ManagerRunner();
 
@@ -114,7 +116,7 @@ namespace Core
 
         public bool CheckConnected { get; set; }
 
-        public ResearchStatusInfo StatusInfo 
+        public ResearchStatusInfo StatusInfo
         {
             get { return status; }
             protected set
@@ -133,7 +135,7 @@ namespace Core
         public int RealizationCount
         {
             get { return realizationCount; }
-            set 
+            set
             {
                 if (value > 0)
                     realizationCount = value;
@@ -339,6 +341,217 @@ namespace Core
                     Debug.Assert(false);
                     break;
             }
+        }
+
+        public List<List<EdgesAddedOrRemoved>> Generate(int numberOfVertices, double probability, int stepCount = 0, int edges = 0)
+        {
+            switch (modelType)
+            {
+                case ModelType.ER:
+                    return GenerateER(numberOfVertices, probability, false);
+                case ModelType.BA:
+                    return GenerateBA(numberOfVertices, probability, stepCount, edges);
+                case ModelType.WS:
+                    return GenerateWS(numberOfVertices, probability, stepCount, edges);
+                default:
+                    return null;
+            }
+        }
+
+        private List<List<EdgesAddedOrRemoved>> GenerateBA(int initialVertices, double probability, int stepCount, int edges)
+        {
+            List<List<EdgesAddedOrRemoved>> network = new List<List<EdgesAddedOrRemoved>>();
+            List<EdgesAddedOrRemoved> initialNetwork = GenerateER(initialVertices, probability, true)[0];
+
+            int n = initialVertices;
+            int countEdges = edges;
+            int stepNumber = 1;
+            while (stepCount > 0)
+            {
+                double[] probabilityArray = CountProbabilities(n);
+                List<EdgesAddedOrRemoved> stepEdges = new List<EdgesAddedOrRemoved>();
+                countEdges = edges;
+                while (countEdges > 0)
+                {
+                    for (int i = 0; i < n; i++)
+                    {
+                        Random rand = new Random(DateTime.Now.Millisecond);
+                        double number = rand.Next(0, 100);
+                        if (number <= probabilityArray[i] * 100)
+                        {
+                            EdgesAddedOrRemoved edge = new EdgesAddedOrRemoved(i, initialVertices + stepNumber, true);
+
+                            stepEdges.Add(edge);
+                            if (degrees.Count == n)
+                            {
+                                degrees.Add(0);
+                            }
+                            degrees[n]++;
+                            countEdges--;
+                            if (countEdges == 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                network.Add(stepEdges);
+                stepCount--;
+                stepNumber++;
+                n++;
+            }
+            network.Add(initialNetwork);
+            return network;
+        }
+
+        private List<List<EdgesAddedOrRemoved>> GenerateER(int numberOfVertices, double probability, bool fromBA)
+        {
+            List<List<EdgesAddedOrRemoved>> edges = new List<List<EdgesAddedOrRemoved>>();
+            int edgesCount = 0;
+            int step = 0;
+
+            if (fromBA)
+            {
+                degrees = new List<int>();
+                for (int i = 0; i < numberOfVertices; i++)
+                {
+                    degrees.Add(0);
+                }
+            }
+            List<EdgesAddedOrRemoved> stepList = new List<EdgesAddedOrRemoved>();
+            Random rand = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < numberOfVertices - 1; i++)
+            {
+                for (int j = i + 1; j < numberOfVertices; j++)
+                {
+                    double n = rand.Next(0, 100);
+                    if (n <= probability * 100)
+                    {
+                        if (!fromBA)
+                        {
+                            if (edgesCount >= ((numberOfVertices - 1) / probability))
+                            {
+                                edges.Add(stepList);
+                                stepList = new List<EdgesAddedOrRemoved>();
+                                edgesCount = 0;
+                                step++;
+                            }
+                        }
+                        else
+                        {
+                            degrees[i]++;
+                            degrees[j]++;
+                        }
+                        edgesCount++;
+                        EdgesAddedOrRemoved edge = new EdgesAddedOrRemoved(i,j,true);
+                        stepList.Add(edge);
+                    }
+                }
+            }
+            edges.Add(stepList);
+
+            return edges;
+        }
+
+
+        private List<List<EdgesAddedOrRemoved>> GenerateWS(int numberOfVertices, double probability, int stepCount, int edges)
+        {
+            List<List<EdgesAddedOrRemoved>> network = new List<List<EdgesAddedOrRemoved>>();
+            List<EdgesAddedOrRemoved> initialNetwork = new List<EdgesAddedOrRemoved>();
+            List<EdgesAddedOrRemoved> previousStep = new List<EdgesAddedOrRemoved>();
+
+            for (int i = 0; i < numberOfVertices; i++)
+            {
+                EdgesAddedOrRemoved edge;
+                for (int j = 1; j <= edges / 2; j++)
+                {
+                    edge = new EdgesAddedOrRemoved(i, (i + j) % numberOfVertices,true);
+
+                    initialNetwork.Add(edge);
+                    previousStep.Add(edge);
+                }
+            }
+
+            Random rand = new Random(DateTime.Now.Millisecond);
+            Random rand2 = new Random(DateTime.Now.Millisecond);
+
+            List<EdgesAddedOrRemoved> step;
+
+            int index;
+            int previousStepCount = previousStep.Count;
+            EdgesAddedOrRemoved edge1;
+            EdgesAddedOrRemoved edge2;
+            for (int i = 0; i < stepCount; i++)
+            {
+                step = new List<EdgesAddedOrRemoved>();
+                for (int j = 0; j < previousStepCount; j++)
+                {
+                    if (previousStep[j].Added)
+                    {
+                        List<int> availableVertices = new List<int>();
+
+                        for (int k = 0; k < numberOfVertices; ++k)
+                        {
+                            availableVertices.Add(k);
+                        }
+                        double p = rand.Next(0, 100);
+                        if (p <= probability * 100)
+                        {
+                            for (int k = 0; k < previousStep.Count; k++)
+                            {
+                                if (previousStep[k].Added)
+                                {
+                                    if (previousStep[j].Vertex1 == previousStep[k].Vertex1)
+                                    {
+                                        availableVertices.Remove(previousStep[k].Vertex2);
+                                    }
+                                    else if (previousStep[j].Vertex1 == previousStep[k].Vertex2)
+                                    {
+                                        availableVertices.Remove(previousStep[k].Vertex1);
+                                    }
+                                }
+                            }
+                            availableVertices.Remove(previousStep[j].Vertex1);
+                           
+                            index = rand2.Next(0, availableVertices.Count);
+
+                            edge1 = new EdgesAddedOrRemoved(previousStep[j].Vertex1, availableVertices[index],true);
+
+                            step.Add(edge1);
+                            previousStep.Add(edge1);
+                           
+                            edge2 = previousStep[j];
+                            edge2.Added = false;
+                            previousStep[j] = edge2;
+                            step.Add(edge2);
+                        }
+                    }
+                }
+                network.Add(new List<EdgesAddedOrRemoved>(step));
+                previousStep = step;
+                previousStepCount = previousStep.Count;
+            }
+            network.Add(initialNetwork);
+            return network;
+        }
+
+
+        private double[] CountProbabilities(int numberOfVertices)
+        {
+            double[] probabilities = new double[numberOfVertices];
+            int sum = 0;
+            for (int i = 0; i < degrees.Count; i++)
+            {
+                sum += degrees[i];
+            }
+
+            for (int i = 0; i < degrees.Count; i++)
+            {
+                probabilities[i] = (double)degrees[i] / sum;
+            }
+
+            return probabilities;
         }
     }
 }

@@ -167,6 +167,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMNModel", "HMNModel\HMNMod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{854BB370-F593-4B1E-AA64-D42C22365BC1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandNetLab", "RandNetLab\RandNetLab.csproj", "{F9B7A5CA-B171-4ABA-A3F3-0AD75B8C62AC}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBModel", "BBModel\BBModel.csproj", "{546A81B5-4990-4C38-A5BF-F0FC0ED5B58D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrajectoryAnalyzer", "TrajectoryAnalyzer\TrajectoryAnalyzer.csproj", "{4EA1F69C-2E9E-4C75-91A3-72290A584B32}"
