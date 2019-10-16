@@ -14,14 +14,17 @@ namespace RandNetStat
     {
         private List<Guid> researches;
         private List<AnalyzeOption> options;
+        private StatisticResult statisticResults;
 
         public DistributedOptionsWindow(List<Guid> r, List<AnalyzeOption> o)
         {
             researches = r;
             options = o;
-
+            statisticResults = new StatisticResult(researches);
             InitializeComponent();
         }
+
+        #region Event Handlers
 
         private void DistributedOptionsWindow_Load(Object sender, EventArgs e)
         {
@@ -38,15 +41,14 @@ namespace RandNetStat
                 StatSessionManager.LoadResearchResult(id);
 
             // TODO optimize
-            StatisticResult st = new StatisticResult(researches);
             foreach (AnalyzeOption o in options)
             {
-                st.CalculateDistributedOption(o);
+                statisticResults.CalculateDistributedOption(o);
 
-                if (st.EnsembleResultsAvg[0].Result.ContainsKey(o))
+                if (statisticResults.EnsembleResultsAvg[0].Result.ContainsKey(o))
                 {
                     TabPage optTab = new TabPage(o.ToString());
-                    GraphicsTab t = new GraphicsTab(o, (SortedDictionary<Double, Double>)st.EnsembleResultsAvg[0].Result[o]);
+                    GraphicsTab t = new GraphicsTab(o, (SortedDictionary<Double, Double>)statisticResults.EnsembleResultsAvg[0].Result[o]);
                     t.Dock = DockStyle.Fill;
                     optTab.Controls.Add(t);
                     graphicsTab.TabPages.Add(optTab);
@@ -85,5 +87,7 @@ namespace RandNetStat
         {
             Close();
         }
+
+        #endregion
     }
 }

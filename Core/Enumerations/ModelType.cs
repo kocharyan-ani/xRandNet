@@ -1,6 +1,4 @@
-﻿using System;
-
-using Core.Attributes;
+﻿using Core.Attributes;
 
 namespace Core.Enumerations
 {

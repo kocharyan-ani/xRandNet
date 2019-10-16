@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
 
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Result;
-using Session;
 
 /// !!!!!!!!!!Support for only basic research where ensemble count is 1!!!!!!!!!!!!
 namespace Session.StatEngine
@@ -40,6 +36,7 @@ namespace Session.StatEngine
         public double RealizationCountSum { get; private set; }
         public double EdgesCountAvg { get; private set; }
 
+        // TODO for basic research only EnsembleResultsAvg[0] is used
         public List<EnsembleResult> EnsembleResultsAvg { get; private set; }
 
         public StatisticResult(List<Guid> r)

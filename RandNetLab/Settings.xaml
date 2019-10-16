@@ -1,0 +1,62 @@
+﻿<Window x:Class="RandNetLab.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RandNetLab"
+        mc:Ignorable="d"
+        Title="Settings" Height="340" Width="650" WindowStyle="ToolWindow" Background="#F0F0F0" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="0.4"></Setter>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="85"/>
+            <Setter Property="BorderBrush" Value="LightGray"></Setter>
+            <Setter Property="Background" Value="#F0F0F0"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="General" Margin="4,5,4,0" Grid.Row="0">
+            <GroupBox.Resources>
+               
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="Width" Value="85"/>
+                    <Setter Property="Margin" Value="5,20,0,20"/>
+                </Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="Width" Value="388"/>
+                </Style>
+            </GroupBox.Resources>
+            <StackPanel>
+                <GroupBox Header="Save Locaton" Margin="0,15,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Save Location</TextBlock>
+                        <TextBox Margin="25,20,0,20"></TextBox>
+                        <Button Margin="12,20,0,20" Content="Browse"/>
+                    </StackPanel>
+
+                </GroupBox>
+                <GroupBox Header="Step Count" Margin="0,15,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Step Count</TextBlock>
+                        <TextBox Margin="25,20,0,20"></TextBox>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+            <Button Margin ="10" Grid.Row="1" IsDefault="True">Save</Button>
+            <Button Margin ="10" Grid.Row="1">Cancel</Button>
+        </StackPanel>
+       
+    </Grid>
+</Window>

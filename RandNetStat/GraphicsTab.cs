@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Diagnostics;
 
 using Core.Enumerations;
+using Core.Attributes;
 using Session.StatEngine;
 
 namespace RandNetStat
@@ -25,10 +23,11 @@ namespace RandNetStat
         {
             option = o;
             values = v;
-            drawingOptions = new DrawingOption(Color.Black, false);
+            drawingOptions = new DrawingOption(Color.Black, true);
             statisticsOptions = new StatisticsOption(ApproximationType.None, ThickeningType.None, 0);
 
             InitializeComponent();
+            InitializeChart();
         }
 
         public void SaveChartToPng(string location)
@@ -38,14 +37,12 @@ namespace RandNetStat
             graphic.SaveImage(fileName, ChartImageFormat.Png);
         }
 
+        #region Event Handlers
+
         private void GraphicsTab_Load(Object sender, EventArgs e)
         {
-            /*ChartArea chArea = new ChartArea("my chart area");
-            chArea.AxisX.Title = "X axis";
-            chArea.AxisY.Title = "Y axis";
-            graphic.ChartAreas.Add(chArea);*/
-
             Series s = new Series(option.ToString());
+            InitializeAxis();
             InitializeDrawingOptions(s);
             InitializeValues(s);
             graphic.Series.Add(s);
@@ -86,7 +83,24 @@ namespace RandNetStat
 
         }
 
-        #region Utilities
+        #endregion
+
+        #region 
+
+        private void InitializeChart()
+        {
+            graphic.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+            graphic.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
+            graphic.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
+            graphic.ChartAreas[0].AxisY.IntervalAutoMode = IntervalAutoMode.VariableCount;
+        }
+
+        private void InitializeAxis()
+        {
+            AnalyzeOptionInfo[] oInfo = (AnalyzeOptionInfo[])option.GetType().GetField(option.ToString()).GetCustomAttributes(typeof(AnalyzeOptionInfo), false);
+            graphic.ChartAreas[0].AxisX.Title = oInfo[0].XAxisName;
+            graphic.ChartAreas[0].AxisY.Title = oInfo[0].YAxisName;
+        }
 
         private void InitializeDrawingOptions(Series s)
         {

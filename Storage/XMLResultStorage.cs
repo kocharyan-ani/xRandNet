@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
 using System.Xml;
-using System.Numerics;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -13,7 +11,6 @@ using Core.Enumerations;
 using Core.Attributes;
 using Core.Result;
 using Core.Utility;
-using Core.Exceptions;
 
 namespace Storage
 {
@@ -103,11 +100,11 @@ namespace Storage
 
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
-            ResearchResult DoubleResearchInfo = null;
+            ResearchResult researchInfo = null;
             foreach (string fileName in Directory.GetFiles(storageStr, "*.xml",
                 SearchOption.TopDirectoryOnly))
             {
-                DoubleResearchInfo = new ResearchResult();
+                researchInfo = new ResearchResult();
                 using (reader = XmlReader.Create(fileName, settings))
                 {
                     try
@@ -116,12 +113,12 @@ namespace Storage
                             (reader.NodeType != XmlNodeType.Element || 
                             reader.Name == "Research")) { }
 
-                        LoadResearchInfo(DoubleResearchInfo);
-                        LoadResearchParameters(DoubleResearchInfo);
-                        LoadGenerationParameters(DoubleResearchInfo);
+                        LoadResearchInfo(researchInfo);
+                        LoadResearchParameters(researchInfo);
+                        LoadGenerationParameters(researchInfo);
 
-                        researchInfos.Add(DoubleResearchInfo);
-                        existingFileNames.Add(DoubleResearchInfo.ResearchID, fileName);
+                        researchInfos.Add(researchInfo);
+                        existingFileNames.Add(researchInfo.ResearchID, fileName);
                     }
                     catch (SystemException)
                     {

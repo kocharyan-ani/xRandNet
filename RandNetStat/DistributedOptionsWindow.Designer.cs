@@ -45,9 +45,10 @@
             // 
             this.close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.close.Location = new System.Drawing.Point(787, 371);
+            this.close.Location = new System.Drawing.Point(1049, 457);
+            this.close.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.close.Name = "close";
-            this.close.Size = new System.Drawing.Size(75, 23);
+            this.close.Size = new System.Drawing.Size(100, 28);
             this.close.TabIndex = 2;
             this.close.Text = "Close";
             this.close.UseVisualStyleBackColor = true;
@@ -55,48 +56,53 @@
             // 
             // infoPanel
             // 
-            this.infoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.infoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.infoPanel.Controls.Add(this.researchInfo);
-            this.infoPanel.Location = new System.Drawing.Point(12, 17);
+            this.infoPanel.Location = new System.Drawing.Point(16, 21);
+            this.infoPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.infoPanel.Name = "infoPanel";
-            this.infoPanel.Size = new System.Drawing.Size(270, 350);
+            this.infoPanel.Size = new System.Drawing.Size(360, 431);
             this.infoPanel.TabIndex = 4;
             // 
             // researchInfo
             // 
             this.researchInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.researchInfo.Location = new System.Drawing.Point(0, 0);
+            this.researchInfo.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.researchInfo.Name = "researchInfo";
-            this.researchInfo.Size = new System.Drawing.Size(270, 350);
+            this.researchInfo.Size = new System.Drawing.Size(360, 431);
             this.researchInfo.TabIndex = 0;
             // 
             // graphicsPanel
             // 
-            this.graphicsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.graphicsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.graphicsPanel.Controls.Add(this.graphicsTab);
-            this.graphicsPanel.Location = new System.Drawing.Point(288, 12);
+            this.graphicsPanel.Location = new System.Drawing.Point(384, 15);
+            this.graphicsPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.graphicsPanel.Name = "graphicsPanel";
-            this.graphicsPanel.Size = new System.Drawing.Size(574, 353);
+            this.graphicsPanel.Size = new System.Drawing.Size(765, 434);
             this.graphicsPanel.TabIndex = 5;
             // 
             // graphicsTab
             // 
             this.graphicsTab.Dock = System.Windows.Forms.DockStyle.Fill;
             this.graphicsTab.Location = new System.Drawing.Point(0, 0);
+            this.graphicsTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.graphicsTab.Name = "graphicsTab";
             this.graphicsTab.SelectedIndex = 0;
-            this.graphicsTab.Size = new System.Drawing.Size(574, 353);
+            this.graphicsTab.Size = new System.Drawing.Size(765, 434);
             this.graphicsTab.TabIndex = 0;
             // 
             // save
             // 
             this.save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.save.Location = new System.Drawing.Point(625, 372);
+            this.save.Location = new System.Drawing.Point(833, 458);
+            this.save.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(75, 23);
+            this.save.Size = new System.Drawing.Size(100, 28);
             this.save.TabIndex = 6;
             this.save.Text = "Save";
             this.save.UseVisualStyleBackColor = true;
@@ -105,9 +111,10 @@
             // saveAll
             // 
             this.saveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveAll.Location = new System.Drawing.Point(706, 372);
+            this.saveAll.Location = new System.Drawing.Point(941, 458);
+            this.saveAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.saveAll.Name = "saveAll";
-            this.saveAll.Size = new System.Drawing.Size(75, 23);
+            this.saveAll.Size = new System.Drawing.Size(100, 28);
             this.saveAll.TabIndex = 7;
             this.saveAll.Text = "Save All";
             this.saveAll.UseVisualStyleBackColor = true;
@@ -116,16 +123,17 @@
             // DistributedOptionsWindow
             // 
             this.AcceptButton = this.save;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.close;
-            this.ClientSize = new System.Drawing.Size(878, 407);
+            this.ClientSize = new System.Drawing.Size(1171, 501);
             this.Controls.Add(this.saveAll);
             this.Controls.Add(this.save);
             this.Controls.Add(this.graphicsPanel);
             this.Controls.Add(this.infoPanel);
             this.Controls.Add(this.close);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "DistributedOptionsWindow";
             this.Load += new System.EventHandler(this.DistributedOptionsWindow_Load);
             this.infoPanel.ResumeLayout(false);

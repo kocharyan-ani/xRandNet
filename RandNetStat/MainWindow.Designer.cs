@@ -80,12 +80,13 @@
             // 
             // mainMenu
             // 
+            this.mainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Size = new System.Drawing.Size(777, 24);
+            this.mainMenu.Size = new System.Drawing.Size(1036, 28);
             this.mainMenu.TabIndex = 0;
             this.mainMenu.Text = "mainMenu";
             // 
@@ -95,27 +96,27 @@
             this.loadFromToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // loadFromToolStripMenuItem
             // 
             this.loadFromToolStripMenuItem.Name = "loadFromToolStripMenuItem";
-            this.loadFromToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadFromToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
             this.loadFromToolStripMenuItem.Text = "&Settings";
             this.loadFromToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // researchesGrp
@@ -127,9 +128,11 @@
             this.researchesGrp.Controls.Add(this.modelType);
             this.researchesGrp.Controls.Add(this.researchTypeCmb);
             this.researchesGrp.Controls.Add(this.researchType);
-            this.researchesGrp.Location = new System.Drawing.Point(12, 27);
+            this.researchesGrp.Location = new System.Drawing.Point(16, 33);
+            this.researchesGrp.Margin = new System.Windows.Forms.Padding(4);
             this.researchesGrp.Name = "researchesGrp";
-            this.researchesGrp.Size = new System.Drawing.Size(753, 350);
+            this.researchesGrp.Padding = new System.Windows.Forms.Padding(4);
+            this.researchesGrp.Size = new System.Drawing.Size(1004, 431);
             this.researchesGrp.TabIndex = 1;
             this.researchesGrp.TabStop = false;
             // 
@@ -158,7 +161,8 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.parametersTable.DefaultCellStyle = dataGridViewCellStyle3;
-            this.parametersTable.Location = new System.Drawing.Point(384, 54);
+            this.parametersTable.Location = new System.Drawing.Point(512, 66);
+            this.parametersTable.Margin = new System.Windows.Forms.Padding(4);
             this.parametersTable.MultiSelect = false;
             this.parametersTable.Name = "parametersTable";
             this.parametersTable.ReadOnly = true;
@@ -171,9 +175,10 @@
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.parametersTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.parametersTable.RowHeadersVisible = false;
+            this.parametersTable.RowHeadersWidth = 51;
             this.parametersTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.parametersTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect;
-            this.parametersTable.Size = new System.Drawing.Size(363, 290);
+            this.parametersTable.Size = new System.Drawing.Size(484, 357);
             this.parametersTable.TabIndex = 28;
             // 
             // generationParameterNameColumn
@@ -181,6 +186,7 @@
             this.generationParameterNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.generationParameterNameColumn.FillWeight = 98.47716F;
             this.generationParameterNameColumn.HeaderText = "Parameter";
+            this.generationParameterNameColumn.MinimumWidth = 6;
             this.generationParameterNameColumn.Name = "generationParameterNameColumn";
             this.generationParameterNameColumn.ReadOnly = true;
             this.generationParameterNameColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -195,18 +201,21 @@
             this.generationParameterValueColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.generationParameterValueColumn.FillWeight = 101.5228F;
             this.generationParameterValueColumn.HeaderText = "Value";
+            this.generationParameterValueColumn.MinimumWidth = 6;
             this.generationParameterValueColumn.Name = "generationParameterValueColumn";
             this.generationParameterValueColumn.ReadOnly = true;
             this.generationParameterValueColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.generationParameterValueColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.generationParameterValueColumn.ToolTipText = "Parameter Value";
+            this.generationParameterValueColumn.Width = 125;
             // 
             // refresh
             // 
             this.refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.refresh.Location = new System.Drawing.Point(668, 19);
+            this.refresh.Location = new System.Drawing.Point(891, 23);
+            this.refresh.Margin = new System.Windows.Forms.Padding(4);
             this.refresh.Name = "refresh";
-            this.refresh.Size = new System.Drawing.Size(79, 21);
+            this.refresh.Size = new System.Drawing.Size(105, 26);
             this.refresh.TabIndex = 10;
             this.refresh.Text = "Refresh";
             this.refresh.UseVisualStyleBackColor = true;
@@ -225,12 +234,14 @@
             this.realizationCountColumn,
             this.sizeColumn});
             this.researchesTable.ContextMenuStrip = this.researchTableCSM;
-            this.researchesTable.Location = new System.Drawing.Point(6, 54);
+            this.researchesTable.Location = new System.Drawing.Point(8, 66);
+            this.researchesTable.Margin = new System.Windows.Forms.Padding(4);
             this.researchesTable.Name = "researchesTable";
             this.researchesTable.ReadOnly = true;
             this.researchesTable.RowHeadersVisible = false;
+            this.researchesTable.RowHeadersWidth = 51;
             this.researchesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.researchesTable.Size = new System.Drawing.Size(366, 290);
+            this.researchesTable.Size = new System.Drawing.Size(488, 357);
             this.researchesTable.TabIndex = 9;
             this.researchesTable.SelectionChanged += new System.EventHandler(this.researchesTable_SelectionChanged);
             this.researchesTable.MouseDown += new System.Windows.Forms.MouseEventHandler(this.researchesTable_MouseDown);
@@ -238,9 +249,11 @@
             // guidColumn
             // 
             this.guidColumn.HeaderText = "Guid";
+            this.guidColumn.MinimumWidth = 6;
             this.guidColumn.Name = "guidColumn";
             this.guidColumn.ReadOnly = true;
             this.guidColumn.Visible = false;
+            this.guidColumn.Width = 125;
             // 
             // nameColumn
             // 
@@ -248,6 +261,7 @@
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.nameColumn.DefaultCellStyle = dataGridViewCellStyle5;
             this.nameColumn.HeaderText = "Name";
+            this.nameColumn.MinimumWidth = 6;
             this.nameColumn.Name = "nameColumn";
             this.nameColumn.ReadOnly = true;
             this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -257,78 +271,87 @@
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.realizationCountColumn.DefaultCellStyle = dataGridViewCellStyle6;
             this.realizationCountColumn.HeaderText = "Realizations";
+            this.realizationCountColumn.MinimumWidth = 6;
             this.realizationCountColumn.Name = "realizationCountColumn";
             this.realizationCountColumn.ReadOnly = true;
             this.realizationCountColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.realizationCountColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.realizationCountColumn.ToolTipText = "Realization Count";
+            this.realizationCountColumn.Width = 125;
             // 
             // sizeColumn
             // 
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.sizeColumn.DefaultCellStyle = dataGridViewCellStyle7;
             this.sizeColumn.HeaderText = "Network Size";
+            this.sizeColumn.MinimumWidth = 6;
             this.sizeColumn.Name = "sizeColumn";
             this.sizeColumn.ReadOnly = true;
             this.sizeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.sizeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.sizeColumn.ToolTipText = "Network Size";
+            this.sizeColumn.Width = 125;
             // 
             // researchTableCSM
             // 
+            this.researchTableCSM.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.researchTableCSM.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.eraseResearch,
             this.selectGroup});
             this.researchTableCSM.Name = "researchTableCSM";
-            this.researchTableCSM.Size = new System.Drawing.Size(152, 48);
+            this.researchTableCSM.Size = new System.Drawing.Size(177, 52);
             // 
             // eraseResearch
             // 
             this.eraseResearch.Name = "eraseResearch";
-            this.eraseResearch.Size = new System.Drawing.Size(151, 22);
+            this.eraseResearch.Size = new System.Drawing.Size(176, 24);
             this.eraseResearch.Text = "&Erase Research";
             this.eraseResearch.Click += new System.EventHandler(this.eraseResearchToolStripMenuItem_Click);
             // 
             // selectGroup
             // 
             this.selectGroup.Name = "selectGroup";
-            this.selectGroup.Size = new System.Drawing.Size(151, 22);
+            this.selectGroup.Size = new System.Drawing.Size(176, 24);
             this.selectGroup.Text = "&Select Group";
             this.selectGroup.Click += new System.EventHandler(this.selectGroupToolStripMenuItem_Click);
             // 
             // modelTypeCmb
             // 
             this.modelTypeCmb.FormattingEnabled = true;
-            this.modelTypeCmb.Location = new System.Drawing.Point(308, 19);
+            this.modelTypeCmb.Location = new System.Drawing.Point(411, 23);
+            this.modelTypeCmb.Margin = new System.Windows.Forms.Padding(4);
             this.modelTypeCmb.Name = "modelTypeCmb";
-            this.modelTypeCmb.Size = new System.Drawing.Size(121, 21);
+            this.modelTypeCmb.Size = new System.Drawing.Size(160, 24);
             this.modelTypeCmb.TabIndex = 8;
             this.modelTypeCmb.SelectedIndexChanged += new System.EventHandler(this.modelTypeCmb_SelectedIndexChanged);
             // 
             // modelType
             // 
             this.modelType.AutoSize = true;
-            this.modelType.Location = new System.Drawing.Point(236, 22);
+            this.modelType.Location = new System.Drawing.Point(315, 27);
+            this.modelType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.modelType.Name = "modelType";
-            this.modelType.Size = new System.Drawing.Size(66, 13);
+            this.modelType.Size = new System.Drawing.Size(86, 17);
             this.modelType.TabIndex = 7;
             this.modelType.Text = "Model Type:";
             // 
             // researchTypeCmb
             // 
             this.researchTypeCmb.FormattingEnabled = true;
-            this.researchTypeCmb.Location = new System.Drawing.Point(95, 19);
+            this.researchTypeCmb.Location = new System.Drawing.Point(127, 23);
+            this.researchTypeCmb.Margin = new System.Windows.Forms.Padding(4);
             this.researchTypeCmb.Name = "researchTypeCmb";
-            this.researchTypeCmb.Size = new System.Drawing.Size(121, 21);
+            this.researchTypeCmb.Size = new System.Drawing.Size(160, 24);
             this.researchTypeCmb.TabIndex = 6;
             this.researchTypeCmb.SelectedIndexChanged += new System.EventHandler(this.researchTypeCmb_SelectedIndexChanged);
             // 
             // researchType
             // 
             this.researchType.AutoSize = true;
-            this.researchType.Location = new System.Drawing.Point(6, 22);
+            this.researchType.Location = new System.Drawing.Point(8, 27);
+            this.researchType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.researchType.Name = "researchType";
-            this.researchType.Size = new System.Drawing.Size(83, 13);
+            this.researchType.Size = new System.Drawing.Size(109, 17);
             this.researchType.TabIndex = 5;
             this.researchType.Text = "Research Type:";
             // 
@@ -338,18 +361,21 @@
             this.globalOptionsGrp.Controls.Add(this.globalDeselectAll);
             this.globalOptionsGrp.Controls.Add(this.globalSelectAll);
             this.globalOptionsGrp.Controls.Add(this.globalOptionsPanel);
-            this.globalOptionsGrp.Location = new System.Drawing.Point(12, 383);
+            this.globalOptionsGrp.Location = new System.Drawing.Point(16, 471);
+            this.globalOptionsGrp.Margin = new System.Windows.Forms.Padding(4);
             this.globalOptionsGrp.Name = "globalOptionsGrp";
-            this.globalOptionsGrp.Size = new System.Drawing.Size(372, 228);
+            this.globalOptionsGrp.Padding = new System.Windows.Forms.Padding(4);
+            this.globalOptionsGrp.Size = new System.Drawing.Size(496, 281);
             this.globalOptionsGrp.TabIndex = 5;
             this.globalOptionsGrp.TabStop = false;
             this.globalOptionsGrp.Text = "Global Options";
             // 
             // showValues
             // 
-            this.showValues.Location = new System.Drawing.Point(271, 193);
+            this.showValues.Location = new System.Drawing.Point(361, 238);
+            this.showValues.Margin = new System.Windows.Forms.Padding(4);
             this.showValues.Name = "showValues";
-            this.showValues.Size = new System.Drawing.Size(93, 28);
+            this.showValues.Size = new System.Drawing.Size(124, 34);
             this.showValues.TabIndex = 4;
             this.showValues.Text = "Show Values";
             this.showValues.UseVisualStyleBackColor = true;
@@ -357,9 +383,10 @@
             // 
             // globalDeselectAll
             // 
-            this.globalDeselectAll.Location = new System.Drawing.Point(87, 193);
+            this.globalDeselectAll.Location = new System.Drawing.Point(116, 238);
+            this.globalDeselectAll.Margin = new System.Windows.Forms.Padding(4);
             this.globalDeselectAll.Name = "globalDeselectAll";
-            this.globalDeselectAll.Size = new System.Drawing.Size(75, 23);
+            this.globalDeselectAll.Size = new System.Drawing.Size(100, 28);
             this.globalDeselectAll.TabIndex = 3;
             this.globalDeselectAll.Text = "Deselect All";
             this.globalDeselectAll.UseVisualStyleBackColor = true;
@@ -367,9 +394,10 @@
             // 
             // globalSelectAll
             // 
-            this.globalSelectAll.Location = new System.Drawing.Point(6, 193);
+            this.globalSelectAll.Location = new System.Drawing.Point(8, 238);
+            this.globalSelectAll.Margin = new System.Windows.Forms.Padding(4);
             this.globalSelectAll.Name = "globalSelectAll";
-            this.globalSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.globalSelectAll.Size = new System.Drawing.Size(100, 28);
             this.globalSelectAll.TabIndex = 2;
             this.globalSelectAll.Text = "Select All";
             this.globalSelectAll.UseVisualStyleBackColor = true;
@@ -379,9 +407,10 @@
             // 
             this.globalOptionsPanel.AutoScroll = true;
             this.globalOptionsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.globalOptionsPanel.Location = new System.Drawing.Point(3, 16);
+            this.globalOptionsPanel.Location = new System.Drawing.Point(4, 19);
+            this.globalOptionsPanel.Margin = new System.Windows.Forms.Padding(4);
             this.globalOptionsPanel.Name = "globalOptionsPanel";
-            this.globalOptionsPanel.Size = new System.Drawing.Size(366, 171);
+            this.globalOptionsPanel.Size = new System.Drawing.Size(488, 210);
             this.globalOptionsPanel.TabIndex = 0;
             // 
             // distributedOptionsGrp
@@ -390,18 +419,21 @@
             this.distributedOptionsGrp.Controls.Add(this.distributedDeselectAll);
             this.distributedOptionsGrp.Controls.Add(this.distributedSelectAll);
             this.distributedOptionsGrp.Controls.Add(this.distributedOptionsPanel);
-            this.distributedOptionsGrp.Location = new System.Drawing.Point(396, 383);
+            this.distributedOptionsGrp.Location = new System.Drawing.Point(528, 471);
+            this.distributedOptionsGrp.Margin = new System.Windows.Forms.Padding(4);
             this.distributedOptionsGrp.Name = "distributedOptionsGrp";
-            this.distributedOptionsGrp.Size = new System.Drawing.Size(372, 228);
+            this.distributedOptionsGrp.Padding = new System.Windows.Forms.Padding(4);
+            this.distributedOptionsGrp.Size = new System.Drawing.Size(496, 281);
             this.distributedOptionsGrp.TabIndex = 5;
             this.distributedOptionsGrp.TabStop = false;
             this.distributedOptionsGrp.Text = "Distributed Options";
             // 
             // showGraphics
             // 
-            this.showGraphics.Location = new System.Drawing.Point(271, 193);
+            this.showGraphics.Location = new System.Drawing.Point(361, 238);
+            this.showGraphics.Margin = new System.Windows.Forms.Padding(4);
             this.showGraphics.Name = "showGraphics";
-            this.showGraphics.Size = new System.Drawing.Size(93, 28);
+            this.showGraphics.Size = new System.Drawing.Size(124, 34);
             this.showGraphics.TabIndex = 5;
             this.showGraphics.Text = "Show Graphics";
             this.showGraphics.UseVisualStyleBackColor = true;
@@ -409,9 +441,10 @@
             // 
             // distributedDeselectAll
             // 
-            this.distributedDeselectAll.Location = new System.Drawing.Point(87, 193);
+            this.distributedDeselectAll.Location = new System.Drawing.Point(116, 238);
+            this.distributedDeselectAll.Margin = new System.Windows.Forms.Padding(4);
             this.distributedDeselectAll.Name = "distributedDeselectAll";
-            this.distributedDeselectAll.Size = new System.Drawing.Size(75, 23);
+            this.distributedDeselectAll.Size = new System.Drawing.Size(100, 28);
             this.distributedDeselectAll.TabIndex = 3;
             this.distributedDeselectAll.Text = "Deselect All";
             this.distributedDeselectAll.UseVisualStyleBackColor = true;
@@ -419,9 +452,10 @@
             // 
             // distributedSelectAll
             // 
-            this.distributedSelectAll.Location = new System.Drawing.Point(6, 193);
+            this.distributedSelectAll.Location = new System.Drawing.Point(8, 238);
+            this.distributedSelectAll.Margin = new System.Windows.Forms.Padding(4);
             this.distributedSelectAll.Name = "distributedSelectAll";
-            this.distributedSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.distributedSelectAll.Size = new System.Drawing.Size(100, 28);
             this.distributedSelectAll.TabIndex = 2;
             this.distributedSelectAll.Text = "Select All";
             this.distributedSelectAll.UseVisualStyleBackColor = true;
@@ -431,16 +465,17 @@
             // 
             this.distributedOptionsPanel.AutoScroll = true;
             this.distributedOptionsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.distributedOptionsPanel.Location = new System.Drawing.Point(3, 16);
+            this.distributedOptionsPanel.Location = new System.Drawing.Point(4, 19);
+            this.distributedOptionsPanel.Margin = new System.Windows.Forms.Padding(4);
             this.distributedOptionsPanel.Name = "distributedOptionsPanel";
-            this.distributedOptionsPanel.Size = new System.Drawing.Size(366, 171);
+            this.distributedOptionsPanel.Size = new System.Drawing.Size(488, 210);
             this.distributedOptionsPanel.TabIndex = 0;
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(777, 623);
+            this.ClientSize = new System.Drawing.Size(1036, 767);
             this.Controls.Add(this.distributedOptionsGrp);
             this.Controls.Add(this.globalOptionsGrp);
             this.Controls.Add(this.researchesGrp);
@@ -448,6 +483,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenu;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

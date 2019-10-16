@@ -363,6 +363,9 @@ namespace Session
                 case StorageType.ExcelStorage:
                     storageStr = RandNetStatSettings.ExcelStorageDirectory;
                     break;
+                case StorageType.TXTStorage:
+                    storageStr = RandNetStatSettings.TXTStorageDirectory;
+                    break;
                 default:
                     break;
             }
