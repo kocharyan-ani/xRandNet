@@ -199,7 +199,7 @@ namespace Session
             return existingResearch.AnalyzeOption;
         }
 
-        public static void SetAnalyzeOptions(Guid id, AnalyzeOption o)
+        public static void SetAnalyzeOptions(AnalyzeOption o)
         {
             //To Do
         }

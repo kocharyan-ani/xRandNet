@@ -279,7 +279,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icons\chart.png" />
     <Content Include="Icons\RandNet-25.ico" />
     <Content Include="RandNet-25.ico" />
   </ItemGroup>
