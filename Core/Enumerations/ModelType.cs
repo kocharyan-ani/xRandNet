@@ -38,10 +38,15 @@ namespace Core.Enumerations
             "NonRegularHierarchicModel.NonRegularHierarchicNetwork, NonRegularHierarchicModel")]
         NonRegularHierarchic,
 
-        [ModelTypeInfo("Generalized Hierarchical model",
+        [ModelTypeInfo("Connected Regular Hierarchical model",
+            "Random connected block-hierarchical network.",
+            "ConnectedHierarchicModel.ConnectedHierarchicNetwork, ConnectedHierarchicModel")]
+        ConnectedRegularHierarchic,
+
+        [ModelTypeInfo("Connected Non Regular Hierarchical model",
             "Random generalized block-hierarchical network.",
-            "HierarchicModel.HierarchicNetwork, HierarchicModel")]
-        GeneralizedHierarchic,
+            "ConnectedHierarchicModel.ConnectedNonRegularHierarchicNetwork, ConnectedHierarchicModel")]
+        ConnectedNonRegularHierarchic,
 
         [ModelTypeInfo("HMN-1 model",
             "Random hierarchical modular networks (HMN-1)",

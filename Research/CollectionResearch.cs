@@ -23,7 +23,6 @@ namespace Research
     [AvailableModelType(ModelType.WS)]
     [AvailableModelType(ModelType.RegularHierarchic)]
     [AvailableModelType(ModelType.NonRegularHierarchic)]
-    [AvailableModelType(ModelType.GeneralizedHierarchic)]
     [AvailableModelType(ModelType.HMN)]
     [AvailableGenerationType(GenerationType.Static)]
     // TODO think about

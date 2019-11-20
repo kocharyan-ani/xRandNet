@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\RLibrary\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -83,6 +83,10 @@
       <Project>{546a81b5-4990-4c38-a5bf-f0fc0ed5b58d}</Project>
       <Name>BBModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ConnectedHierarchicModel\ConnectedHierarchicModel.csproj">
+      <Project>{7f2e6ff3-740f-45cc-95b4-6359ea3217ac}</Project>
+      <Name>ConnectedHierarchicModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{479c57f7-2b45-48f4-b434-c7e59d0b0f7b}</Project>
       <Name>Core</Name>
@@ -90,10 +94,6 @@
     <ProjectReference Include="..\ERModel\ERModel.csproj">
       <Project>{f89973d5-0b32-4daa-80b7-8a5a7f717168}</Project>
       <Name>ERModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HierarchicModel\HierarchicModel.csproj">
-      <Project>{19356fbc-a1c0-4227-ae84-ea9ed3dc2d74}</Project>
-      <Name>HierarchicModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\HMNModel\HMNModel.csproj">
       <Project>{6d6af5bb-b73c-4a48-b798-3b2cf22a70ab}</Project>

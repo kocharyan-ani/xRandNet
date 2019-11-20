@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HierarchicModel")]
+[assembly: AssemblyTitle("ConnectedHierarchicModel")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HierarchicModel")]
+[assembly: AssemblyProduct("ConnectedHierarchicModel")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("19356fbc-a1c0-4227-ae84-ea9ed3dc2d74")]
+[assembly: Guid("7f2e6ff3-740f-45cc-95b4-6359ea3217ac")]
 
 // Version information for an assembly consists of the following four values:
 //
