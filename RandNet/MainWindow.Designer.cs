@@ -38,11 +38,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.researchesTable = new System.Windows.Forms.DataGridView();
             this.guidColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.researchColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -88,6 +88,7 @@
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.subsystemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xRandNetStatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xRandNetLabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.classicalTestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.regularHierarchicTestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,8 +132,8 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             this.researchesTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.researchesTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.researchesTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
@@ -179,7 +180,7 @@
             this.researchesTable.RowHeadersVisible = false;
             this.researchesTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.researchesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.researchesTable.Size = new System.Drawing.Size(936, 655);
+            this.researchesTable.Size = new System.Drawing.Size(936, 656);
             this.researchesTable.TabIndex = 0;
             this.researchesTable.TabStop = false;
             this.researchesTable.SelectionChanged += new System.EventHandler(this.researchTable_SelectionChanged);
@@ -364,7 +365,7 @@
             // 
             // parametersGrp
             // 
-            this.parametersGrp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.parametersGrp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.parametersGrp.Controls.Add(this.parametersTable);
             this.parametersGrp.Location = new System.Drawing.Point(3, 6);
@@ -533,34 +534,34 @@
             this.probabilityToolStripMenuItem,
             this.modelCheckingToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // dataConvertionsToolStripMenuItem
             // 
             this.dataConvertionsToolStripMenuItem.Name = "dataConvertionsToolStripMenuItem";
-            this.dataConvertionsToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.dataConvertionsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.dataConvertionsToolStripMenuItem.Text = "&Data Convertions...";
             this.dataConvertionsToolStripMenuItem.Click += new System.EventHandler(this.dataConvertionsToolStripMenuItem_Click);
             // 
             // matrixConvertionToolStripMenuItem
             // 
             this.matrixConvertionToolStripMenuItem.Name = "matrixConvertionToolStripMenuItem";
-            this.matrixConvertionToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.matrixConvertionToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.matrixConvertionToolStripMenuItem.Text = "&Matrix Convertion...";
             this.matrixConvertionToolStripMenuItem.Click += new System.EventHandler(this.matrixConvertionToolStripMenuItem_Click);
             // 
             // probabilityToolStripMenuItem
             // 
             this.probabilityToolStripMenuItem.Name = "probabilityToolStripMenuItem";
-            this.probabilityToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.probabilityToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.probabilityToolStripMenuItem.Text = "&Probability...";
             this.probabilityToolStripMenuItem.Click += new System.EventHandler(this.probabilityToolStripMenuItem_Click);
             // 
             // modelCheckingToolStripMenuItem
             // 
             this.modelCheckingToolStripMenuItem.Name = "modelCheckingToolStripMenuItem";
-            this.modelCheckingToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.modelCheckingToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.modelCheckingToolStripMenuItem.Text = "&Model checking...";
             this.modelCheckingToolStripMenuItem.Click += new System.EventHandler(this.modelCheckingToolStripMenuItem_Click);
             // 
@@ -587,17 +588,27 @@
             // subsystemsToolStripMenuItem
             // 
             this.subsystemsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.xRandNetStatToolStripMenuItem});
+            this.xRandNetStatToolStripMenuItem,
+            this.xRandNetLabToolStripMenuItem});
             this.subsystemsToolStripMenuItem.Name = "subsystemsToolStripMenuItem";
             this.subsystemsToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
             this.subsystemsToolStripMenuItem.Text = "&Subsystems";
             // 
             // xRandNetStatToolStripMenuItem
             // 
+            this.xRandNetStatToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("xRandNetStatToolStripMenuItem.Image")));
             this.xRandNetStatToolStripMenuItem.Name = "xRandNetStatToolStripMenuItem";
-            this.xRandNetStatToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.xRandNetStatToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.xRandNetStatToolStripMenuItem.Text = "&xRandNetStat";
             this.xRandNetStatToolStripMenuItem.Click += new System.EventHandler(this.xRandNetStatToolStripMenuItem_Click);
+            // 
+            // xRandNetLabToolStripMenuItem
+            // 
+            this.xRandNetLabToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("xRandNetLabToolStripMenuItem.Image")));
+            this.xRandNetLabToolStripMenuItem.Name = "xRandNetLabToolStripMenuItem";
+            this.xRandNetLabToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.xRandNetLabToolStripMenuItem.Text = "xRandNetLab";
+            this.xRandNetLabToolStripMenuItem.Click += new System.EventHandler(this.xRandNetLabToolStripMenuItem_Click);
             // 
             // runToolStripMenuItem
             // 
@@ -606,27 +617,27 @@
             this.regularHierarchicTestsToolStripMenuItem,
             this.nonRegularHierarchicTestsToolStripMenuItem});
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(108, 20);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(107, 20);
             this.runToolStripMenuItem.Text = "&Automated Tests";
             // 
             // classicalTestsToolStripMenuItem
             // 
             this.classicalTestsToolStripMenuItem.Name = "classicalTestsToolStripMenuItem";
-            this.classicalTestsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.classicalTestsToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.classicalTestsToolStripMenuItem.Text = "&Classical Tests...";
             this.classicalTestsToolStripMenuItem.Click += new System.EventHandler(this.classicalTestsToolStripMenuItem_Click);
             // 
             // regularHierarchicTestsToolStripMenuItem
             // 
             this.regularHierarchicTestsToolStripMenuItem.Name = "regularHierarchicTestsToolStripMenuItem";
-            this.regularHierarchicTestsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.regularHierarchicTestsToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.regularHierarchicTestsToolStripMenuItem.Text = "&Regular Hierarchic Tests...";
             this.regularHierarchicTestsToolStripMenuItem.Click += new System.EventHandler(this.regularHierarchicTestsToolStripMenuItem_Click);
             // 
             // nonRegularHierarchicTestsToolStripMenuItem
             // 
             this.nonRegularHierarchicTestsToolStripMenuItem.Name = "nonRegularHierarchicTestsToolStripMenuItem";
-            this.nonRegularHierarchicTestsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.nonRegularHierarchicTestsToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.nonRegularHierarchicTestsToolStripMenuItem.Text = "&Non Regular Hierarchic Tests...";
             this.nonRegularHierarchicTestsToolStripMenuItem.Click += new System.EventHandler(this.nonRegularHierarchicTestsToolStripMenuItem_Click);
             // 
@@ -674,21 +685,21 @@
             this.topSplitLayout.Panel2.Controls.Add(this.analyzeOptionsGrp);
             this.topSplitLayout.Panel2.Controls.Add(this.parametersGrp);
             this.topSplitLayout.Panel2MinSize = 0;
-            this.topSplitLayout.Size = new System.Drawing.Size(1264, 664);
+            this.topSplitLayout.Size = new System.Drawing.Size(1264, 665);
             this.topSplitLayout.SplitterDistance = 945;
             this.topSplitLayout.TabIndex = 34;
             // 
             // analyzeOptionsGrp
             // 
-            this.analyzeOptionsGrp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.analyzeOptionsGrp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.analyzeOptionsGrp.Controls.Add(this.analyzeOptionsTable);
             this.analyzeOptionsGrp.Location = new System.Drawing.Point(3, 244);
             this.analyzeOptionsGrp.Margin = new System.Windows.Forms.Padding(0);
             this.analyzeOptionsGrp.MinimumSize = new System.Drawing.Size(0, 70);
             this.analyzeOptionsGrp.Name = "analyzeOptionsGrp";
-            this.analyzeOptionsGrp.Size = new System.Drawing.Size(309, 420);
+            this.analyzeOptionsGrp.Size = new System.Drawing.Size(309, 421);
             this.analyzeOptionsGrp.TabIndex = 35;
             this.analyzeOptionsGrp.TabStop = false;
             this.analyzeOptionsGrp.Text = "Analyze Options";
@@ -734,7 +745,7 @@
             this.analyzeOptionsTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.analyzeOptionsTable.RowHeadersVisible = false;
             this.analyzeOptionsTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.analyzeOptionsTable.Size = new System.Drawing.Size(303, 401);
+            this.analyzeOptionsTable.Size = new System.Drawing.Size(303, 402);
             this.analyzeOptionsTable.TabIndex = 32;
             // 
             // analyzeOptionNameColumn
@@ -767,12 +778,12 @@
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
             this.panel2.Controls.Add(this.statusProgress);
             this.panel2.Controls.Add(this.startstop);
-            this.panel2.Location = new System.Drawing.Point(2, 689);
+            this.panel2.Location = new System.Drawing.Point(2, 690);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1264, 22);
             this.panel2.TabIndex = 35;
@@ -801,21 +812,21 @@
             // 
             // generalPanel
             // 
-            this.generalPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.generalPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.generalPanel.BackColor = System.Drawing.SystemColors.HotTrack;
             this.generalPanel.Controls.Add(this.topSplitLayout);
             this.generalPanel.Location = new System.Drawing.Point(2, 24);
             this.generalPanel.Name = "generalPanel";
-            this.generalPanel.Size = new System.Drawing.Size(1264, 664);
+            this.generalPanel.Size = new System.Drawing.Size(1264, 665);
             this.generalPanel.TabIndex = 36;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 715);
+            this.ClientSize = new System.Drawing.Size(1264, 716);
             this.Controls.Add(this.generalPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.mainMenu);
@@ -911,6 +922,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn realizationsColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn statusColumn;
         private System.Windows.Forms.ToolStripMenuItem xRandNetStatToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem xRandNetLabToolStripMenuItem;
     }
 }
 

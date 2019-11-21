@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandNetLab"
         mc:Ignorable="d"
-        Title="xRandNetLab" Height="730" Width="1200" SizeChanged="Window_SizeChanged" Background="#F0F0F0" Icon="Icons/lab.ico" WindowStartupLocation="CenterScreen">
+        Title="xRandNetLab" Height="755" Width="1280" SizeChanged="Window_SizeChanged" Background="#F0F0F0" Icon="Icons/lab.ico" WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600">
     <Window.Resources>
         <Style TargetType="Button" x:Key="ButtonStyle">
             <Setter Property="Height" Value="23"></Setter>

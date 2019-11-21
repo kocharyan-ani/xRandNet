@@ -19,10 +19,7 @@ namespace RandNetLab
             researchType = rt;
 
             InitializeComponent();
-
-            InitializeGeneralGroup();
-            InitializeParametersGroup();
-            InitializeAnalyzeOptionsGroup();            
+            InitializeGeneralGroup();          
         }
 
         #region Event Handlers
@@ -81,6 +78,19 @@ namespace RandNetLab
         #endregion
 
         #region Utility
+
+        private void InitializeGeneralGroup()
+        {
+            ResearchTypeTextBox.Text = researchType.ToString();
+            InitializeModelTypeCmb();
+        }
+
+        private void InitializeModelTypeCmb()
+        {
+            ModelTypeComboBox.Items.Clear();
+            foreach (ModelType m in LabSessionManager.GetAvailableModelTypes(researchType))
+                ModelTypeComboBox.Items.Add(m);
+        }
 
         private void SetGeneralValues()
         {
@@ -162,13 +172,7 @@ namespace RandNetLab
                 Enum.TryParse(((TextBox)ParametersStackPanelValue.Children[i]).Name, out g);
                 ((TextBox)(ParametersStackPanelValue.Children[i])).Text = paramValues[g].ToString();
             }
-        }
-
-        private void InitializeGeneralGroup()
-        {
-            ResearchTypeTextBox.Text = researchType.ToString();
-            InitializeModelTypeCmb();
-        }
+        }        
 
         private void InitializeParametersGroup()
         {
@@ -213,25 +217,11 @@ namespace RandNetLab
                     AnalyzeOptionsStackPanel.Children.Add(option);
                 }
             }
-        }
-
-        private void InitializeModelTypeCmb()
-        {
-            ModelTypeComboBox.Items.Clear();
-            foreach (ModelType m in LabSessionManager.GetAvailableModelTypes(researchType))
-                ModelTypeComboBox.Items.Add(m.ToString());
-
-            Debug.Assert(ModelTypeComboBox.Items.Count != 0);
-            ModelTypeComboBox.SelectedIndex = 0;
-        }
+        }        
 
         private ModelType GetCurrentModelType()
         {
-            if (ModelTypeComboBox.SelectedIndex == 0)
-            {
-                return ModelType.BA;
-            }
-            return (ModelType)Enum.Parse(typeof(ModelType), ModelTypeComboBox.Text);
+            return (ModelType)ModelTypeComboBox.SelectedItem;
         }
 
         private string GetDefaultValueForGenerationParameter(GenerationParameter g)

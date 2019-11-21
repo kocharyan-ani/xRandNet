@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandNetLab"
         mc:Ignorable="d"
-        Title="CreateResearch" Height="580" Width="1180" Background="#F0F0F0" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Icon="Icons/lab.ico">
+        Title="CreateResearch" Height="472" Width="888" Background="#F0F0F0" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Icon="Icons/lab.ico">
     <Window.Resources>
         <Style TargetType="Button" x:Key="ButtonStyle">
             <Setter Property="Height" Value="23"></Setter>
@@ -27,20 +27,25 @@
         </Grid.RowDefinitions>
         <GroupBox Grid.Row="0" Margin="10, 5, 10, 5" Header="General">
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="44*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="180*"></ColumnDefinition>
-                    <ColumnDefinition Width="180*"></ColumnDefinition>
-                    <ColumnDefinition Width="500*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="229"></ColumnDefinition>
+                    <ColumnDefinition Width="125*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="0,0,0.2,-0.4">
+                <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
                     <TextBlock Margin="3" VerticalAlignment="Center">Research Type:</TextBlock>
                     <TextBox Margin="3" Padding="10, 0" Height="20" Width="120" Name="ResearchTypeTextBox" IsReadOnly="True" HorizontalContentAlignment="Center" Background="#F0F0F0"></TextBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal"  FocusManager.FocusedElement ="{Binding ElementName=ResearchNameTextBox}" Margin="239,0,0.6,-0.4" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="2"  Grid.RowSpan="2" Margin="26,0,1,0">
                     <TextBlock Margin="3" VerticalAlignment="Center">Research Name:</TextBlock>
                     <TextBox Margin="3" Padding="10, 0" Height="20" Width="120" Name="ResearchNameTextBox" HorizontalContentAlignment="Center"></TextBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0.2,0,-0.2,-0.4">
+                <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.RowSpan="2" Margin="71,0,0,0">
                     <TextBlock Margin="3" VerticalAlignment="Center">Model Type:</TextBlock>
                     <ComboBox SelectedIndex="0" Height="20" Width="120" Name="ModelTypeComboBox" SelectionChanged="ModelTypeComboBox_SelectionChanged">
                     </ComboBox>
