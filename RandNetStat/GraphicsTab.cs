@@ -14,13 +14,15 @@ namespace RandNetStat
 {
     public partial class GraphicsTab : UserControl
     {
+        private String researchName;
         private AnalyzeOption option;
         private SortedDictionary<Double, Double> values;
         private DrawingOption drawingOptions;
         private StatisticsOption statisticsOptions;
 
-        public GraphicsTab(AnalyzeOption o, SortedDictionary<Double, Double> v)
+        public GraphicsTab(String rName, AnalyzeOption o, SortedDictionary<Double, Double> v)
         {
+            researchName = rName;
             option = o;
             values = v;
             drawingOptions = new DrawingOption(Color.Black, true);
@@ -32,8 +34,7 @@ namespace RandNetStat
 
         public void SaveChartToPng(string location)
         {
-            Guid i = Guid.NewGuid();
-            string fileName = location + "\\" + i.ToString() + ".png";
+            string fileName = location + "\\" + researchName + "_" + option.ToString() + ".png";
             graphic.SaveImage(fileName, ChartImageFormat.Png);
         }
 

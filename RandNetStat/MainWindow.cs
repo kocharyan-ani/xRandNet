@@ -43,8 +43,8 @@ namespace RandNetStat
 
         private void modelTypeCmb_SelectedIndexChanged(Object sender, EventArgs e)
         {
-            FillOptionsPanels();
             FillResearchesTable();
+            FillOptionsPanels();            
         }
 
         private void refresh_Click(Object sender, EventArgs e)
@@ -250,6 +250,7 @@ namespace RandNetStat
         private void FillResearchesTable()
         {
             researchesTable.Rows.Clear();
+            parametersTable.Rows.Clear();
 
             ResearchType rt = GetCurrentResearchType();
             ModelType mt = GetCurrentModelType();

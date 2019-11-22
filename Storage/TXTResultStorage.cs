@@ -115,8 +115,6 @@ namespace Storage
                     researchInfo = new ResearchResult();
                     LoadGeneralInfo(folderName, researchInfo);
                     LoadEnsembleResults(folderName, researchInfo);
-
-                    existingFolderNames.Add(researchInfo.ResearchID, folderName);
                 }
             }
 

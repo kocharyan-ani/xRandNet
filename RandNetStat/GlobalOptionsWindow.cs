@@ -51,13 +51,6 @@ namespace RandNetStat
                 MessageBox.Show("None of checked options is calculated for selected researches.", "Information");
         }
 
-        private void save_Click(Object sender, EventArgs e)
-        {
-            if (locationDlg.ShowDialog() == DialogResult.OK)
-            {
-            }
-        }
-
         private void close_Click(Object sender, EventArgs e)
         {
             Close();

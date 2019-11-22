@@ -258,7 +258,6 @@ namespace TrajectoryAnalyzer
 
 
         private List<double> correlation;
-        private List<double> fft;
 
         private Research firstSelectedResearch;
         private Research firstResearch;

@@ -48,7 +48,7 @@ namespace RandNetStat
                 if (statisticResults.EnsembleResultsAvg[0].Result.ContainsKey(o))
                 {
                     TabPage optTab = new TabPage(o.ToString());
-                    GraphicsTab t = new GraphicsTab(o, (SortedDictionary<Double, Double>)statisticResults.EnsembleResultsAvg[0].Result[o]);
+                    GraphicsTab t = new GraphicsTab(Text, o, (SortedDictionary<Double, Double>)statisticResults.EnsembleResultsAvg[0].Result[o]);
                     t.Dock = DockStyle.Fill;
                     optTab.Controls.Add(t);
                     graphicsTab.TabPages.Add(optTab);

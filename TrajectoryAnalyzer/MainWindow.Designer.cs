@@ -388,12 +388,9 @@
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem firstTrajectoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem firstOpenToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem distributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autocorrelationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem firstFftToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator firstToolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem secondTrajectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem secondOpenToolStripMenuItem;
