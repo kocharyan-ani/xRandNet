@@ -61,7 +61,7 @@ namespace RandomNumberGeneration
         // Возвращает случайное положительное дейвствительное число из данного диапазона.
         public double NextDouble(double a, double b)
         {
-            return a + (b - a) / NextDouble();
+            return a + (b - a) * NextDouble();
         }
 
         public void GetBytes(byte[] buff)
