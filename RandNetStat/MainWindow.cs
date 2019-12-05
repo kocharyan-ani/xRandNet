@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 
 using Session;
 using Core.Enumerations;
 using Core.Attributes;
-using Core.Result;
 
 namespace RandNetStat
 {
@@ -20,7 +16,6 @@ namespace RandNetStat
         public MainWindow()
         {
             InitializeComponent();
-
             InitializeResearchType();
         }
 
@@ -48,8 +43,8 @@ namespace RandNetStat
 
         private void modelTypeCmb_SelectedIndexChanged(Object sender, EventArgs e)
         {
-            FillOptionsPanels();
             FillResearchesTable();
+            FillOptionsPanels();            
         }
 
         private void refresh_Click(Object sender, EventArgs e)
@@ -101,13 +96,19 @@ namespace RandNetStat
             Dictionary<int, List<Guid>> r = StatSessionManager.GetFilteredResultsByGroups(GetCurrentResearchType(),
                 GetCurrentModelType());
             foreach (int rid in r.Keys)
+            {
                 if (r[rid].Contains(id))
+                {
                     foreach (Guid j in r[rid])
+                    {
                         foreach (DataGridViewRow row in researchesTable.Rows)
                         {
                             if ((Guid)row.Cells[0].Value == j)
                                 row.Selected = true;
                         }
+                    }
+                }
+            }
         }
 
         private void selectAll_Click(Object sender, EventArgs e)
@@ -121,8 +122,7 @@ namespace RandNetStat
             {
                 ChangeCheckedStatesForAnalyzeOptions(distributedOptionsPanel, true);
             }
-            else
-                Debug.Assert(false);
+            else Debug.Assert(false);
         }
 
         private void deselectAll_Click(Object sender, EventArgs e)
@@ -164,7 +164,6 @@ namespace RandNetStat
             }
             DistributedOptionsWindow w = new DistributedOptionsWindow(researchesToShow, optionsToShow);
             w.Show();
-
         }
 
         #endregion
@@ -174,6 +173,7 @@ namespace RandNetStat
         private void InitializeResearchType()
         {
             researchTypeCmb.Items.Clear();
+            // TODO open the comment when implementing other research types
             /*researchTypeCmb.Sorted = true;
             string[] researchTypeNames = Enum.GetNames(typeof(ResearchType));
             for (int i = 0; i < researchTypeNames.Length; ++i)
@@ -250,6 +250,7 @@ namespace RandNetStat
         private void FillResearchesTable()
         {
             researchesTable.Rows.Clear();
+            parametersTable.Rows.Clear();
 
             ResearchType rt = GetCurrentResearchType();
             ModelType mt = GetCurrentModelType();

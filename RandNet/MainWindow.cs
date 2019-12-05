@@ -130,6 +130,11 @@ namespace RandNet
             Process.Start("RandNetStat.exe");
         }
 
+        private void xRandNetLabToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("RandNetLab.exe");
+        }
+
         private void classicalTestsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CustomLogger.Write("-------------------------------- CLASSICAL TESTS STARTED --------------------------------");

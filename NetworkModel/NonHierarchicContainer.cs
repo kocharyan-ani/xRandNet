@@ -99,7 +99,7 @@ namespace NetworkModel
                 secondVertex = temp;
             }
 
-            return data[firstVertex][secondVertex] == true;
+            return data[firstVertex][secondVertex];
         }
 
         private const int MAX_SIZE = 1024;

@@ -73,6 +73,12 @@ namespace Core.Enumerations
             typeof(Boolean), "true")]
         MakeConnected,
 
+        [GenerationParameterInfo("Fitness Density Function",
+            "",
+            // TODO change to string
+            typeof(String), "1")]
+        FitnessDensityFunction,
+
         [GenerationParameterInfo("Adjacency matrix",
             "Adjacency matrix and branches of the networks.",
             typeof(MatrixPath), null)]

@@ -1,0 +1,99 @@
+﻿<Window x:Class="RandNetLab.CreateResearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RandNetLab"
+        mc:Ignorable="d"
+        Title="CreateResearch" Height="472" Width="888" Background="#F0F0F0" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Icon="Icons/lab.ico">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Height" Value="23"></Setter>
+            <Setter Property="Width" Value="85"></Setter>
+            <Setter Property="BorderBrush" Value="LightGray"></Setter>
+            <Setter Property="Padding" Value="10, 0"></Setter>
+            <Setter Property="Background" Value="#F0F0F0"></Setter>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="0.4"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Name="CreateResearchGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.25*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.15*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Margin="10, 5, 10, 5" Header="General">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="44*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="229"></ColumnDefinition>
+                    <ColumnDefinition Width="125*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                    <TextBlock Margin="3" VerticalAlignment="Center">Research Type:</TextBlock>
+                    <TextBox Margin="3" Padding="10, 0" Height="20" Width="120" Name="ResearchTypeTextBox" IsReadOnly="True" HorizontalContentAlignment="Center" Background="#F0F0F0"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="2"  Grid.RowSpan="2" Margin="26,0,1,0">
+                    <TextBlock Margin="3" VerticalAlignment="Center">Research Name:</TextBlock>
+                    <TextBox Margin="3" Padding="10, 0" Height="20" Width="120" Name="ResearchNameTextBox" HorizontalContentAlignment="Center"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.RowSpan="2" Margin="71,0,0,0">
+                    <TextBlock Margin="3" VerticalAlignment="Center">Model Type:</TextBlock>
+                    <ComboBox SelectedIndex="0" Height="20" Width="120" Name="ModelTypeComboBox" SelectionChanged="ModelTypeComboBox_SelectionChanged">
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Margin="10, 0, 5, 0" Header="Parameters">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Name="ParametersStackPanelName">
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Name="ParametersStackPanelValue">
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Margin="5, 0, 10, 0" Header="Analyze Options">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="0.15*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer>
+                        <StackPanel Name="AnalyzeOptionsStackPanel">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type CheckBox}">
+                                    <Setter Property="Margin" Value="3"/>
+                                </Style>
+                            </StackPanel.Resources>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Margin="3"  Style="{StaticResource ButtonStyle}" Click="SelectAll_Button_Click">Select All</Button>
+                        <Button Margin="3"  Style="{StaticResource ButtonStyle}" Click="DeselectAll_Button_Click">Deselect All</Button>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="10" Style="{StaticResource ButtonStyle}" Click="Create_Button_Click" Name="CreateButton" IsDefault="True">Create</Button>
+            <Button Margin="10" Style="{StaticResource ButtonStyle}" Click="Cancel_Button_Click" Name="CancelButton">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -38,6 +38,7 @@ namespace Core.Settings
                 storageType = (StorageType)Enum.Parse(typeof(StorageType),
                     config.AppSettings.Settings["StorageType"].Value);
                 xmlStorageDirectory = config.AppSettings.Settings["XMLStorageDirectory"].Value;
+                txtStorageDirectory = config.AppSettings.Settings["TXTStorageDirectory"].Value;
                 excelStorageDirectory = config.AppSettings.Settings["ExcelStorageDirectory"].Value;
             }
             catch

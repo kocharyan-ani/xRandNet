@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\RLibrary\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -78,6 +78,14 @@
     <ProjectReference Include="..\BAModel\BAModel.csproj">
       <Project>{ec12671d-fb67-4e24-9cb7-0785ce78bd06}</Project>
       <Name>BAModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBModel\BBModel.csproj">
+      <Project>{546a81b5-4990-4c38-a5bf-f0fc0ed5b58d}</Project>
+      <Name>BBModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConnectedHierarchicModel\ConnectedHierarchicModel.csproj">
+      <Project>{7f2e6ff3-740f-45cc-95b4-6359ea3217ac}</Project>
+      <Name>ConnectedHierarchicModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{479c57f7-2b45-48f4-b434-c7e59d0b0f7b}</Project>

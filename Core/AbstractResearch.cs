@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
@@ -59,6 +60,18 @@ namespace Core
         public Guid ResearchID { get; private set; }
 
         public String ResearchName { get; set; }
+
+        public String ResearchFileName
+        {
+            get
+            {
+                if(Storage != null)
+                {
+                    return Storage.FileName;
+                }
+                return null;
+            }
+        }
 
         public ModelType ModelType
         {

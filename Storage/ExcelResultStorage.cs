@@ -79,7 +79,7 @@ namespace Storage
             string fileName = storageStr + researchID;
             if (File.Exists(fileName + ".xls") || File.Exists(fileName + ".xlsx"))
                 fileName += researchName;
-
+            FileName = Path.GetFileName(fileName);
             return fileName + ".xlsx";
         }
 
@@ -167,7 +167,26 @@ namespace Storage
 
         public override ResearchResult Load(string name)
         {
-            throw new NotImplementedException();
+            ResearchResult r = null;
+
+            if (name != null)
+            {
+                InitializeExcelApplication();
+
+                Workbook book = null;
+                Worksheet sheet = null;
+                r = new ResearchResult();
+                book = excelApp.Workbooks.Open(name);
+                sheet = (Worksheet)book.Worksheets[1];
+                LoadResearchInfo(sheet, r);
+                LoadResearchAndGenerationParameters(sheet, r);
+                LoadEnsembleResults(book, r);
+                book.Close();
+                Marshal.ReleaseComObject(book);
+
+                DestroyExcelApplication();
+            }
+            return r;
         }
 
         #region Utilities

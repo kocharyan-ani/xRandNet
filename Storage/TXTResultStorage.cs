@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
 using System.Diagnostics;
+using System.Globalization;
 
 using Core;
 using Core.Enumerations;
@@ -19,6 +19,8 @@ namespace Storage
     /// </summary>
     class TXTResultStorage : AbstractResultStorage
     {
+        private SortedDictionary<Guid, string> existingFolderNames;
+
         public TXTResultStorage(string str)
             : base(str)
         {
@@ -59,30 +61,83 @@ namespace Storage
             string dirName = storageStr + researchName;
             if (Directory.Exists(dirName))
                 dirName += researchID;
-
+            FileName = Path.GetFileName(dirName);
             return dirName;
         }
 
         public override void Delete(Guid researchID)
         {
-            // TODO implementation
+            if (existingFolderNames != null && existingFolderNames.Keys.Contains(researchID))
+            {
+                Directory.Delete(existingFolderNames[researchID]);
+                existingFolderNames.Remove(researchID);
+            }
+            else
+            {
+                string fileNameToDelete = FileNameByGuid(researchID);
+                if (fileNameToDelete != null)
+                    Directory.Delete(fileNameToDelete);
+            }
         }
 
         public override List<ResearchResult> LoadAllResearchInfo()
         {
-            return null;
-            // TODO implementation
+            existingFolderNames = new SortedDictionary<Guid, string>();
+            List<ResearchResult> researchInfos = new List<ResearchResult>();
+
+            ResearchResult researchInfo = null;
+            foreach (string folderName in Directory.GetDirectories(storageStr, "*", SearchOption.TopDirectoryOnly))
+            {
+                researchInfo = new ResearchResult();
+                LoadGeneralInfo(folderName, researchInfo);
+
+                researchInfos.Add(researchInfo);
+                existingFolderNames.Add(researchInfo.ResearchID, folderName);
+            }
+
+            return researchInfos;
         }
 
         public override ResearchResult Load(Guid researchID)
         {
-            // TODO implementation
-            return null;
+            ResearchResult researchInfo = null;
+
+            string folderNameToLoad = null;
+            if (existingFolderNames != null && existingFolderNames.Keys.Contains(researchID))
+                folderNameToLoad = existingFolderNames[researchID];
+            else
+                folderNameToLoad = FileNameByGuid(researchID);
+
+            if (folderNameToLoad != null)
+            {
+                foreach (string folderName in Directory.GetDirectories(storageStr, "*", SearchOption.TopDirectoryOnly))
+                {
+                    researchInfo = new ResearchResult();
+                    LoadGeneralInfo(folderName, researchInfo);
+                    LoadEnsembleResults(folderName, researchInfo);
+                }
+            }
+
+            return researchInfo;
         }
 
         public override ResearchResult Load(string name)
         {
-            throw new NotImplementedException();
+            ResearchResult researchInfo = null;
+
+            if (name != null)
+            {
+                foreach (string folderName in Directory.GetDirectories(storageStr, "*", SearchOption.TopDirectoryOnly))
+                {
+                    researchInfo = new ResearchResult();
+                    LoadGeneralInfo(folderName, researchInfo);
+                    LoadEnsembleResults(folderName, researchInfo);
+
+                    existingFolderNames.Add(researchInfo.ResearchID, folderName);
+                }
+            }
+
+            return researchInfo;
         }
 
         #region Utilities
@@ -244,8 +299,143 @@ namespace Storage
         #endregion
 
         #region Load
+
+        private void LoadGeneralInfo(String folderName, ResearchResult r)
+        {
+            using (StreamReader rd = new StreamReader(folderName + "\\general.txt"))
+            {
+                rd.ReadLine();
+                r.ResearchID = new Guid(rd.ReadLine().Substring(13));
+                r.ResearchName = rd.ReadLine().Substring(15);
+                r.ResearchType = (ResearchType)Enum.Parse(typeof(ResearchType), rd.ReadLine().Substring(15));
+                r.ModelType = (ModelType)Enum.Parse(typeof(ModelType), rd.ReadLine().Substring(12));
+                r.RealizationCount = Int32.Parse(rd.ReadLine().Substring(19));
+                r.Date = DateTime.Parse(rd.ReadLine().Substring(7));
+                r.Size = Int32.Parse(rd.ReadLine().Substring(7));
+                r.Edges = Double.Parse(rd.ReadLine().Substring(8), CultureInfo.InvariantCulture);
+
+                rd.ReadLine();
+
+                String str = null;
+                while ((str = rd.ReadLine()) != "Generation Parameters")
+                {
+                    String[] split = str.Split(' ');
+                    ResearchParameter rp = (ResearchParameter)Enum.Parse(typeof(ResearchParameter), split[0]);
+
+                    ResearchParameterInfo rpInfo = (ResearchParameterInfo)(rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+                    if (rpInfo.Type.Equals(typeof(Int32)))
+                        r.ResearchParameterValues.Add(rp, Int32.Parse(split[1]));
+                    else if (rpInfo.Type.Equals(typeof(Double)))
+                        r.ResearchParameterValues.Add(rp, Double.Parse(split[1], CultureInfo.InvariantCulture));
+                    else if (rpInfo.Type.Equals(typeof(Boolean)))
+                        r.ResearchParameterValues.Add(rp, Boolean.Parse(split[1]));
+                    else if (rpInfo.Type.Equals(typeof(ResearchType)))
+                        r.ResearchParameterValues.Add(rp, split[1]);
+                    else if (rpInfo.Type.Equals(typeof(MatrixPath)))
+                    {
+                        MatrixPath mp = new MatrixPath();
+                        mp.Path = split[1];
+                        r.ResearchParameterValues.Add(rp, mp);
+                    }
+                    else
+                    {
+                        Debug.Assert(false);
+                    }
+                }
+                while ((str = rd.ReadLine()) != null)
+                {
+                    String[] split = str.Split(' ');
+                    GenerationParameter gp;
+                    if (split[0] == "FileName")
+                        gp = GenerationParameter.AdjacencyMatrix;
+                    else
+                        gp = (GenerationParameter)Enum.Parse(typeof(GenerationParameter), split[0]);
+
+                    GenerationParameterInfo gpInfo = (GenerationParameterInfo)(gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(GenerationParameterInfo), false)[0]);
+                    if (gpInfo.Type.Equals(typeof(Int32)))
+                        r.GenerationParameterValues.Add(gp, Int32.Parse(split[1]));
+                    else if (gpInfo.Type.Equals(typeof(Double)))
+                        r.GenerationParameterValues.Add(gp, Double.Parse(split[1], CultureInfo.InvariantCulture));
+                    else if (gpInfo.Type.Equals(typeof(Boolean)))
+                        r.GenerationParameterValues.Add(gp, Boolean.Parse(split[1]));
+                    else if (gpInfo.Type.Equals(typeof(MatrixPath)))
+                    {
+                        MatrixPath mp = new MatrixPath();
+                        mp.Path = split[1];
+                        r.GenerationParameterValues.Add(gp, mp);
+                    }
+                    else
+                    {
+                        Debug.Assert(false);
+                    }
+                }
+            }
+        }
+
+        private void LoadEnsembleResults(String folderName, ResearchResult r)
+        {
+            EnsembleResult e = new EnsembleResult(r.Size);
+            e.EdgesCount = r.Edges;
+            e.Result = new Dictionary<AnalyzeOption, Object>();
+            foreach (String fileName in Directory.GetFiles(folderName))
+            {                
+                /*reader.Read();
+                while (reader.NodeType != XmlNodeType.EndElement)
+                {
+                    AnalyzeOption opt = (AnalyzeOption)Enum.Parse(typeof(AnalyzeOption), reader.Name);
+                    AnalyzeOptionInfo optInfo = (AnalyzeOptionInfo)(opt.GetType().GetField(opt.ToString()).GetCustomAttributes(typeof(AnalyzeOptionInfo), false)[0]);
+                    switch (optInfo.OptionType)
+                    {
+                        case OptionType.Global:
+                            e.Result.Add(opt, reader.ReadElementContentAsDouble());
+                            break;
+                        case OptionType.ValueList:
+                        case OptionType.Centrality:
+                            e.Result.Add(opt, LoadValueList());
+                            reader.Read();
+                            break;
+                        case OptionType.Distribution:
+                        case OptionType.Trajectory:
+                            e.Result.Add(opt, LoadDistribution());
+                            reader.Read();
+                            break;
+                        default:
+                            break;
+                    }
+                }*/                
+            }
+            r.EnsembleResults.Add(e);
+        }
+
         #endregion
-        
+
+        private string FileNameByGuid(Guid id)
+        {
+            foreach (string folderName in Directory.GetDirectories(storageStr, "*", SearchOption.TopDirectoryOnly))
+            {
+                String generalFileName = folderName + "\\" + "general.txt";
+                if (!File.Exists(generalFileName))
+                    continue;                
+                using (StreamReader r = new StreamReader(generalFileName))
+                {
+                    try
+                    {
+                        r.ReadLine();
+                        if (id == Guid.Parse(r.ReadLine().Substring(13)))
+                        {
+                            return folderName;
+                        }
+                    }
+                    catch (SystemException)
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         #endregion
     }
 }

@@ -36,8 +36,6 @@
             this.infoPanel = new System.Windows.Forms.Panel();
             this.researchInfo = new RandNetStat.ResearchInfo();
             this.close = new System.Windows.Forms.Button();
-            this.save = new System.Windows.Forms.Button();
-            this.locationDlg = new System.Windows.Forms.FolderBrowserDialog();
             this.valuesPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valuesGrd)).BeginInit();
             this.infoPanel.SuspendLayout();
@@ -45,9 +43,9 @@
             // 
             // valuesPanel
             // 
-            this.valuesPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.valuesPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.valuesPanel.Controls.Add(this.valuesGrd);
             this.valuesPanel.Location = new System.Drawing.Point(288, 12);
             this.valuesPanel.Name = "valuesPanel";
@@ -69,6 +67,7 @@
             this.valuesGrd.Name = "valuesGrd";
             this.valuesGrd.ReadOnly = true;
             this.valuesGrd.RowHeadersVisible = false;
+            this.valuesGrd.RowHeadersWidth = 51;
             this.valuesGrd.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.valuesGrd.Size = new System.Drawing.Size(271, 352);
             this.valuesGrd.TabIndex = 0;
@@ -77,19 +76,22 @@
             // 
             this.parameterColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.parameterColumn.HeaderText = "Parameter";
+            this.parameterColumn.MinimumWidth = 6;
             this.parameterColumn.Name = "parameterColumn";
             this.parameterColumn.ReadOnly = true;
             // 
             // valueColumn
             // 
             this.valueColumn.HeaderText = "Value";
+            this.valueColumn.MinimumWidth = 6;
             this.valueColumn.Name = "valueColumn";
             this.valueColumn.ReadOnly = true;
+            this.valueColumn.Width = 125;
             // 
             // infoPanel
             // 
-            this.infoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.infoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.infoPanel.Controls.Add(this.researchInfo);
             this.infoPanel.Location = new System.Drawing.Point(12, 15);
             this.infoPanel.Name = "infoPanel";
@@ -100,6 +102,7 @@
             // 
             this.researchInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.researchInfo.Location = new System.Drawing.Point(0, 0);
+            this.researchInfo.Margin = new System.Windows.Forms.Padding(4);
             this.researchInfo.Name = "researchInfo";
             this.researchInfo.Size = new System.Drawing.Size(270, 352);
             this.researchInfo.TabIndex = 0;
@@ -116,23 +119,12 @@
             this.close.UseVisualStyleBackColor = true;
             this.close.Click += new System.EventHandler(this.close_Click);
             // 
-            // save
-            // 
-            this.save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.save.Location = new System.Drawing.Point(403, 370);
-            this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(75, 23);
-            this.save.TabIndex = 7;
-            this.save.Text = "Save";
-            this.save.UseVisualStyleBackColor = true;
-            this.save.Click += new System.EventHandler(this.save_Click);
-            // 
             // GlobalOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.close;
             this.ClientSize = new System.Drawing.Size(574, 407);
-            this.Controls.Add(this.save);
             this.Controls.Add(this.close);
             this.Controls.Add(this.infoPanel);
             this.Controls.Add(this.valuesPanel);
@@ -155,8 +147,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn parameterColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueColumn;
         private System.Windows.Forms.Button close;
-        private System.Windows.Forms.Button save;
-        private System.Windows.Forms.FolderBrowserDialog locationDlg;
 
     }
 }

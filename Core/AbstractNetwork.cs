@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Exceptions;
@@ -48,7 +49,7 @@ namespace Core
                     typeof(GenerationType),
                     typeof(TracingType),
                     typeof(Dictionary<ResearchParameter, Object>),
-                    typeof(Dictionary<GenerationParameter, Object>), 
+                    typeof(Dictionary<GenerationParameter, Object>),
                     typeof(AnalyzeOption) };
             Object[] invokeParams = new Object[] {
                     rName,
@@ -56,7 +57,7 @@ namespace Core
                     gType,
                     tType,
                     rParams,
-                    genParams, 
+                    genParams,
                     AnalyzeOptions };
             return (AbstractNetwork)t.GetConstructor(constructTypes).Invoke(invokeParams);
         }

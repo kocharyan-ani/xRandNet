@@ -12,11 +12,13 @@ using Core.Settings;
 
 // dummy
 using BAModel;
+using BBModel;
 using ERModel;
 using HMNModel;
 using Manager;
 using RegularHierarchicModel;
 using NonRegularHierarchicModel;
+using ConnectedHierarchicModel;
 using Research;
 using Storage;
 using WSModel;
@@ -32,9 +34,12 @@ namespace Session
         LocalEnsembleManager n4 = null;
         RegularHierarchicNetwork n5 = null;
         NonRegularHierarchicNetwork n6 = null;
-        BasicResearch n7 = null;
-        XMLResultStorage n8 = null;
-        WSNetwork n9 = null;
+        ConnectedHierarchicNetwork n7 = null;
+        ConnectedNonRegularHierarchicNetwork n8 = null;
+        BasicResearch n9 = null;
+        XMLResultStorage n10 = null;
+        WSNetwork n11 = null;
+        BBNetwork n12 = null;
     }
 
     /// <summary>

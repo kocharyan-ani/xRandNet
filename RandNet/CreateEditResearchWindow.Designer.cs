@@ -59,9 +59,10 @@
             // 
             // create
             // 
-            this.create.Location = new System.Drawing.Point(699, 397);
+            this.create.Location = new System.Drawing.Point(932, 489);
+            this.create.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.create.Name = "create";
-            this.create.Size = new System.Drawing.Size(75, 23);
+            this.create.Size = new System.Drawing.Size(100, 28);
             this.create.TabIndex = 6;
             this.create.UseVisualStyleBackColor = true;
             this.create.Click += new System.EventHandler(this.create_Click);
@@ -69,9 +70,10 @@
             // cancel
             // 
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(780, 397);
+            this.cancel.Location = new System.Drawing.Point(1040, 489);
+            this.cancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(75, 23);
+            this.cancel.Size = new System.Drawing.Size(100, 28);
             this.cancel.TabIndex = 7;
             this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = true;
@@ -92,9 +94,11 @@
             this.generalGrp.Controls.Add(this.researchName);
             this.generalGrp.Controls.Add(this.researchTypeTxt);
             this.generalGrp.Controls.Add(this.researchType);
-            this.generalGrp.Location = new System.Drawing.Point(12, 12);
+            this.generalGrp.Location = new System.Drawing.Point(16, 15);
+            this.generalGrp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.generalGrp.Name = "generalGrp";
-            this.generalGrp.Size = new System.Drawing.Size(846, 93);
+            this.generalGrp.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.generalGrp.Size = new System.Drawing.Size(1128, 114);
             this.generalGrp.TabIndex = 2;
             this.generalGrp.TabStop = false;
             this.generalGrp.Text = "General";
@@ -102,23 +106,25 @@
             // checkConnected
             // 
             this.checkConnected.AutoSize = true;
-            this.checkConnected.Location = new System.Drawing.Point(712, 57);
+            this.checkConnected.Location = new System.Drawing.Point(949, 70);
+            this.checkConnected.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkConnected.Name = "checkConnected";
-            this.checkConnected.Size = new System.Drawing.Size(112, 17);
+            this.checkConnected.Size = new System.Drawing.Size(141, 21);
             this.checkConnected.TabIndex = 6;
             this.checkConnected.Text = "Check Connected";
             this.checkConnected.UseVisualStyleBackColor = true;
             // 
             // realizationCountTxt
             // 
-            this.realizationCountTxt.Location = new System.Drawing.Point(555, 56);
+            this.realizationCountTxt.Location = new System.Drawing.Point(740, 69);
+            this.realizationCountTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.realizationCountTxt.Maximum = new decimal(new int[] {
             10000000,
             0,
             0,
             0});
             this.realizationCountTxt.Name = "realizationCountTxt";
-            this.realizationCountTxt.Size = new System.Drawing.Size(121, 20);
+            this.realizationCountTxt.Size = new System.Drawing.Size(161, 22);
             this.realizationCountTxt.TabIndex = 5;
             this.realizationCountTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.realizationCountTxt.Value = new decimal(new int[] {
@@ -130,18 +136,20 @@
             // realizationCount
             // 
             this.realizationCount.AutoSize = true;
-            this.realizationCount.Location = new System.Drawing.Point(459, 60);
+            this.realizationCount.Location = new System.Drawing.Point(612, 74);
+            this.realizationCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.realizationCount.Name = "realizationCount";
-            this.realizationCount.Size = new System.Drawing.Size(93, 13);
+            this.realizationCount.Size = new System.Drawing.Size(123, 17);
             this.realizationCount.TabIndex = 0;
             this.realizationCount.Text = "Realization Count:";
             // 
             // tracingCheck
             // 
             this.tracingCheck.AutoSize = true;
-            this.tracingCheck.Location = new System.Drawing.Point(712, 24);
+            this.tracingCheck.Location = new System.Drawing.Point(949, 30);
+            this.tracingCheck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tracingCheck.Name = "tracingCheck";
-            this.tracingCheck.Size = new System.Drawing.Size(62, 17);
+            this.tracingCheck.Size = new System.Drawing.Size(78, 21);
             this.tracingCheck.TabIndex = 4;
             this.tracingCheck.Text = "Tracing";
             this.tracingCheck.UseVisualStyleBackColor = true;
@@ -149,79 +157,88 @@
             // generationTypeCmb
             // 
             this.generationTypeCmb.FormattingEnabled = true;
-            this.generationTypeCmb.Location = new System.Drawing.Point(555, 22);
+            this.generationTypeCmb.Location = new System.Drawing.Point(740, 27);
+            this.generationTypeCmb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.generationTypeCmb.Name = "generationTypeCmb";
-            this.generationTypeCmb.Size = new System.Drawing.Size(121, 21);
+            this.generationTypeCmb.Size = new System.Drawing.Size(160, 24);
             this.generationTypeCmb.TabIndex = 3;
             this.generationTypeCmb.SelectedIndexChanged += new System.EventHandler(this.generationTypeCmb_SelectedIndexChanged);
             // 
             // generationType
             // 
             this.generationType.AutoSize = true;
-            this.generationType.Location = new System.Drawing.Point(459, 25);
+            this.generationType.Location = new System.Drawing.Point(612, 31);
+            this.generationType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.generationType.Name = "generationType";
-            this.generationType.Size = new System.Drawing.Size(89, 13);
+            this.generationType.Size = new System.Drawing.Size(119, 17);
             this.generationType.TabIndex = 0;
             this.generationType.Text = "Generation Type:";
             // 
             // storageTypeCmb
             // 
             this.storageTypeCmb.FormattingEnabled = true;
-            this.storageTypeCmb.Location = new System.Drawing.Point(305, 56);
+            this.storageTypeCmb.Location = new System.Drawing.Point(407, 69);
+            this.storageTypeCmb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.storageTypeCmb.Name = "storageTypeCmb";
-            this.storageTypeCmb.Size = new System.Drawing.Size(121, 21);
+            this.storageTypeCmb.Size = new System.Drawing.Size(160, 24);
             this.storageTypeCmb.TabIndex = 2;
             // 
             // storageType
             // 
             this.storageType.AutoSize = true;
-            this.storageType.Location = new System.Drawing.Point(230, 60);
+            this.storageType.Location = new System.Drawing.Point(307, 74);
+            this.storageType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.storageType.Name = "storageType";
-            this.storageType.Size = new System.Drawing.Size(74, 13);
+            this.storageType.Size = new System.Drawing.Size(98, 17);
             this.storageType.TabIndex = 0;
             this.storageType.Text = "Storage Type:";
             // 
             // modelTypeCmb
             // 
             this.modelTypeCmb.FormattingEnabled = true;
-            this.modelTypeCmb.Location = new System.Drawing.Point(305, 22);
+            this.modelTypeCmb.Location = new System.Drawing.Point(407, 27);
+            this.modelTypeCmb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.modelTypeCmb.Name = "modelTypeCmb";
-            this.modelTypeCmb.Size = new System.Drawing.Size(121, 21);
+            this.modelTypeCmb.Size = new System.Drawing.Size(160, 24);
             this.modelTypeCmb.TabIndex = 1;
             this.modelTypeCmb.SelectedIndexChanged += new System.EventHandler(this.modelTypeCmb_SelectedIndexChanged);
             // 
             // modelType
             // 
             this.modelType.AutoSize = true;
-            this.modelType.Location = new System.Drawing.Point(230, 26);
+            this.modelType.Location = new System.Drawing.Point(307, 32);
+            this.modelType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.modelType.Name = "modelType";
-            this.modelType.Size = new System.Drawing.Size(66, 13);
+            this.modelType.Size = new System.Drawing.Size(86, 17);
             this.modelType.TabIndex = 0;
             this.modelType.Text = "Model Type:";
             // 
             // researchNameTxt
             // 
-            this.researchNameTxt.Location = new System.Drawing.Point(99, 57);
+            this.researchNameTxt.Location = new System.Drawing.Point(132, 70);
+            this.researchNameTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.researchNameTxt.Name = "researchNameTxt";
-            this.researchNameTxt.Size = new System.Drawing.Size(100, 20);
+            this.researchNameTxt.Size = new System.Drawing.Size(132, 22);
             this.researchNameTxt.TabIndex = 0;
             this.researchNameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // researchName
             // 
             this.researchName.AutoSize = true;
-            this.researchName.Location = new System.Drawing.Point(10, 60);
+            this.researchName.Location = new System.Drawing.Point(13, 74);
+            this.researchName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.researchName.Name = "researchName";
-            this.researchName.Size = new System.Drawing.Size(87, 13);
+            this.researchName.Size = new System.Drawing.Size(114, 17);
             this.researchName.TabIndex = 0;
             this.researchName.Text = "Research Name:";
             // 
             // researchTypeTxt
             // 
-            this.researchTypeTxt.Location = new System.Drawing.Point(99, 23);
+            this.researchTypeTxt.Location = new System.Drawing.Point(132, 28);
+            this.researchTypeTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.researchTypeTxt.Name = "researchTypeTxt";
             this.researchTypeTxt.ReadOnly = true;
-            this.researchTypeTxt.Size = new System.Drawing.Size(100, 20);
+            this.researchTypeTxt.Size = new System.Drawing.Size(132, 22);
             this.researchTypeTxt.TabIndex = 1;
             this.researchTypeTxt.TabStop = false;
             this.researchTypeTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -229,18 +246,21 @@
             // researchType
             // 
             this.researchType.AutoSize = true;
-            this.researchType.Location = new System.Drawing.Point(10, 26);
+            this.researchType.Location = new System.Drawing.Point(13, 32);
+            this.researchType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.researchType.Name = "researchType";
-            this.researchType.Size = new System.Drawing.Size(83, 13);
+            this.researchType.Size = new System.Drawing.Size(109, 17);
             this.researchType.TabIndex = 0;
             this.researchType.Text = "Research Type:";
             // 
             // parametersGrp
             // 
             this.parametersGrp.Controls.Add(this.parametersPanel);
-            this.parametersGrp.Location = new System.Drawing.Point(12, 111);
+            this.parametersGrp.Location = new System.Drawing.Point(16, 137);
+            this.parametersGrp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.parametersGrp.Name = "parametersGrp";
-            this.parametersGrp.Size = new System.Drawing.Size(390, 276);
+            this.parametersGrp.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.parametersGrp.Size = new System.Drawing.Size(520, 340);
             this.parametersGrp.TabIndex = 3;
             this.parametersGrp.TabStop = false;
             this.parametersGrp.Text = "Parameters";
@@ -249,9 +269,10 @@
             // 
             this.parametersPanel.AutoScroll = true;
             this.parametersPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.parametersPanel.Location = new System.Drawing.Point(3, 16);
+            this.parametersPanel.Location = new System.Drawing.Point(4, 19);
+            this.parametersPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.parametersPanel.Name = "parametersPanel";
-            this.parametersPanel.Size = new System.Drawing.Size(384, 257);
+            this.parametersPanel.Size = new System.Drawing.Size(512, 317);
             this.parametersPanel.TabIndex = 0;
             // 
             // optionsGrp
@@ -259,18 +280,21 @@
             this.optionsGrp.Controls.Add(this.deselectAll);
             this.optionsGrp.Controls.Add(this.selectAll);
             this.optionsGrp.Controls.Add(this.optionsPanel);
-            this.optionsGrp.Location = new System.Drawing.Point(417, 111);
+            this.optionsGrp.Location = new System.Drawing.Point(556, 137);
+            this.optionsGrp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.optionsGrp.Name = "optionsGrp";
-            this.optionsGrp.Size = new System.Drawing.Size(441, 276);
+            this.optionsGrp.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.optionsGrp.Size = new System.Drawing.Size(588, 340);
             this.optionsGrp.TabIndex = 4;
             this.optionsGrp.TabStop = false;
             this.optionsGrp.Text = "Analyze Options";
             // 
             // deselectAll
             // 
-            this.deselectAll.Location = new System.Drawing.Point(87, 247);
+            this.deselectAll.Location = new System.Drawing.Point(116, 304);
+            this.deselectAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.deselectAll.Name = "deselectAll";
-            this.deselectAll.Size = new System.Drawing.Size(75, 23);
+            this.deselectAll.Size = new System.Drawing.Size(100, 28);
             this.deselectAll.TabIndex = 3;
             this.deselectAll.Text = "Deselect All";
             this.deselectAll.UseVisualStyleBackColor = true;
@@ -278,9 +302,10 @@
             // 
             // selectAll
             // 
-            this.selectAll.Location = new System.Drawing.Point(6, 247);
+            this.selectAll.Location = new System.Drawing.Point(8, 304);
+            this.selectAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.selectAll.Name = "selectAll";
-            this.selectAll.Size = new System.Drawing.Size(75, 23);
+            this.selectAll.Size = new System.Drawing.Size(100, 28);
             this.selectAll.TabIndex = 2;
             this.selectAll.Text = "Select All";
             this.selectAll.UseVisualStyleBackColor = true;
@@ -290,23 +315,25 @@
             // 
             this.optionsPanel.AutoScroll = true;
             this.optionsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.optionsPanel.Location = new System.Drawing.Point(3, 16);
+            this.optionsPanel.Location = new System.Drawing.Point(4, 19);
+            this.optionsPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.optionsPanel.Name = "optionsPanel";
-            this.optionsPanel.Size = new System.Drawing.Size(435, 225);
+            this.optionsPanel.Size = new System.Drawing.Size(580, 277);
             this.optionsPanel.TabIndex = 0;
             // 
             // CreateEditResearchWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancel;
-            this.ClientSize = new System.Drawing.Size(870, 432);
+            this.ClientSize = new System.Drawing.Size(1162, 533);
             this.Controls.Add(this.optionsGrp);
             this.Controls.Add(this.parametersGrp);
             this.Controls.Add(this.generalGrp);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.create);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CreateEditResearchWindow";

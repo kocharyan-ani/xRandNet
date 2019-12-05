@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandNetLab"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" SizeChanged="Window_SizeChanged" WindowState="Maximized" Background="#F0F0F0">
+        Title="xRandNetLab" Height="755" Width="1280" SizeChanged="Window_SizeChanged" Background="#F0F0F0" Icon="Icons/lab.ico" WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600">
     <Window.Resources>
         <Style TargetType="Button" x:Key="ButtonStyle">
             <Setter Property="Height" Value="23"></Setter>
@@ -14,19 +14,16 @@
             <Setter Property="Padding" Value="10, 0"></Setter>
             <Setter Property="Margin" Value="10"></Setter>
         </Style>
-
         <Style TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="HorizontalContentAlignment" Value="Left" />
         </Style>
     </Window.Resources>
-
     <Grid Name="mainGrid" Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="0.8*"></RowDefinition>
             <RowDefinition Height="45"></RowDefinition>
         </Grid.RowDefinitions>
-        
         <!--Menu-->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -37,20 +34,17 @@
                 <MenuItem Name ="FileMenuItem" Header="File">
                     <MenuItem Name ="CreateResearchMenuItem" Header="Create Research">
                         <MenuItem Name ="BasicMenuItem" Header="Basic"  Click="BasicMenuItem_Click"></MenuItem>
-                        <MenuItem Name ="EvolutionMenuItem" Header="Evolution" Click="EvolutionMenuItem_Click"></MenuItem>
-                        <MenuItem Name ="CollectionMenuItem" Header="Collection" Click="CollectionMenuItem_Click"></MenuItem>
-                        <MenuItem Name ="StructuralMenuItem" Header="Structural" Click="StructuralMenuItem_Click"></MenuItem>
-                        <MenuItem Name="ActivationMenuItem" Header="Activation" Click="ActivationMenuItem_Click"></MenuItem>
+                        <MenuItem Name ="EvolutionMenuItem" Header="Evolution" Click="EvolutionMenuItem_Click" IsEnabled="False"/>
+                        <MenuItem Name="ActivationMenuItem" Header="Activation" Click="ActivationMenuItem_Click" IsEnabled="False"></MenuItem>
                     </MenuItem>
-                    <MenuItem Name ="SettingsMenuItem" Header="Settings" Click="Settings_Click"></MenuItem>
+                    <MenuItem Name ="SettingsMenuItem" Header="Settings" Click="SettingsMenuItem_Click"></MenuItem>
                     <MenuItem Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click" ></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Analyze Options"></MenuItem>
                 <MenuItem Header="Help"></MenuItem>
             </Menu>
         </Grid>
-       
-        <!--Research List And Canvas-->
+        <!--Canvas-->
         <Grid Name ="Grid2" Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="12"></ColumnDefinition>
@@ -59,69 +53,24 @@
                 <ColumnDefinition Width="10"></ColumnDefinition>
                 <ColumnDefinition Width="200"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-
-                    
             <Border Grid.Column="1"  BorderThickness="1" BorderBrush="Black" Grid.ColumnSpan="2">
                 <Grid  Name ="ListViewResearch" Grid.Column="0" Background="#ABABAB">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="75"></RowDefinition>
-                        <RowDefinition Height="0.8*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Border></Border>
-                    <ListView Name="ResearchListView" Grid.Row="0" Background="#ABABAB" BorderThickness="0">
-                        <ListView.View>
-                            <GridView AllowsColumnReorder="False" >
-                                <GridViewColumn Width="100" DisplayMemberBinding="{Binding ResearchType}">Research</GridViewColumn>
-                                <GridViewColumn Width="100" DisplayMemberBinding="{Binding Name}">Name</GridViewColumn>
-                                <GridViewColumn Width="100" DisplayMemberBinding="{Binding Model}">Model</GridViewColumn>
-                                <GridView.ColumnHeaderContainerStyle>
-                                    <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
-                                        <Setter Property="IsHitTestVisible" Value="False"/>
-                                    </Style>
-                                </GridView.ColumnHeaderContainerStyle>
-                            </GridView>
-                        </ListView.View>
-
-                        <ListView.ContextMenu>
-                            <ContextMenu Name = "CreateEditResearchContext"  Background="WhiteSmoke">
-                                <MenuItem Name ="CreateResearchContextMenu" Header="Create Research">
-                                    <MenuItem Name ="BasicContext" Header="Basic"  Click="BasicContext_Click"></MenuItem>
-                                    <MenuItem Name ="EvolutionContext" Header="Evolution" Click="EvolutionContext_Click"></MenuItem>
-                                    <MenuItem Name ="CollectionContext" Header="Collection" Click="CollectionContext_Click"></MenuItem>
-                                    <MenuItem Name ="StructuralContext" Header="Structural" Click="StructuralContext_Click"></MenuItem>
-                                    <MenuItem Name="ActivationContext" Header="Activation" Click="ActivationContext_Click"></MenuItem>
-                                </MenuItem>
-                                <MenuItem Name="EditResearchContextMenu" Header="Edit Research" Click="EditResearchContextMenu_Click" IsEnabled="False"/>
-                            </ContextMenu>
-                        </ListView.ContextMenu>
-
-                        <ListView.Resources>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <Setter Property="Foreground" Value="Black"></Setter>
-                            </Style>
-                        </ListView.Resources>
-                    </ListView>
-
                     <Canvas Name="mainCanvas" Grid.Row="1" Visibility="Visible" Background="#ABABAB">
                         <Canvas.ContextMenu>
                             <ContextMenu Name="CreateEditResearchContextCanvas"  Background="WhiteSmoke">
                                 <MenuItem Name ="CreateResearchContextMenuCanvas" Header="Create Research">
-                                    <MenuItem Name ="BasicContextCanvas" Header="Basic"  Click="BasicContext_Click"></MenuItem>
-                                    <MenuItem Name ="EvolutionContextCanvas" Header="Evolution" Click="EvolutionContext_Click"></MenuItem>
-                                    <MenuItem Name ="CollectionContextCanvas" Header="Collection" Click="CollectionContext_Click"></MenuItem>
-                                    <MenuItem Name ="StructuralContextCanvas" Header="Structural" Click="StructuralContext_Click"></MenuItem>
-                                    <MenuItem Name="ActivationContextCanvas" Header="Activation" Click="ActivationContext_Click"></MenuItem>
+                                    <MenuItem Name ="BasicContextCanvas" Header="Basic"  Click="BasicMenuItem_Click"></MenuItem>
+                                    <MenuItem Name ="EvolutionContextCanvas" Header="Evolution" Click="EvolutionMenuItem_Click" IsEnabled="False"></MenuItem>
+                                    <MenuItem Name="ActivationContextCanvas" Header="Activation" Click="ActivationMenuItem_Click" IsEnabled="False"></MenuItem>
                                 </MenuItem>
-                                <MenuItem Name="EditResearchContextMenuCanvas" Header="Edit Research" Click="EditResearchContextMenu_Click" IsEnabled="False"/>
                             </ContextMenu>
                         </Canvas.ContextMenu>
                     </Canvas>
                 </Grid>
             </Border>
-
-            <GroupBox   Grid.Column="4" Name="Parameters"  Header ="Parameters" >
+            <GroupBox   Grid.Column="4" Name="Parameters" BorderThickness="0">
                 <Border Grid.Column="4" BorderThickness="0.7" BorderBrush="Black">
-                    <DataGrid  Name="ParametersGrid" Background="#ABABAB" HeadersVisibility="All" ColumnWidth="*" IsReadOnly="True" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False">
+                    <DataGrid  Name="ParametersGrid" Background="#ABABAB" HeadersVisibility="Column" ColumnWidth="*" IsReadOnly="True" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" BorderThickness="0">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
                             <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}" />
@@ -129,7 +78,6 @@
                     </DataGrid>
                 </Border>
             </GroupBox>
-
         </Grid>
         <!--Buttons-->
         <Grid Name ="Buttons" Grid.Column="1" Grid.Row="3">
@@ -141,7 +89,6 @@
                 <ColumnDefinition Width="100"></ColumnDefinition>
                 <ColumnDefinition Width="100"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-
             <Button Name ="Start" Grid.Column="0" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False">Start</Button>
             <Button Name ="Initial" Grid.Column="1"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Initial_Click">Initial</Button>
             <Button Name ="Final" Grid.Column="2"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Final_Click">Final</Button>
@@ -150,5 +97,4 @@
             <Button Name ="Save" Grid.Column="5"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click">Save</Button>
         </Grid>
     </Grid>
-
 </Window>

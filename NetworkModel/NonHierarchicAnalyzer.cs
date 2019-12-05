@@ -5,8 +5,6 @@ using System.Diagnostics;
 
 using Core;
 using Core.Model;
-using Core.Enumerations;
-using RandomNumberGeneration;
 using NetworkModel.Engines;
 
 namespace NetworkModel
@@ -227,7 +225,10 @@ namespace NetworkModel
                         }
                     }
                 }
-                result.Add(1.0 / (double)far[i]);
+                if (far[i] != 0)
+                {
+                    result.Add(1.0 / (double)far[i]);
+                }
             }
 
             return result;

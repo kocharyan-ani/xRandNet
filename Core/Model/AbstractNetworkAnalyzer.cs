@@ -404,7 +404,7 @@ namespace Core.Model
         /// <summary>
         /// Calculates betweenness centralities for each vertex.
         /// </summary>
-        /// <returns>List of closeness centralities.</returns>
+        /// <returns>List of betweenness centralities.</returns>
         protected virtual List<Double> CalculateBetweennessCentrality()
         {
             throw new NotImplementedException();

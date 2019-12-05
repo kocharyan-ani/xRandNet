@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-using Core;
-using Core.Result;
 using Core.Enumerations;
 using Session;
 using Session.StatEngine;
@@ -26,9 +20,11 @@ namespace RandNetStat
         {
             researches = r;
             options = o;
-
+            statisticResults = new StatisticResult(researches);
             InitializeComponent();
         }
+
+        #region Event Handlers
 
         private void GlobalOptionsWindow_Load(Object sender, EventArgs e)
         {
@@ -45,12 +41,11 @@ namespace RandNetStat
                 StatSessionManager.LoadResearchResult(id);
 
             // TODO optimize
-            StatisticResult st = new StatisticResult(researches);
             foreach (AnalyzeOption o in options)
             {
-                st.CalculateGlobalOption(o);
-                if (st.EnsembleResultsAvg[0].Result.ContainsKey(o))
-                    valuesGrd.Rows.Add(o.ToString(), st.EnsembleResultsAvg[0].Result[o].ToString());
+                statisticResults.CalculateGlobalOption(o);
+                if (statisticResults.EnsembleResultsAvg[0].Result.ContainsKey(o))
+                    valuesGrd.Rows.Add(o.ToString(), statisticResults.EnsembleResultsAvg[0].Result[o].ToString());
             }
             if (valuesGrd.Rows.Count == 0)
                 MessageBox.Show("None of checked options is calculated for selected researches.", "Information");
@@ -61,12 +56,6 @@ namespace RandNetStat
             Close();
         }
 
-        private void save_Click(Object sender, EventArgs e)
-        {
-            if (locationDlg.ShowDialog() == DialogResult.OK)
-            {
-                //t.SaveChartToPng(locationDlg.SelectedPath);
-            }
-        }
+        #endregion
     }
 }

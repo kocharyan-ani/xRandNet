@@ -100,7 +100,7 @@ namespace Session
 
         public string GetFilePath()
         {
-            return research.Storage.GetFileName(research.ResearchID, research.ResearchName);
+            return research.ResearchFileName; //Storage.GetFileName(research.ResearchID, research.ResearchName);
         }
 
         public bool IsCompleted()

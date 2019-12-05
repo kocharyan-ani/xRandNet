@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 
 using Core.Model;
 using NetworkModel.HierarchicEngine;
@@ -176,6 +175,19 @@ namespace NonRegularHierarchicModel
 
         public override bool AreConnected(int v1, int v2)
         {
+            Debug.Assert(v1 >= 0 && v1 < Size, "First vertex is out of range!");
+            Debug.Assert(v2 >= 0 && v2 < Size, "Second vertex is out of range!");
+            if (v1 == v2)
+            {
+                return false;
+            }
+            if (v2 < v1)
+            {
+                int temp = v2;
+                v2 = v1;
+                v1 = temp;
+            }
+
             return (this[v1, v2] == 1);
         }
 
@@ -629,7 +641,7 @@ namespace NonRegularHierarchicModel
 
                 int branchSize = branches[currentLevel][numberOfGroup1];
                 BitArray currentNode = TreeNode(currentLevel, numberOfGroup1);
-                int index = AdjacentIndex(branchSize, v1, v2);
+                int index = AdjacentIndex(branchSize, v1 % branchSize, v2 % branchSize);
                 return Convert.ToInt32(currentNode[index]);
             }
         }        

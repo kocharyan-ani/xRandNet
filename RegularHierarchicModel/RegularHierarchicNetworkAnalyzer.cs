@@ -2,13 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Numerics;
-using System.Diagnostics;
 
 using Core;
 using Core.Model;
-using NetworkModel;
 using NetworkModel.HierarchicEngine;
 
 namespace RegularHierarchicModel
