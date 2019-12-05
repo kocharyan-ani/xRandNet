@@ -26,7 +26,7 @@ namespace RandNetLab
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {        
+    {
         private int stepNumber = -1;
         private AbstractDraw draw;
 
@@ -76,12 +76,15 @@ namespace RandNetLab
                 Start.Content = "Stop";
                 stepNumber = -1;
                 draw = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), mainCanvas);
-                               
+
                 Initial.IsEnabled = true;
                 Final.IsEnabled = true;
                 Next.IsEnabled = true;
                 Previous.IsEnabled = true;
                 Save.IsEnabled = true;
+                
+                DrawFinal();
+
             }
             else
             {
@@ -92,16 +95,15 @@ namespace RandNetLab
                 Next.IsEnabled = false;
                 Previous.IsEnabled = false;
                 Save.IsEnabled = false;
+                mainCanvas.Children.Clear();
             }
-
-            mainCanvas.Children.Clear();
         }
 
         private void Initial_Click(object sender, RoutedEventArgs e)
         {
             stepNumber = 0;
             mainCanvas.Children.Clear();
-            draw.DrawInitial();            
+            draw.DrawInitial();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -129,9 +131,7 @@ namespace RandNetLab
 
         private void Final_Click(object sender, RoutedEventArgs e)
         {
-            stepNumber = LabSessionManager.GetFinalStepNumber();
-            mainCanvas.Children.Clear();
-            draw.DrawFinal();
+            DrawFinal();
         }
 
         private void Next_Click(object sender, RoutedEventArgs e)
@@ -198,8 +198,10 @@ namespace RandNetLab
                 {
                     pngEncoder.Save(fs);
                 }
-            }            
+            }
         }
+
+
 
         #endregion
 
@@ -283,6 +285,14 @@ namespace RandNetLab
                 }
             }
         }
+
+        private void DrawFinal()
+        {
+            stepNumber = LabSessionManager.GetFinalStepNumber();
+            mainCanvas.Children.Clear();
+            draw.DrawFinal();
+        }
+
 
         #endregion
     }
