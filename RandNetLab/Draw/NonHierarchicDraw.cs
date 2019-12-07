@@ -79,7 +79,7 @@ namespace Draw
         {
             DrawInitial();
            
-            for (int i = 0; i < edgesBySteps.Count; ++i)
+            for (int i = 1; i < edgesBySteps.Count; ++i)
             {
                 DrawNext(i);
             }
@@ -88,6 +88,10 @@ namespace Draw
         public override void DrawNext(int stepNumber)
         {
             List<EdgesAddedOrRemoved> edges = edgesBySteps[stepNumber];
+            if (edges == null)
+            {
+                return;
+            }
             for (int i = 0; i < edges.Count; i++)
             {
                 if (edges[i].Added)
@@ -104,6 +108,10 @@ namespace Draw
         public override void DrawPrevious(int stepNumber)
         {
             List<EdgesAddedOrRemoved> edges = edgesBySteps[stepNumber];
+            if (edges == null)
+            {
+                return;
+            }
             for (int i = 0; i < edges.Count; i++)
             {
                 if (edges[i].Added)

@@ -23,7 +23,7 @@ namespace Draw
 
         protected override void GetNetwork()
         {
-            int stepCount = LabSessionManager.GetFinalStepNumber();
+            int stepCount = LabSessionManager.GetStepCount();
         
             try
             {

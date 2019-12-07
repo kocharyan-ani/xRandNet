@@ -88,6 +88,8 @@
                 <ColumnDefinition Width="100"></ColumnDefinition>
                 <ColumnDefinition Width="100"></ColumnDefinition>
                 <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="150*"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button Name ="Start" Grid.Column="0" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False">Start</Button>
             <Button Name ="Initial" Grid.Column="1"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Initial_Click">Initial</Button>
@@ -95,6 +97,9 @@
             <Button Name ="Next" Grid.Column="3"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Next_Click">Next</Button>
             <Button Name ="Previous" Grid.Column="4"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click">Previous</Button>
             <Button Name ="Save" Grid.Column="5"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click">Save</Button>
+            <TextBlock Grid.Column="6" HorizontalAlignment="Right" Text="Step Number" Height="23" Width="75"/>
+            <TextBox Name="TextBoxStepNumber" Grid.Column="7" HorizontalAlignment="Center" Height="23" Width="75"></TextBox>
+            
         </Grid>
     </Grid>
 </Window>

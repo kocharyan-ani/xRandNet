@@ -218,31 +218,9 @@ namespace Session
            return steps[stepNumber];
         }
 
-        public static int GetFinalStepNumber()
+        public static int GetStepCount()
         {
-            switch (existingResearch.ModelType)
-            {
-                case ModelType.ER:
-                    return steps.Count;
-                case ModelType.BA:
-                    return steps.Count - 1;
-                case ModelType.WS:
-                    return steps.Count - 1;
-                default:
-                    return steps.Count;
-            }
-        }
-
-        public static int GetFirstStepNumber()
-        {
-            if (existingResearch.ModelType == ModelType.ER)
-            {
-                return 0;
-            }
-            else
-            {
-                return 1;
-            }
+            return steps.Count;
         }
     }
 }

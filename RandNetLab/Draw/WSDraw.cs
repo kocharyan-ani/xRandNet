@@ -19,14 +19,12 @@ namespace Draw
     {
         public int StepCount { get; }
         public int Edges { get; }
-        private Point centralPoint;
         private List<EdgesAddedOrRemoved> initialNetwork;
 
         public WSDraw(Canvas mainCanvas) : base(mainCanvas)
         {
             StepCount = (int)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.StepCount];
             Edges = (int)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.Edges];
-            centralPoint = new Point(MainCanvas.ActualWidth / 2, MainCanvas.ActualHeight / 2);
 
             LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability, (int)StepCount, (int)Edges);
             GetNetwork();
@@ -34,11 +32,14 @@ namespace Draw
 
         protected override void GetNetwork()
         {
+            edgesBySteps.Add(LabSessionManager.GetStep(StepCount));
+            
             for (int i = 0; i < StepCount; ++i)
             {
                 edgesBySteps.Add(LabSessionManager.GetStep(i));
             }
-            initialNetwork = LabSessionManager.GetStep(StepCount);
+            
+            initialNetwork = edgesBySteps[0];
         }
 
         public override void DrawInitial()
@@ -61,26 +62,12 @@ namespace Draw
 
         public override void DrawNext(int stepNumber)
         {
-            if (stepNumber < StepCount)
-            {
-                base.DrawNext(stepNumber);
-            }
-            else
-            {
-                throw new System.IndexOutOfRangeException();
-            }
+            base.DrawNext(stepNumber);
         }
 
         public override void DrawPrevious(int stepNumber)
         {
-            if (stepNumber < StepCount)
-            {
-                base.DrawPrevious(stepNumber);
-            }
-            else
-            {
-                throw new System.IndexOutOfRangeException();
-            }
+            base.DrawPrevious(stepNumber);
         }
 
         protected override void AddEdge(EdgesAddedOrRemoved edge)

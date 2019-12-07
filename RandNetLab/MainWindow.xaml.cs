@@ -14,20 +14,13 @@ namespace RandNetLab
         public string Value { get; set; }
     }
 
-    public struct ResearchToDrawStruct
-    {
-        public string Name { get; set; }
-        public string Model { get; set; }
-        public string ResearchType { get; set; }
-        public string DrawStatus { get; set; }
-    }
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int stepNumber = -1;
+        private int stepNumber = 0;
+        private int stepCount = 0;
         private AbstractDraw draw;
 
         private System.Windows.Forms.FolderBrowserDialog locationDlg = new System.Windows.Forms.FolderBrowserDialog();
@@ -35,6 +28,7 @@ namespace RandNetLab
         public MainWindow()
         {
             InitializeComponent();
+            TextBoxStepNumber.Text = "0";
         }
 
         #region Event Handlers
@@ -74,15 +68,17 @@ namespace RandNetLab
             if (Start.Content.ToString() == "Start")
             {
                 Start.Content = "Stop";
-                stepNumber = -1;
+                stepNumber = 0;
+                
                 draw = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), mainCanvas);
+                stepCount = LabSessionManager.GetStepCount();
 
                 Initial.IsEnabled = true;
                 Final.IsEnabled = true;
                 Next.IsEnabled = true;
                 Previous.IsEnabled = true;
                 Save.IsEnabled = true;
-                
+
                 DrawFinal();
 
             }
@@ -96,25 +92,33 @@ namespace RandNetLab
                 Previous.IsEnabled = false;
                 Save.IsEnabled = false;
                 mainCanvas.Children.Clear();
+
+                TextBoxStepNumber.Text = "0";
             }
         }
 
         private void Initial_Click(object sender, RoutedEventArgs e)
         {
-            stepNumber = 0;
+            stepNumber = 1;
+            TextBoxStepNumber.Text = stepNumber.ToString();
             mainCanvas.Children.Clear();
             draw.DrawInitial();
+
+            Initial.IsEnabled = false;
+            Final.IsEnabled = true;
+            Next.IsEnabled = true;
+            Previous.IsEnabled = false;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (draw != null)
             {
-                if (stepNumber == 0)
+                if (stepNumber == 1)
                 {
                     draw.DrawInitial();
                 }
-                else if (stepNumber == LabSessionManager.GetFinalStepNumber())
+                else if (stepNumber == stepCount)
                 {
                     draw.DrawFinal();
                 }
@@ -134,50 +138,57 @@ namespace RandNetLab
             DrawFinal();
         }
 
+        private void DrawFinal()
+        {
+            stepNumber = LabSessionManager.GetStepCount();
+            mainCanvas.Children.Clear();
+            draw.DrawFinal();
+            TextBoxStepNumber.Text = stepNumber.ToString();
+
+            Next.IsEnabled = false;
+            Previous.IsEnabled = true;
+            Initial.IsEnabled = true;
+            Final.IsEnabled = false;
+        }
+
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            // TODO change try/catch logic to if/else logic
-            try
+            if (stepNumber == stepCount - 1)
             {
-                if (stepNumber == -1)
-                {
-                    draw.DrawInitial();
-                }
-
-                draw.DrawNext(stepNumber);
-                stepNumber++;
+                Next.IsEnabled = false;
+                Final.IsEnabled = false;
             }
-            catch (System.ArgumentOutOfRangeException)
+            else if (stepNumber == stepCount)
             {
-                stepNumber = LabSessionManager.GetFinalStepNumber();
-                MessageBox.Show("No more steps");
+                return;
             }
 
-            catch (System.IndexOutOfRangeException)
-            {
-                stepNumber = LabSessionManager.GetFinalStepNumber();
-                MessageBox.Show("No more steps");
-            }
+            Previous.IsEnabled = true;
+            Initial.IsEnabled = true;
+
+            draw.DrawNext(stepNumber);
+            stepNumber++;
+            TextBoxStepNumber.Text = stepNumber.ToString();
         }
 
         private void Previous_Click(object sender, RoutedEventArgs e)
         {
-            // TODO change try/catch logic to if/else logic
-            try
+            if (stepNumber == 2)
             {
-                stepNumber--;
-                draw.DrawPrevious(stepNumber);
+                Previous.IsEnabled = false;
+                Initial.IsEnabled = false;
             }
-            catch (System.ArgumentOutOfRangeException)
+            else if (stepNumber == 1)
             {
-                stepNumber = 0;
-                MessageBox.Show("No more steps");
+                return;
             }
-            catch (System.IndexOutOfRangeException)
-            {
-                stepNumber = 0;
-                MessageBox.Show("No more steps");
-            }
+
+            Next.IsEnabled = true;
+            Final.IsEnabled = true;
+            
+            stepNumber--;
+            draw.DrawPrevious(stepNumber);
+            TextBoxStepNumber.Text = stepNumber.ToString();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -200,8 +211,6 @@ namespace RandNetLab
                 }
             }
         }
-
-
 
         #endregion
 
@@ -285,15 +294,6 @@ namespace RandNetLab
                 }
             }
         }
-
-        private void DrawFinal()
-        {
-            stepNumber = LabSessionManager.GetFinalStepNumber();
-            mainCanvas.Children.Clear();
-            draw.DrawFinal();
-        }
-
-
         #endregion
     }
 }

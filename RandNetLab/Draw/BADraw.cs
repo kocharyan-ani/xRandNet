@@ -40,19 +40,21 @@ namespace Draw
 
         protected override void GetNetwork()
         {
+            edgesBySteps.Add(LabSessionManager.GetStep(StepCount));
+            
             for (int i = 0; i < StepCount; i++)
             {
                 edgesBySteps.Add(LabSessionManager.GetStep(i));
             }
 
-            initialNetwork = LabSessionManager.GetStep(StepCount);
+            initialNetwork = edgesBySteps[0];
         }
 
         public override void DrawInitial()
         {
             MainCanvas.Children.Clear();
             DrawVertices();
-            
+
             for (int i = 0; i < initialNetwork.Count; i++)
             {
                 if (initialNetwork[i].Added)
@@ -68,38 +70,22 @@ namespace Draw
 
         public override void DrawNext(int stepNumber)
         {
-            if (stepNumber < StepCount)
-            {
-                int vertexNumber = (int)InitialVertexCount + stepNumber + 1;
-                DrawVertex(vertexNumber);
-                MakeVertexGray(vertexNumber - 1);
-                base.DrawNext(stepNumber);
-            }
-            else
-            {
-                throw new System.IndexOutOfRangeException();
-            }
-
+            int vertexNumber = (int)InitialVertexCount + stepNumber;
+            DrawVertex(vertexNumber);
+            MakeVertexGray(vertexNumber - 1);
+            base.DrawNext(stepNumber);
         }
 
         public override void DrawPrevious(int stepNumber)
         {
-            if (stepNumber >= 0)
+            int vertexNumber = (int)InitialVertexCount + stepNumber;
+            base.DrawPrevious(stepNumber);
+            RemoveVertex(vertexNumber);
+            if (vertexNumber != Vertices.Length)
             {
-                int vertexNumber = (int)InitialVertexCount + stepNumber + 1;
-                base.DrawPrevious(stepNumber);
-                RemoveVertex(vertexNumber);
-                if (vertexNumber != Vertices.Length)
-                {
-                    MakeVertexRed(vertexNumber - 1);
-                }
-            }
-            else
-            {
-                throw new System.IndexOutOfRangeException();
+                MakeVertexRed(vertexNumber - 1);
             }
         }
-
 
         protected override void AddEdge(EdgesAddedOrRemoved edge)
         {
@@ -136,11 +122,11 @@ namespace Draw
 
             int x;
             int y;
-            
+
             if(vertexNumber >= Vertices.Length + VerticesAddedToCanvas.Count + 1)
             {
                 // If vertex appears at first time , generate random coordinamtes to place it
-               
+
                 x = rand.Next(0, (int)MainCanvas.ActualWidth);
                 y = rand.Next(0, (int)MainCanvas.ActualHeight);
                 addedVertexPoints[vertexNumber - InitialVertexCount - 1] = new Point()
@@ -163,7 +149,7 @@ namespace Draw
                 Fill = Brushes.Red
 
             };
- 
+
             VerticesAddedToCanvas.Add(vertex);
             MainCanvas.Children.Add(vertex);
 

@@ -410,7 +410,6 @@ namespace Core
         {
             List<List<EdgesAddedOrRemoved>> edges = new List<List<EdgesAddedOrRemoved>>();
             int edgesCount = 0;
-            int step = 0;
 
             if (fromBA)
             {
@@ -419,6 +418,10 @@ namespace Core
                 {
                     degrees.Add(0);
                 }
+            }
+            else 
+            {
+                edges.Add(null);
             }
             List<EdgesAddedOrRemoved> stepList = new List<EdgesAddedOrRemoved>();
             Random rand = new Random(DateTime.Now.Millisecond);
@@ -436,7 +439,6 @@ namespace Core
                                 edges.Add(stepList);
                                 stepList = new List<EdgesAddedOrRemoved>();
                                 edgesCount = 0;
-                                step++;
                             }
                         }
                         else
