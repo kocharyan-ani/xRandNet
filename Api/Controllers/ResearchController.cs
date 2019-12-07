@@ -51,7 +51,7 @@ namespace Api.Controllers
                 Thread.Sleep(300);
             }
 
-            return manager.GetFilePath() + ".xml";
+            return manager.GetFilePath();
         }
 
         [HttpGet]
