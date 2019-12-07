@@ -75,7 +75,7 @@ namespace RandNetLab
 
                 Initial.IsEnabled = true;
                 Final.IsEnabled = true;
-                Next.IsEnabled = true;
+                Next.IsEnabled = false;
                 Previous.IsEnabled = true;
                 Save.IsEnabled = true;
 
@@ -135,6 +135,8 @@ namespace RandNetLab
 
         private void Final_Click(object sender, RoutedEventArgs e)
         {
+            Previous.IsEnabled = true;
+            Next.IsEnabled = false;
             DrawFinal();
         }
 
