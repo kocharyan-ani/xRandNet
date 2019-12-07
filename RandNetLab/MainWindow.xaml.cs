@@ -79,7 +79,7 @@ namespace RandNetLab
 
                 Initial.IsEnabled = true;
                 Final.IsEnabled = true;
-                Next.IsEnabled = true;
+                Next.IsEnabled = false;
                 Previous.IsEnabled = true;
                 Save.IsEnabled = true;
                 
@@ -101,6 +101,8 @@ namespace RandNetLab
 
         private void Initial_Click(object sender, RoutedEventArgs e)
         {
+            Next.IsEnabled = true;
+            Previous.IsEnabled = false;
             stepNumber = 0;
             mainCanvas.Children.Clear();
             draw.DrawInitial();
@@ -131,53 +133,40 @@ namespace RandNetLab
 
         private void Final_Click(object sender, RoutedEventArgs e)
         {
+            Previous.IsEnabled = true;
+            Next.IsEnabled = false;
             DrawFinal();
         }
 
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            // TODO change try/catch logic to if/else logic
-            try
+            if (stepNumber == -1)
             {
-                if (stepNumber == -1)
-                {
-                    draw.DrawInitial();
-                }
-
-                draw.DrawNext(stepNumber);
-                stepNumber++;
-            }
-            catch (System.ArgumentOutOfRangeException)
-            {
-                stepNumber = LabSessionManager.GetFinalStepNumber();
-                MessageBox.Show("No more steps");
+                // should never get here
+                Next.IsEnabled = false;
+                Previous.IsEnabled = true;
+                draw.DrawInitial();
+                return;
             }
 
-            catch (System.IndexOutOfRangeException)
+            Previous.IsEnabled = true;
+            if(stepNumber == LabSessionManager.GetFinalStepNumber() - 1)
             {
-                stepNumber = LabSessionManager.GetFinalStepNumber();
-                MessageBox.Show("No more steps");
+                Next.IsEnabled = false;
             }
+            draw.DrawNext(stepNumber);
+            stepNumber++;
         }
 
         private void Previous_Click(object sender, RoutedEventArgs e)
         {
-            // TODO change try/catch logic to if/else logic
-            try
+            Next.IsEnabled = true;
+            stepNumber--;
+            if(stepNumber == 0)
             {
-                stepNumber--;
-                draw.DrawPrevious(stepNumber);
+                Previous.IsEnabled = false;
             }
-            catch (System.ArgumentOutOfRangeException)
-            {
-                stepNumber = 0;
-                MessageBox.Show("No more steps");
-            }
-            catch (System.IndexOutOfRangeException)
-            {
-                stepNumber = 0;
-                MessageBox.Show("No more steps");
-            }
+            draw.DrawPrevious(stepNumber);
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)

@@ -12,6 +12,7 @@ namespace RandNetLab
 {
     public partial class CreateResearchWindow : Window
     {
+        private const int MAX_VERTEX_COUNT = 50;
         private ResearchType researchType;
 
         public CreateResearchWindow(ResearchType rt)
@@ -62,7 +63,10 @@ namespace RandNetLab
             {
                 LabSessionManager.CreateResearch(researchType);
                 SetGeneralValues();
-                SetParameterValues();
+                if (!SetParameterValues())
+                {
+                    return;
+                }
                 SetAnalyzeOptionsValues();
                 DialogResult = true;
                 Close();
@@ -117,6 +121,11 @@ namespace RandNetLab
                     if (paramName.Equals("Probability") && !((double)value >= 0 && (double)value <= 1))
                     {
                         MessageBox.Show(paramName + " parameter value must be rational number between 0 and 1.", "Error");
+                        return false;
+                    }
+                    if(paramName.Equals("Vertices") && (int)value > MAX_VERTEX_COUNT)
+                    {
+                        MessageBox.Show("Maximum number of vertices is " + MAX_VERTEX_COUNT);
                         return false;
                     }
                     LabSessionManager.SetGenerationParameterValue(gp, value);
