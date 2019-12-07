@@ -16,12 +16,12 @@ namespace ConnectedHierarchicModel
     /// </summary>
     class ConnectedHierarchicGenerator : AbstractNetworkGenerator
     {
-        private NonHierarchicContainer container = new NonHierarchicContainer();
+        private ConnectedHierarchicContainer container = new ConnectedHierarchicContainer();
 
         public override INetworkContainer Container
         {
             get { return container; }
-            set { container = (NonHierarchicContainer)value; }
+            set { container = (ConnectedHierarchicContainer)value; }
         }
 
         public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam)

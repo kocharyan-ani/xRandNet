@@ -12,7 +12,7 @@ namespace RegularHierarchicModel
     /// <summary>
     /// Implementation of regularly branching block-hierarchic network's container.
     /// </summary>
-    class RegularHierarchicNetworkContainer : AbstractHierarchicContainer
+    class RegularHierarchicNetworkContainer : AbstractNetworkContainer
     {
         public override Int32 Size
         {

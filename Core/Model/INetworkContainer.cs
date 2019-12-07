@@ -45,6 +45,13 @@ namespace Core.Model
         List<KeyValuePair<int, int>> GetNeighbourship();
 
         /// <summary>
+        /// Gets branches for the graph.
+        /// </summary>
+        /// <returns>Branches by levels.</returns>
+        /// <remarks>Only for hierarchic models is available.</remarks>
+        List<List<int>> GetBranches();
+
+        /// <summary>
         /// Set active states for network vertices.
         /// </summary>
         /// <param name="act"></param>

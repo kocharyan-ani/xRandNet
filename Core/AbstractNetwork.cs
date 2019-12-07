@@ -231,8 +231,7 @@ namespace Core
                 {
                     MatrixInfoToWrite matrixInfo = new MatrixInfoToWrite();
                     matrixInfo.Matrix = networkGenerator.Container.GetMatrix();
-                    if (networkGenerator.Container is AbstractHierarchicContainer)
-                        matrixInfo.Branches = (networkGenerator.Container as AbstractHierarchicContainer).GetBranches();
+                    matrixInfo.Branches = networkGenerator.Container.GetBranches();
                     matrixInfo.ActiveStates = (networkGenerator.Container as AbstractNetworkContainer).GetActiveStatuses();
 
                     FileManager.Write(tracingDirectory, matrixInfo, tracingPath);
@@ -241,8 +240,7 @@ namespace Core
                 {
                     NeighbourshipInfoToWrite neighbourshipInfo = new NeighbourshipInfoToWrite();
                     neighbourshipInfo.Neighbourship = networkGenerator.Container.GetNeighbourship();
-                    if (networkGenerator.Container is AbstractHierarchicContainer)
-                        neighbourshipInfo.Branches = (networkGenerator.Container as AbstractHierarchicContainer).GetBranches();
+                    neighbourshipInfo.Branches = networkGenerator.Container.GetBranches();
                     neighbourshipInfo.ActiveStates = (networkGenerator.Container as AbstractNetworkContainer).GetActiveStatuses();
 
                     FileManager.Write(tracingDirectory, neighbourshipInfo, tracingPath);
@@ -268,13 +266,13 @@ namespace Core
 
         private bool TracingIsNotSupported()
         {
-            bool support = false;
-            if (networkGenerator.Container is AbstractHierarchicContainer)
-            {
-                networkAnalyzer.Container = networkGenerator.Container;
-                support = (networkAnalyzer.CalculateEdgesCount() > 10000000);
-            }
-            else support = (networkGenerator.Container.Size > 30000);
+            bool support = networkGenerator.Container.Size > 30000;
+            //if (networkGenerator.Container is AbstractHierarchicContainer)
+            //{
+            //    networkAnalyzer.Container = networkGenerator.Container;
+            //    support = (networkAnalyzer.CalculateEdgesCount() > 10000000);
+            //}
+            //else support = (networkGenerator.Container.Size > 30000);
 
             if (support)
             {
