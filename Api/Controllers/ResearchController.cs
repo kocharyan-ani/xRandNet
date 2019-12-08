@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Web.Http;
+using static Core.Enumerations.StorageType;
 using AnalyzeOption = Core.Enumerations.AnalyzeOption;
 
 namespace Api.Controllers
@@ -51,7 +52,7 @@ namespace Api.Controllers
                 Thread.Sleep(300);
             }
 
-            return manager.GetFilePath();
+            return manager.GetFilePath() + GetFileExtension(research.storage);
         }
 
         [HttpGet]
@@ -73,6 +74,21 @@ namespace Api.Controllers
             return response;
         }
 
+        private static string GetFileExtension(string storage)
+        {
+            switch (GetType<StorageType>(storage))
+            {
+                case ExcelStorage:
+                return ".xls";
+                case XMLStorage:
+                    return ".xml";
+                case TXTStorage:
+                    return "";
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
         private static T GetType<T>(string name)
         {
             return (T)Enum.Parse(typeof(T), name);
