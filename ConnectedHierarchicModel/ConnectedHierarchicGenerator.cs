@@ -38,6 +38,8 @@ namespace ConnectedHierarchicModel
                 throw new InvalidGenerationParameters();
 
             container.Size = (Int32)Math.Pow(branchingIndex, level);
+            container.Level = level;
+            container.BranchingIndex = branchingIndex;
 
             int nodeDataLength = (branchingIndex - 1) * branchingIndex / 2;
             long levelDataLength;
