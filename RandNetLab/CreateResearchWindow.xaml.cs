@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
+using System.Globalization;
 
 using Core.Attributes;
 using Core.Enumerations;
 using Session;
+
 
 namespace RandNetLab
 {
@@ -117,7 +119,7 @@ namespace RandNetLab
                     paramType = info[0].Type;
                     String paramValue = ((TextBox)ParametersStackPanelValue.Children[i]).Text;
 
-                    object value = Convert.ChangeType(paramValue, paramType);
+                    object value = Convert.ChangeType(paramValue, paramType,CultureInfo.InvariantCulture);
                     if (paramName.Equals("Probability") && !((double)value >= 0 && (double)value <= 1))
                     {
                         MessageBox.Show(paramName + " parameter value must be rational number between 0 and 1.", "Error");

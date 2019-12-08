@@ -48,7 +48,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.RowSpan="2" Margin="71,0,0,0">
                     <TextBlock Margin="3" VerticalAlignment="Center">Model Type:</TextBlock>
-                    <ComboBox SelectedIndex="0" Height="20" Width="120" Name="ModelTypeComboBox" SelectionChanged="ModelTypeComboBox_SelectionChanged">
+                    <ComboBox SelectedIndex="0" Height="20" Width="205" Name="ModelTypeComboBox" SelectionChanged="ModelTypeComboBox_SelectionChanged">
                     </ComboBox>
                 </StackPanel>
             </Grid>
