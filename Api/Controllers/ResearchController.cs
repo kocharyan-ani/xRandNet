@@ -3,11 +3,13 @@ using Core.Enumerations;
 using Session;
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Web.Http;
+using Core.Settings;
 using static Core.Enumerations.StorageType;
 using AnalyzeOption = Core.Enumerations.AnalyzeOption;
 
@@ -15,9 +17,15 @@ namespace Api.Controllers
 {
     public class ResearchController : ApiController
     {
+        private const string DefaultDirectory = "xRandNet";
+
         [HttpPost]
+        [ActionName("Start")]
         public string Index([FromBody] Research research)
         {
+            // @todo should be replaced
+            RandNetSettings.ChangeDefaultDirectory(DefaultDirectory);
+
             var manager = new WebSessionManager();
             manager.CreateResearch(research.research);
             manager.SetResearchName(research.name);
@@ -56,11 +64,38 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [ActionName("Download")]
         public HttpResponseMessage Download([FromUri] string path)
+        {
+            return GetFileResponse(GetFullDirectory(path), path);
+        }
+        
+        [HttpGet]
+        [ActionName("DownloadFolder")]
+        public HttpResponseMessage DownloadFolder([FromUri] string path)
+        {
+            const string zipExtension = ".zip";
+            var fileName = path + zipExtension;
+            var folderDirectory = GetFullDirectory(path);
+            var fileDirectory = folderDirectory + zipExtension;
+            ZipFile.CreateFromDirectory(folderDirectory, fileDirectory);
+
+            var response = GetFileResponse(fileDirectory, fileName);
+            File.Delete(fileDirectory);
+
+            return response;
+        }
+
+        private static string GetFullDirectory(string path)
+        {
+            return DefaultDirectory + "/Results/" + path;
+        }
+
+        private static HttpResponseMessage GetFileResponse(string directory, string name)
         {
             var stream = new MemoryStream();
 
-            using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (var file = new FileStream(directory, FileMode.Open, FileAccess.Read))
             {
                 var bytes = new byte[file.Length];
                 file.Read(bytes, 0, (int)file.Length);
@@ -69,7 +104,7 @@ namespace Api.Controllers
             
             stream.Seek(0, SeekOrigin.Begin);
             var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = path };
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = name };
 
             return response;
         }

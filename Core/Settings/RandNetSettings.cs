@@ -283,5 +283,10 @@ namespace Core.Settings
         {
             InitializeLogging("");
         }
+
+        public static void ChangeDefaultDirectory(string newDirectory)
+        {
+            defaultDirectory = newDirectory;
+        }
     }
 }
