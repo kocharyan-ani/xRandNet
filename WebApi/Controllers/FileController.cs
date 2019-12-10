@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.IO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
+using WebApi.DB;
+using File = WebApi.Models.File;
 
 namespace WebApi.Controllers
 {
@@ -15,22 +11,19 @@ namespace WebApi.Controllers
     [ApiController]
     public class FileController : Controller
     {
-        private DB.DBManager dbManager;
+        public DBManager _dbManager { get; }
 
-        public FileController()
+        public FileController(DBManager dbManager)
         {
-            this.dbManager = new DB.DBManager();
+            _dbManager = dbManager;
         }
 
         [HttpGet]
         [Route("downloadApp")]
         public ActionResult<byte[]> DownloadApp(string version)
         {
-            Models.App app = this.dbManager.GetApp(version);
-            if (app.File == null)
-            {
-                return NotFound();
-            }
+            var app = _dbManager.GetApp(version);
+            if (app.File == null) return NotFound();
 
             return File(app.File.Data, app.File.MimeType, app.File.Name);
         }
@@ -39,60 +32,61 @@ namespace WebApi.Controllers
         [Route("uploadApp")]
         public ActionResult UploadApp()
         {
-            FormFile formFile = (FormFile)Request.Form.Files[0];
-            Stream stream = formFile.OpenReadStream();
+            var formFile = (FormFile) Request.Form.Files[0];
+            var stream = formFile.OpenReadStream();
             byte[] data = null;
             using (var memoryStream = new MemoryStream())
             {
                 stream.CopyTo(memoryStream);
                 data = memoryStream.ToArray();
             }
-            if (data == null)
-            {
-                return BadRequest();
-            }
-            Models.File file = new Models.File();
+
+            if (data == null) return BadRequest();
+            var file = new File();
             file.Name = formFile.FileName;
             file.MimeType = formFile.ContentType;
             file.Data = data;
-            this.dbManager.SetUserManual(file);
+            _dbManager.SetUserManual(file);
             return Ok();
         }
 
         [HttpGet]
         [Route("userManual")]
+        [Authorize]
         public ActionResult<byte[]> DownloadUserManual()
         {
-            Models.File usermanualFile = this.dbManager.GetUserManual();
-            if (usermanualFile == null)
-            {
-                return NotFound();
-            }
+            var usermanualFile = _dbManager.GetUserManual();
+            if (usermanualFile == null) return NotFound();
 
             return File(usermanualFile.Data, usermanualFile.MimeType, usermanualFile.Name);
+        }
+
+        [HttpGet]
+        [Route("test")]
+        public ActionResult<string> test()
+        {
+            return "";
         }
 
         [HttpPost]
         [Route("userManual")]
         public ActionResult UploadUserManual()
         {
-            FormFile formFile = (FormFile)Request.Form.Files[0];
-            Stream stream = formFile.OpenReadStream();
+            var formFile = (FormFile) Request.Form.Files[0];
+            var stream = formFile.OpenReadStream();
             byte[] data = null;
             using (var memoryStream = new MemoryStream())
             {
                 stream.CopyTo(memoryStream);
                 data = memoryStream.ToArray();
             }
-            if (data == null)
-            {
-                return BadRequest();
-            }
-            Models.File file = new Models.File();
+
+            if (data == null) return BadRequest();
+            var file = new File();
             file.Name = formFile.FileName;
             file.MimeType = formFile.ContentType;
             file.Data = data;
-            this.dbManager.SetUserManual(file);
+            _dbManager.SetUserManual(file);
             return Ok();
         }
     }
