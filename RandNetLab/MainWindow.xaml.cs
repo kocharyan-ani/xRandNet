@@ -5,6 +5,8 @@ using System.Windows.Media.Imaging;
 using Session;
 using Core.Enumerations;
 using Draw;
+using System;
+using System.Windows.Controls;
 
 namespace RandNetLab
 {
@@ -36,6 +38,7 @@ namespace RandNetLab
         private void BasicMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ShowCreateResearchDialog(ResearchType.Basic);
+            AddAnalizeOptionsList();
         }
 
         private void EvolutionMenuItem_Click(object sender, RoutedEventArgs e)
@@ -293,6 +296,24 @@ namespace RandNetLab
                 if (value != null)
                 {
                     ParametersGrid.Items.Add(new ModelParameterStruct { Name = key.ToString(), Value = value.ToString() });
+                }
+            }
+        }
+
+        private void AddAnalizeOptionsList()
+        {
+            AnalyzeOptionsMenuItem.Items.Clear();
+            AnalyzeOption options = LabSessionManager.GetAvailableAnalyzeOptions(LabSessionManager.GetResearchType(), LabSessionManager.GetResearchModelType());
+            for (int i = 0; i < Enum.GetNames(typeof(AnalyzeOption)).Length; ++i)
+            {
+                int k = (int)options & (1 << i);
+                if (k != 0)
+                {
+                    CheckBox option = new CheckBox()
+                    {
+                        Content = ((AnalyzeOption)k).ToString()
+                    };
+                    AnalyzeOptionsMenuItem.Items.Add(option);
                 }
             }
         }

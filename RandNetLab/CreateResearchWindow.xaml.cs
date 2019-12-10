@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Core.Attributes;
 using Core.Enumerations;
 using Session;
+using System.Linq;
 
 namespace RandNetLab
 {

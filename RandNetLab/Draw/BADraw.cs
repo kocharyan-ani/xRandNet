@@ -99,6 +99,10 @@ namespace Draw
             }
             else
             {
+                // ModelType = BA, VertexCount = 5, Edges = 10, Probability = 0.1, StepCount = 10
+                // Cashes here. IndexOutOfBounds Exception
+                // Vertex1 = 5, InitialVertexCount = 5
+                // Crashes on master also.
                 edgeElem.X1 = addedVertexPoints[edge.Vertex1 - InitialVertexCount - 1].X;
                 edgeElem.Y1 = addedVertexPoints[edge.Vertex1 - InitialVertexCount - 1].Y;
             }
