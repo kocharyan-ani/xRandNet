@@ -7,7 +7,7 @@
   <ItemGroup>
     <Folder Include="Models/" />
     <Folder Include="Controllers/" />
-    <Folder Include="DB/" />
+    <Folder Include="Database/" />
   </ItemGroup>
 
   <ItemGroup>

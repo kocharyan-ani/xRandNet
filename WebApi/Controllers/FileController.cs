@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.DB;
+using WebApi.Database;
 using File = WebApi.Models.File;
 
 namespace WebApi.Controllers
@@ -11,18 +11,18 @@ namespace WebApi.Controllers
     [ApiController]
     public class FileController : Controller
     {
-        public DBManager _dbManager { get; }
+        public DbManager dbManager { get; }
 
-        public FileController(DBManager dbManager)
+        public FileController(DbManager dbManager)
         {
-            _dbManager = dbManager;
+            this.dbManager = dbManager;
         }
 
         [HttpGet]
         [Route("downloadApp")]
         public ActionResult<byte[]> DownloadApp(string version)
         {
-            var app = _dbManager.GetApp(version);
+            var app = dbManager.GetApp(version);
             if (app.File == null) return NotFound();
 
             return File(app.File.Data, app.File.MimeType, app.File.Name);
@@ -46,7 +46,7 @@ namespace WebApi.Controllers
             file.Name = formFile.FileName;
             file.MimeType = formFile.ContentType;
             file.Data = data;
-            _dbManager.SetUserManual(file);
+            dbManager.SetUserManual(file);
             return Ok();
         }
 
@@ -55,7 +55,7 @@ namespace WebApi.Controllers
         [Authorize]
         public ActionResult<byte[]> DownloadUserManual()
         {
-            var usermanualFile = _dbManager.GetUserManual();
+            var usermanualFile = dbManager.GetUserManual();
             if (usermanualFile == null) return NotFound();
 
             return File(usermanualFile.Data, usermanualFile.MimeType, usermanualFile.Name);
@@ -86,7 +86,7 @@ namespace WebApi.Controllers
             file.Name = formFile.FileName;
             file.MimeType = formFile.ContentType;
             file.Data = data;
-            _dbManager.SetUserManual(file);
+            dbManager.SetUserManual(file);
             return Ok();
         }
     }

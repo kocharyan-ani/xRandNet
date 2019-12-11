@@ -2,16 +2,31 @@
 using MySql.Data.MySqlClient;
 using WebApi.Models;
 
-namespace WebApi.DB
+namespace WebApi.Database
 
 {
-    public class DBManager
+    public class DbManager
     {
-        private readonly MySqlConnection connection;
+        private readonly MySqlConnection _connection;
 
-        public DBManager(string connectionString)
+        public DbManager(string connectionString)
         {
-            connection = new MySqlConnection(connectionString);
+            _connection = new MySqlConnection(connectionString);
+        }
+
+        public string GetSecretKey()
+        {
+            const string query = @"SELECT jwtSecretKey FROM auth";
+            using (_connection)
+            {
+                if (_connection.State == ConnectionState.Closed)
+                    _connection.Open();
+                var cmd = new MySqlCommand(query, _connection);
+                var reader = cmd.ExecuteReader();
+                if (!reader.Read()) return null;
+                var jwtSecretKey = (string) reader["jwtSecretKey"];
+                return jwtSecretKey;
+            }
         }
 
         public User GetUser(Credentials credentials)
@@ -21,11 +36,11 @@ namespace WebApi.DB
             FROM users
             WHERE username = @username AND password = @password
             ";
-            using (connection)
+            using (_connection)
             {
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                var cmd = new MySqlCommand(query, connection);
+                if (_connection.State == ConnectionState.Closed)
+                    _connection.Open();
+                var cmd = new MySqlCommand(query, _connection);
                 cmd.Parameters.AddWithValue("@username", credentials.Username);
                 cmd.Parameters.AddWithValue("@password", credentials.Password);
                 var reader = cmd.ExecuteReader();
@@ -45,12 +60,12 @@ namespace WebApi.DB
             FROM files 
             WHERE type='UserManualFile' 
             LIMIT 1";
-            connection.Open();
-            using (connection)
+            _connection.Open();
+            using (_connection)
             {
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                var cmd = new MySqlCommand(query, connection);
+                if (_connection.State == ConnectionState.Closed)
+                    _connection.Open();
+                var cmd = new MySqlCommand(query, _connection);
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
@@ -74,17 +89,17 @@ namespace WebApi.DB
             FROM files 
             WHERE type='UserManualFile' 
             LIMIT 1";
-            using (connection)
+            using (_connection)
             {
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                var cmd = new MySqlCommand(query, connection);
+                if (_connection.State == ConnectionState.Closed)
+                    _connection.Open();
+                var cmd = new MySqlCommand(query, _connection);
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
                     reader.Close();
                     query = "UPDATE files SET data=@data,name=@name,mimeType=@mimeType WHERE type='UserManualFile' ";
-                    cmd = new MySqlCommand(query, connection);
+                    cmd = new MySqlCommand(query, _connection);
                     cmd.CommandText = query;
                     cmd.Parameters.Add("@data", MySqlDbType.Blob).Value = file.Data;
                     cmd.Parameters.AddWithValue("@name", file.Name);
@@ -96,7 +111,7 @@ namespace WebApi.DB
                     reader.Close();
                     query = @"INSERT INTO files (name, downloadId, mimeType, type, data)
                               VALUES (@name, @downloadId, @mimeType, @type, @data)";
-                    cmd = new MySqlCommand(query, connection);
+                    cmd = new MySqlCommand(query, _connection);
                     cmd.CommandText = query;
                     cmd.Parameters.Add("@data", MySqlDbType.Blob).Value = file.Data;
                     cmd.Parameters.AddWithValue("@name", file.Name);
@@ -111,16 +126,16 @@ namespace WebApi.DB
         public App GetApp(string version)
         {
             var app = new App();
-            using (connection)
+            using (_connection)
             {
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
+                if (_connection.State == ConnectionState.Closed)
+                    _connection.Open();
                 var query =
                     "SELECT a.id, f.id as fileId, version, releaseNotes, name, downloadId, mimeType, type, data " +
                     "FROM app as a " +
                     "JOIN files as f ON a.fileId = f.id " +
                     "WHERE version = '1.0.0' AND type = 'AppFile' LIMIT 1";
-                var cmd = new MySqlCommand(query, connection);
+                var cmd = new MySqlCommand(query, _connection);
                 cmd.Parameters.AddWithValue("@version", version);
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
@@ -141,6 +156,6 @@ namespace WebApi.DB
             return app;
         }
 
-        public void Dispose() => connection.Dispose();
+        public void Dispose() => _connection.Dispose();
     }
 }

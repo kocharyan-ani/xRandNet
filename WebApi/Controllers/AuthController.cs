@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using WebApi.DB;
+using WebApi.Database;
 using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi.Controllers
 {
@@ -14,42 +9,31 @@ namespace WebApi.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private JwtSecurityTokenHandler _jwtSecurityTokenHandler = null;
-        public DBManager _dbManager { get; }
+        private DbManager dbManager { get; }
+        private AuthService authService { get; }
 
-        public AuthController(DBManager dbManager)
+        public AuthController(DbManager dbManager, AuthService authService)
         {
-            _dbManager = dbManager;
-            _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            this.dbManager = dbManager;
+            this.authService = authService;
         }
 
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody] Credentials credentials)
         {
-            if (credentials == null)
+            if (credentials?.Username == null || credentials.Password == null)
             {
-                return BadRequest("Invalid credentials");
+                return BadRequest(new {message = "Invalid credentials"});
             }
-            var user = _dbManager.GetUser(credentials);
-            if (user != null)
-            {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-                var tokeOptions = new JwtSecurityToken(
-                    "http://localhost:8080",
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(5),
-                    signingCredentials: signinCredentials
-                );
-
-                var tokenString = _jwtSecurityTokenHandler.WriteToken(tokeOptions);
-                return Ok(new {Token = tokenString});
-            }
-            else
+            var user = authService.Authenticate(credentials);
+            if (user == null)
             {
-                return Unauthorized();
+                return BadRequest(new {message = "Username or password is incorrect"});
             }
+
+            user.Credentials.Password = null;
+            return Ok(user);
         }
     }
 }
