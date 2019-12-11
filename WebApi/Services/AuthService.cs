@@ -11,17 +11,17 @@ namespace WebApi.Services
     public class AuthService
     {
         public string JwtSecretKey { get; set; }
-        private DbManager dbManager { get; set; }
+        private DbManager DbManager { get; set; }
 
         public AuthService(string jwtSecretKey, DbManager dbManager)
         {
             JwtSecretKey = jwtSecretKey;
-            this.dbManager = dbManager;
+            DbManager = dbManager;
         }
 
-        public User Authenticate(Credentials credentials)
+        public User Authenticate(CredentialsForLoginDto credentials)
         {
-            var user = dbManager.GetUser(credentials);
+            var user = DbManager.GetUser(credentials);
 
             if (user == null)
                 return null;

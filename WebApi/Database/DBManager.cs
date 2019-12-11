@@ -29,7 +29,7 @@ namespace WebApi.Database
             }
         }
 
-        public User GetUser(Credentials credentials)
+        public User GetUser(CredentialsForLoginDto credentials)
         {
             const string query = @"
             SELECT * 
@@ -48,13 +48,12 @@ namespace WebApi.Database
                 var firstName = (string) reader["firstName"];
                 var lastName = (string) reader["lastName"];
                 var isAdmin = (bool) reader["isAdmin"];
-                return new User(firstName, lastName, credentials, isAdmin);
+                return new User(firstName, lastName, credentials.Username, credentials.Password, isAdmin);
             }
         }
 
         public File GetUserManual()
         {
-            File file = null;
             const string query = @"
             SELECT * 
             FROM files 
@@ -67,19 +66,17 @@ namespace WebApi.Database
                     _connection.Open();
                 var cmd = new MySqlCommand(query, _connection);
                 var reader = cmd.ExecuteReader();
-                if (reader.Read())
+                if (!reader.Read()) return null;
+                return new File
                 {
-                    file = new File();
-                    file.Id = (int) reader["id"];
-                    file.Name = reader["name"].ToString();
-                    file.Data = (byte[]) reader["data"];
-                    file.Type = reader["type"].ToString();
-                    file.DownloadId = reader["downloadId"].ToString();
-                    file.MimeType = reader["mimeType"].ToString();
-                }
+                    Id = (int) reader["id"],
+                    Name = reader["name"].ToString(),
+                    Data = (byte[]) reader["data"],
+                    Type = reader["type"].ToString(),
+                    DownloadId = reader["downloadId"].ToString(),
+                    MimeType = reader["mimeType"].ToString()
+                };
             }
-
-            return file;
         }
 
         public void SetUserManual(File file)
@@ -125,7 +122,6 @@ namespace WebApi.Database
 
         public App GetApp(string version)
         {
-            var app = new App();
             using (_connection)
             {
                 if (_connection.State == ConnectionState.Closed)
@@ -138,22 +134,23 @@ namespace WebApi.Database
                 var cmd = new MySqlCommand(query, _connection);
                 cmd.Parameters.AddWithValue("@version", version);
                 var reader = cmd.ExecuteReader();
-                if (reader.Read())
+                if (!reader.Read()) return null;
+                return new App
                 {
-                    app.File = new File();
-                    app.File.Id = (int) reader["fileId"];
-                    app.File.Name = reader["name"].ToString();
-                    app.File.Data = (byte[]) reader["data"];
-                    app.File.Type = reader["type"].ToString();
-                    app.File.DownloadId = reader["downloadId"].ToString();
-                    app.File.MimeType = reader["mimeType"].ToString();
-                    app.Version = version;
-                    app.Id = (int) reader["id"];
-                    app.ReleaseNotes = (string) reader["releaseNotes"];
-                }
+                    File = new File
+                    {
+                        Id = (int) reader["fileId"],
+                        Name = reader["name"].ToString(),
+                        Data = (byte[]) reader["data"],
+                        Type = reader["type"].ToString(),
+                        DownloadId = reader["downloadId"].ToString(),
+                        MimeType = reader["mimeType"].ToString()
+                    },
+                    Version = version,
+                    Id = (int) reader["id"],
+                    ReleaseNotes = (string) reader["releaseNotes"]
+                };
             }
-
-            return app;
         }
 
         public void Dispose() => _connection.Dispose();

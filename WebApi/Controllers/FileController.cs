@@ -11,18 +11,18 @@ namespace WebApi.Controllers
     [ApiController]
     public class FileController : Controller
     {
-        public DbManager dbManager { get; }
+        public DbManager DbManager { get; }
 
         public FileController(DbManager dbManager)
         {
-            this.dbManager = dbManager;
+            DbManager = dbManager;
         }
 
         [HttpGet]
         [Route("downloadApp")]
         public ActionResult<byte[]> DownloadApp(string version)
         {
-            var app = dbManager.GetApp(version);
+            var app = DbManager.GetApp(version);
             if (app.File == null) return NotFound();
 
             return File(app.File.Data, app.File.MimeType, app.File.Name);
@@ -42,11 +42,8 @@ namespace WebApi.Controllers
             }
 
             if (data == null) return BadRequest();
-            var file = new File();
-            file.Name = formFile.FileName;
-            file.MimeType = formFile.ContentType;
-            file.Data = data;
-            dbManager.SetUserManual(file);
+            var file = new File {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
+            DbManager.SetUserManual(file);
             return Ok();
         }
 
@@ -55,10 +52,10 @@ namespace WebApi.Controllers
         [Authorize]
         public ActionResult<byte[]> DownloadUserManual()
         {
-            var usermanualFile = dbManager.GetUserManual();
-            if (usermanualFile == null) return NotFound();
+            var userManualFile = DbManager.GetUserManual();
+            if (userManualFile == null) return NotFound();
 
-            return File(usermanualFile.Data, usermanualFile.MimeType, usermanualFile.Name);
+            return File(userManualFile.Data, userManualFile.MimeType, userManualFile.Name);
         }
 
         [HttpGet]
@@ -82,11 +79,8 @@ namespace WebApi.Controllers
             }
 
             if (data == null) return BadRequest();
-            var file = new File();
-            file.Name = formFile.FileName;
-            file.MimeType = formFile.ContentType;
-            file.Data = data;
-            dbManager.SetUserManual(file);
+            var file = new File {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
+            DbManager.SetUserManual(file);
             return Ok();
         }
     }
