@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectedHierarchicContainer.cs" />
     <Compile Include="ConnectedHierarchicGenerator.cs" />
     <Compile Include="ConnectedHierarchicNetwork.cs" />
+    <Compile Include="ConnectedNonRegularHierarchicContainer.cs" />
     <Compile Include="ConnectedNonRegularHierarchicGenerator.cs" />
     <Compile Include="ConnectedNonRegularHierarchicNetwork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

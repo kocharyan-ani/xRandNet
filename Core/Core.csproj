@@ -109,7 +109,6 @@
     <Compile Include="Events\ResearchEventArgs.cs" />
     <Compile Include="Exceptions\CoreException.cs" />
     <Compile Include="Model\AbstractNetworkContainer.cs" />
-    <Compile Include="Model\AbstractHierarchicContainer.cs" />
     <Compile Include="Model\AbstractNetworkAnalyzer.cs" />
     <Compile Include="Model\AbstractNetworkGenerator.cs" />
     <Compile Include="Model\Eigenvalues\cMatrixLib.cs" />

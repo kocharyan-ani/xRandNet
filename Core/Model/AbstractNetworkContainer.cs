@@ -85,6 +85,16 @@ namespace Core.Model
         }
 
         /// <summary>
+        /// Gets branches for the graph.
+        /// </summary>
+        /// <returns>Branches by levels.</returns>
+        /// <remarks>Only for hierarchic models is available.</remarks>
+        public virtual List<List<int>> GetBranches()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Deep copies the network.
         /// </summary>
         /// <returns>Copy of network.</returns>

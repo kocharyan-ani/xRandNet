@@ -11,7 +11,7 @@ namespace NonRegularHierarchicModel
     /// <summary>
     /// Implementation of non regularly branching block-hierarchic network's container.
     /// </summary>
-    class NonRegularHierarchicNetworkContainer : AbstractHierarchicContainer
+    class NonRegularHierarchicNetworkContainer : AbstractNetworkContainer
     {
         public override Int32 Size
         {

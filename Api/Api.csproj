@@ -51,6 +51,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>C:\Users\Rafi\.nuget\packages\microsoft.netcore.app\2.1.0\ref\netcoreapp2.1\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>

@@ -16,12 +16,12 @@ namespace ConnectedHierarchicModel
     /// </summary>
     class ConnectedNonRegularHierarchicGenerator : AbstractNetworkGenerator
     {
-        private NonHierarchicContainer container = new NonHierarchicContainer();
+        private ConnectedNonRegularHierarchicContainer container = new ConnectedNonRegularHierarchicContainer();
 
         public override INetworkContainer Container
         {
             get { return container; }
-            set { container = (NonHierarchicContainer)value; }
+            set { container = (ConnectedNonRegularHierarchicContainer)value; }
         }
 
         public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam)
@@ -114,8 +114,10 @@ namespace ConnectedHierarchicModel
         private List<List<Tuple<int, int>>> generateBranching(int vertices, int branchingIndex)
         {
             List<List<Tuple<int,int>>> branching = new List<List<Tuple<int,int>>>();
+            List<List<int>> containerBranching = new List<List<int>>();
             Int32 subtreeCount = vertices;
             List<Tuple<int,int>> firstLevel = new List<Tuple<int, int>>();
+            containerBranching.Add(new List<int>());
             int previousNode = -1;
             while (subtreeCount != 0)
             {
@@ -124,6 +126,7 @@ namespace ConnectedHierarchicModel
                 previousNode += branchSize;
                 Tuple<int, int> newNode = new Tuple<int, int>(previousNode, previousNode);
                 firstLevel.Add(newNode);
+                containerBranching[0].Add(branchSize);
             }
             branching.Add(firstLevel);
 
@@ -132,6 +135,7 @@ namespace ConnectedHierarchicModel
             while (subtreeCount > 1)
             {
                 List<Tuple<int,int>> newLevel = new List<Tuple<int,int>>();
+                List<int> containerNewLevel = new List<int>();
                 Tuple<int, int> previous = new Tuple<int, int>(-1, -1);
                 while (subtreeCount > 1)
                 {
@@ -139,14 +143,20 @@ namespace ConnectedHierarchicModel
                     subtreeCount -= branchSize;
                     Tuple<int, int> newNode = new Tuple<int, int>(previous.Item1 + branchSize, branching[branching.Count - 1][previous.Item1 + branchSize].Item2);
                     newLevel.Add(newNode);
+                    containerNewLevel.Add(branchSize);
                     previous = newNode;
                 }
-                if(subtreeCount == 1)
+                if (subtreeCount == 1)
+                {
                     newLevel.Add(new Tuple<int, int>(previous.Item1 + 1, branching[branching.Count - 1][previous.Item1 + 1].Item2));
+                    containerNewLevel.Add(1);
+                }
                 branching.Add(newLevel);
+                containerBranching.Add(containerNewLevel);
                 subtreeCount = newLevel.Count;
             }
-            
+            containerBranching.Reverse();
+            container.Branching = containerBranching;
             return branching;
         }
         private RNGCrypto rand = new RNGCrypto();
