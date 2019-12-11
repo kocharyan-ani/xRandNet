@@ -302,6 +302,10 @@ namespace RandNetLab
 
         private void AddAnalizeOptionsList()
         {
+            if(!LabSessionManager.IsResearchCreated())
+            {
+                return;
+            }
             AnalyzeOptionsMenuItem.Items.Clear();
             AnalyzeOption options = LabSessionManager.GetAvailableAnalyzeOptions(LabSessionManager.GetResearchType(), LabSessionManager.GetResearchModelType());
             for (int i = 0; i < Enum.GetNames(typeof(AnalyzeOption)).Length; ++i)

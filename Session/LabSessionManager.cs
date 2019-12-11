@@ -36,6 +36,11 @@ namespace Session
             existingResearch = null;
         }
 
+        public static bool IsResearchCreated()
+        {
+            return existingResearch != null ? true : false;
+        }
+
         public static void StartDraw()
         {
 
