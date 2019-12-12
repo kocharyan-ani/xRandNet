@@ -52,6 +52,31 @@ namespace WebApi.Database
             }
         }
 
+        public void AddUser(User user)
+        {
+            const string query = @"
+            INSERT INTO users (firstName, lastName, password, username, isAdmin)
+            VALUES (@firstName, @lastName, @password, @username, 0)
+            ";
+            using (_connection)
+            {
+                if (_connection.State == ConnectionState.Closed)
+                    _connection.Open();
+                var cmd = new MySqlCommand(query, _connection);
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@firstName", user.FirstName);
+                cmd.Parameters.AddWithValue("@lastName", user.LastName);
+                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@username", user.Username);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public bool Exists(User user)
+        {
+            return false;
+        }
+
         public File GetUserManual()
         {
             const string query = @"

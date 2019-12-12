@@ -28,5 +28,18 @@ namespace WebApi.Controllers
             user.Password = null;
             return Ok(user);
         }
+
+        [HttpPost, Route("register")]
+        public IActionResult Register([FromBody] CredentialsForRegisterDto credentials)
+        {
+            var user = AuthService.Register(credentials);
+            if (user == null)
+            {
+                return BadRequest(new {message = "Something went wrong during registration"});
+            }
+
+            user.Password = null;
+            return Ok(user);
+        }
     }
 }

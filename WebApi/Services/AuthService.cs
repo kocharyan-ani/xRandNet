@@ -34,7 +34,7 @@ namespace WebApi.Services
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
                 Issuer = "http://xrand.net:8080",
-                Expires =  DateTime.Now.AddHours(1),
+                Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.JwtSecretKey)),
                     SecurityAlgorithms.HmacSha256Signature)
@@ -44,9 +44,32 @@ namespace WebApi.Services
             return user;
         }
 
-        public User Register(User user)
+        public User Register(CredentialsForRegisterDto credentials)
         {
-            return null;
+            var user = new User(credentials.FirstName, credentials.LastName, credentials.Username,
+                credentials.Password, false);
+            if (DbManager.Exists(user))
+            {
+                // TODO 
+                return null; 
+            }
+            DbManager.AddUser(user);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                }),
+                Issuer = "http://xrand.net:8080",
+                Expires = DateTime.Now.AddHours(1),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.JwtSecretKey)),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            user.Token = tokenHandler.WriteToken(token);
+            return user;
         }
     }
 }
