@@ -70,7 +70,7 @@ namespace Draw
 
         public override void DrawNext(int stepNumber)
         {
-            int vertexNumber = (int)InitialVertexCount + stepNumber;
+            int vertexNumber = (int)InitialVertexCount + stepNumber - 1;
             DrawVertex(vertexNumber);
             MakeVertexGray(vertexNumber - 1);
             base.DrawNext(stepNumber);
@@ -78,7 +78,7 @@ namespace Draw
 
         public override void DrawPrevious(int stepNumber)
         {
-            int vertexNumber = (int)InitialVertexCount + stepNumber;
+            int vertexNumber = (int)InitialVertexCount + stepNumber - 1;
             base.DrawPrevious(stepNumber);
             RemoveVertex(vertexNumber);
             if (vertexNumber != Vertices.Length)
@@ -103,8 +103,8 @@ namespace Draw
                 // Cashes here. IndexOutOfBounds Exception
                 // Vertex1 = 5, InitialVertexCount = 5
                 // Crashes on master also.
-                edgeElem.X1 = addedVertexPoints[edge.Vertex1 - InitialVertexCount - 1].X;
-                edgeElem.Y1 = addedVertexPoints[edge.Vertex1 - InitialVertexCount - 1].Y;
+                edgeElem.X1 = addedVertexPoints[edge.Vertex1 - InitialVertexCount].X;
+                edgeElem.Y1 = addedVertexPoints[edge.Vertex1 - InitialVertexCount].Y;
             }
             if (edge.Vertex2 < Vertices.Length)
             {
@@ -113,8 +113,8 @@ namespace Draw
             }
             else
             {
-                edgeElem.X2 = addedVertexPoints[edge.Vertex2 - InitialVertexCount - 1].X;
-                edgeElem.Y2 = addedVertexPoints[edge.Vertex2 - InitialVertexCount - 1].Y;
+                edgeElem.X2 = addedVertexPoints[edge.Vertex2 - InitialVertexCount].X;
+                edgeElem.Y2 = addedVertexPoints[edge.Vertex2 - InitialVertexCount].Y;
             }
             MainCanvas.Children.Add(edgeElem);
         }
@@ -127,13 +127,13 @@ namespace Draw
             int x;
             int y;
 
-            if(vertexNumber >= Vertices.Length + VerticesAddedToCanvas.Count + 1)
+            if(vertexNumber >= Vertices.Length + VerticesAddedToCanvas.Count)
             {
                 // If vertex appears at first time , generate random coordinamtes to place it
 
                 x = rand.Next(0, (int)MainCanvas.ActualWidth);
                 y = rand.Next(0, (int)MainCanvas.ActualHeight);
-                addedVertexPoints[vertexNumber - InitialVertexCount - 1] = new Point()
+                addedVertexPoints[vertexNumber - InitialVertexCount] = new Point()
                 {
                     X = x,
                     Y = y
@@ -141,8 +141,8 @@ namespace Draw
             }
             else
             {
-                x = (int)addedVertexPoints[vertexNumber - InitialVertexCount - 1].X;
-                y = (int)addedVertexPoints[vertexNumber - InitialVertexCount - 1].Y;
+                x = (int)addedVertexPoints[vertexNumber - InitialVertexCount].X;
+                y = (int)addedVertexPoints[vertexNumber - InitialVertexCount].Y;
             }
 
             Ellipse vertex = new Ellipse

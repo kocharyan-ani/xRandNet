@@ -380,7 +380,7 @@ namespace Core
                         double number = rand.Next(0, 100);
                         if (number <= probabilityArray[i] * 100)
                         {
-                            EdgesAddedOrRemoved edge = new EdgesAddedOrRemoved(i, initialVertices + stepNumber, true);
+                            EdgesAddedOrRemoved edge = new EdgesAddedOrRemoved(i, initialVertices + stepNumber - 1, true);
 
                             stepEdges.Add(edge);
                             if (degrees.Count == n)
