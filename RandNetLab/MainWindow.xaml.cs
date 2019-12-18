@@ -231,6 +231,7 @@ namespace RandNetLab
             if (createResearchWnd.DialogResult.HasValue && createResearchWnd.DialogResult.Value)
             {
                 Start.IsEnabled = true;
+                AnalyzeOptionsMenuItem.IsEnabled = true;
                 AddResearchToTable();
                 FillParametersTable();
             }

@@ -31,27 +31,6 @@ namespace RandNetLab
         private void ModelTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             InitializeParametersGroup();
-            InitializeAnalyzeOptionsGroup();
-        }
-
-        private void SelectAll_Button_Click(object sender, RoutedEventArgs e)
-        {
-            UIElementCollection options = AnalyzeOptionsStackPanel.Children;
-            for (int i = 0; i < options.Count; ++i)
-            {
-                CheckBox option = options[i] as CheckBox;
-                option.IsChecked = true;
-            }
-        }
-
-        private void DeselectAll_Button_Click(object sender, RoutedEventArgs e)
-        {
-            UIElementCollection options = AnalyzeOptionsStackPanel.Children;
-            for (int i = 0; i < options.Count; ++i)
-            {
-                CheckBox option = options[i] as CheckBox;
-                option.IsChecked = false;
-            }
         }
 
         private void Create_Button_Click(object sender, RoutedEventArgs e)
@@ -70,7 +49,6 @@ namespace RandNetLab
                 {
                     return;
                 }
-                SetAnalyzeOptionsValues();
                 DialogResult = true;
                 Close();
             }
@@ -154,20 +132,20 @@ namespace RandNetLab
             return true;
         }
 
-        private void SetAnalyzeOptionsValues()
-        {
-            AnalyzeOption opts = AnalyzeOption.None;
-            foreach (Control c in AnalyzeOptionsStackPanel.Children)
-            {
-                Debug.Assert(c is CheckBox);
-                CheckBox cc = c as CheckBox;
-                // TODO maybe better content and text
-                AnalyzeOption current = (AnalyzeOption)Enum.Parse(typeof(AnalyzeOption), cc.Content.ToString());
-                if (cc.IsChecked.GetValueOrDefault())
-                    opts |= current;
-            }
-            LabSessionManager.SetAnalyzeOptions(opts);
-        }        
+        //private void SetAnalyzeOptionsValues()
+        //{
+        //    AnalyzeOption opts = AnalyzeOption.None;
+        //    foreach (Control c in AnalyzeOptionsStackPanel.Children)
+        //    {
+        //        Debug.Assert(c is CheckBox);
+        //        CheckBox cc = c as CheckBox;
+        //        // TODO maybe better content and text
+        //        AnalyzeOption current = (AnalyzeOption)Enum.Parse(typeof(AnalyzeOption), cc.Content.ToString());
+        //        if (cc.IsChecked.GetValueOrDefault())
+        //            opts |= current;
+        //    }
+        //    LabSessionManager.SetAnalyzeOptions(opts);
+        //}        
 
         private void InitializeEditResearchDialog()
         {
@@ -211,25 +189,7 @@ namespace RandNetLab
                 };
                 ParametersStackPanelValue.Children.Add(pValue);
             }
-        }
-
-        private void InitializeAnalyzeOptionsGroup()
-        {
-            AnalyzeOptionsStackPanel.Children.Clear();
-            AnalyzeOption options = LabSessionManager.GetAvailableAnalyzeOptions(researchType, GetCurrentModelType());
-            for (int i = 0; i < Enum.GetNames(typeof(AnalyzeOption)).Length; ++i)
-            {
-                int k = (int)options & (1 << i);
-                if (k != 0)
-                {
-                    CheckBox option = new CheckBox()
-                    {
-                        Content = ((AnalyzeOption)k).ToString()
-                    };
-                    AnalyzeOptionsStackPanel.Children.Add(option);
-                }
-            }
-        }        
+        }       
 
         private ModelType GetCurrentModelType()
         {
