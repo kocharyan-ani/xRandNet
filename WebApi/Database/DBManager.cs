@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using WebApi.Models;
 
@@ -159,6 +160,35 @@ namespace WebApi.Database
             }
         }
 
+        public void SaveApp(App app)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query = @"INSERT INTO files (name, downloadId, mimeType, type, data)
+                              VALUES (@name, @downloadId, @mimeType, @type, @data);
+                              SELECT LAST_INSERT_ID() as id;";
+                var cmd = new MySqlCommand(query, connection) {CommandText = query};
+                cmd.Parameters.Add("@data", MySqlDbType.Blob).Value = app.File.Data;
+                cmd.Parameters.AddWithValue("@name", app.File.Name);
+                cmd.Parameters.AddWithValue("@mimeType", app.File.MimeType);
+                cmd.Parameters.AddWithValue("@downloadId", "");
+                cmd.Parameters.AddWithValue("@type", "AppFile");
+                var reader = cmd.ExecuteReader();
+                if (!reader.Read()) return;
+                var fileId = reader["id"];
+                app.File.Id = Convert.ToInt64(fileId);
+                reader.Close();
+                query = @"INSERT INTO app (version, fileId, releaseNotes) VALUES (@version, @fileId, @releaseNotes)";
+                cmd = new MySqlCommand(query, connection) {CommandText = query};
+                cmd.Parameters.AddWithValue("@version", app.Version);
+                cmd.Parameters.AddWithValue("@fileId", app.File.Id);
+                cmd.Parameters.AddWithValue("@releaseNotes", app.ReleaseNotes);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public App GetApp(string version)
         {
             var connection = new MySqlConnection(_connectionString);
@@ -169,7 +199,7 @@ namespace WebApi.Database
                     "SELECT a.id, f.id as fileId, version, releaseNotes, name, downloadId, mimeType, type, data " +
                     "FROM app as a " +
                     "JOIN files as f ON a.fileId = f.id " +
-                    "WHERE version = '1.0.0' AND type = 'AppFile' LIMIT 1";
+                    "WHERE version = @version AND type = 'AppFile' LIMIT 1";
                 var cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@version", version);
                 var reader = cmd.ExecuteReader();
