@@ -49,7 +49,6 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("userManual")]
-        [Authorize]
         public ActionResult<byte[]> DownloadUserManual()
         {
             var userManualFile = DbManager.GetUserManual();

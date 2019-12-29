@@ -1,4 +1,4 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using WebApi.Models;
 
@@ -7,21 +7,21 @@ namespace WebApi.Database
 {
     public class DbManager
     {
-        private readonly MySqlConnection _connection;
+        private readonly string _connectionString;
 
         public DbManager(string connectionString)
         {
-            _connection = new MySqlConnection(connectionString);
+            this._connectionString = connectionString;
         }
 
         public string GetSecretKey()
         {
             const string query = @"SELECT jwtSecretKey FROM auth";
-            using (_connection)
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                var cmd = new MySqlCommand(query, _connection);
+                connection.Open();
+                var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 if (!reader.Read()) return null;
                 var jwtSecretKey = (string) reader["jwtSecretKey"];
@@ -36,11 +36,11 @@ namespace WebApi.Database
             FROM users
             WHERE username = @username AND password = @password
             ";
-            using (_connection)
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                var cmd = new MySqlCommand(query, _connection);
+                connection.Open();
+                var cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@username", credentials.Username);
                 cmd.Parameters.AddWithValue("@password", credentials.Password);
                 var reader = cmd.ExecuteReader();
@@ -58,11 +58,11 @@ namespace WebApi.Database
             INSERT INTO users (firstName, lastName, password, username, isAdmin)
             VALUES (@firstName, @lastName, @password, @username, 0)
             ";
-            using (_connection)
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                var cmd = new MySqlCommand(query, _connection);
+                connection.Open();
+                var cmd = new MySqlCommand(query, connection);
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("@firstName", user.FirstName);
                 cmd.Parameters.AddWithValue("@lastName", user.LastName);
@@ -74,7 +74,22 @@ namespace WebApi.Database
 
         public bool Exists(User user)
         {
-            return false;
+            const string query = @"
+            SELECT * 
+            FROM users 
+            WHERE username = @username 
+            LIMIT 1
+            ";
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var cmd = new MySqlCommand(query, connection);
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@username", user.Username);
+                var reader = cmd.ExecuteReader();
+                return reader.Read();
+            }
         }
 
         public File GetUserManual()
@@ -84,12 +99,11 @@ namespace WebApi.Database
             FROM files 
             WHERE type='UserManualFile' 
             LIMIT 1";
-            _connection.Open();
-            using (_connection)
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                var cmd = new MySqlCommand(query, _connection);
+                connection.Open();
+                var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 if (!reader.Read()) return null;
                 return new File
@@ -111,17 +125,17 @@ namespace WebApi.Database
             FROM files 
             WHERE type='UserManualFile' 
             LIMIT 1";
-            using (_connection)
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
-                var cmd = new MySqlCommand(query, _connection);
+                connection.Open();
+                var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
                     reader.Close();
                     query = "UPDATE files SET data=@data,name=@name,mimeType=@mimeType WHERE type='UserManualFile' ";
-                    cmd = new MySqlCommand(query, _connection);
+                    cmd = new MySqlCommand(query, connection);
                     cmd.CommandText = query;
                     cmd.Parameters.Add("@data", MySqlDbType.Blob).Value = file.Data;
                     cmd.Parameters.AddWithValue("@name", file.Name);
@@ -133,7 +147,7 @@ namespace WebApi.Database
                     reader.Close();
                     query = @"INSERT INTO files (name, downloadId, mimeType, type, data)
                               VALUES (@name, @downloadId, @mimeType, @type, @data)";
-                    cmd = new MySqlCommand(query, _connection);
+                    cmd = new MySqlCommand(query, connection);
                     cmd.CommandText = query;
                     cmd.Parameters.Add("@data", MySqlDbType.Blob).Value = file.Data;
                     cmd.Parameters.AddWithValue("@name", file.Name);
@@ -147,16 +161,16 @@ namespace WebApi.Database
 
         public App GetApp(string version)
         {
-            using (_connection)
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
             {
-                if (_connection.State == ConnectionState.Closed)
-                    _connection.Open();
+                connection.Open();
                 var query =
                     "SELECT a.id, f.id as fileId, version, releaseNotes, name, downloadId, mimeType, type, data " +
                     "FROM app as a " +
                     "JOIN files as f ON a.fileId = f.id " +
                     "WHERE version = '1.0.0' AND type = 'AppFile' LIMIT 1";
-                var cmd = new MySqlCommand(query, _connection);
+                var cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@version", version);
                 var reader = cmd.ExecuteReader();
                 if (!reader.Read()) return null;
@@ -178,6 +192,57 @@ namespace WebApi.Database
             }
         }
 
-        public void Dispose() => _connection.Dispose();
+        public string GetAboutUsInfo()
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query =
+                    "SELECT content " +
+                    "FROM info " +
+                    "LIMIT 1";
+                var cmd = new MySqlCommand(query, connection);
+                var reader = cmd.ExecuteReader();
+                return !reader.Read() ? null : reader["content"].ToString();
+            }
+        }
+
+        public List<Link> GetLinks(int type)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query =
+                    "SELECT id, name, url, type " +
+                    "FROM links " +
+                    "WHERE type = @type ";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@type", type);
+                var reader = cmd.ExecuteReader();
+                List<Link> links = new List<Link>();
+                while (reader.Read())
+                {
+                    links.Add(new Link((int) reader["id"], reader["name"].ToString(),
+                        reader["url"].ToString(), (int) reader["type"]));
+                }
+
+                return links;
+            }
+        }
+
+        public void UpdateAboutUsInfo(InfoAboutUs infoAboutUs)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query = "UPDATE info set content = @content";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@content", infoAboutUs.Content);
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

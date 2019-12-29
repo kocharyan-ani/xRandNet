@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Database;
 using WebApi.Models;
@@ -35,7 +36,10 @@ namespace WebApi.Controllers
             var user = AuthService.Register(credentials);
             if (user == null)
             {
-                return BadRequest(new {message = "Something went wrong during registration"});
+                return BadRequest(new
+                {
+                    message = $"User with username '{credentials.Username}' already exists"
+                });
             }
 
             user.Password = null;

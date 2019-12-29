@@ -4,6 +4,7 @@ namespace WebApi.Models
 {
     public class User
     {
+        [JsonIgnore]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -11,6 +12,7 @@ namespace WebApi.Models
         public string Username { get; set; }
         [JsonIgnore]
         public string Password { get; set; }
+        [JsonIgnore]
         public bool IsAdmin { get; set; }
 
         public User(string firstName, string lastName, string username, string password, bool isAdmin)
