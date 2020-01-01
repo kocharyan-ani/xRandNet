@@ -262,6 +262,42 @@ namespace WebApi.Database
             }
         }
 
+        public void DeleteLink(Link link)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query =
+                    "DELETE FROM links " +
+                    "WHERE id = @id ";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@id", link.Id);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public Link AddLink(Link link)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query = @"INSERT INTO links (name, url, type)
+                       VALUES(@name, @url, @type);
+                       SELECT LAST_INSERT_ID() as id; ";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@name", link.Name);
+                cmd.Parameters.AddWithValue("@url", link.Url);
+                cmd.Parameters.AddWithValue("@type", link.Type);
+                var reader = cmd.ExecuteReader();
+                if (!reader.Read()) return null;
+                var linkId = Convert.ToInt32(reader["id"]);
+                link.Id = linkId;
+                return link;
+            }
+        }
+
         public void UpdateAboutUsInfo(InfoAboutUs infoAboutUs)
         {
             var connection = new MySqlConnection(_connectionString);
@@ -272,6 +308,25 @@ namespace WebApi.Database
                 var cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@content", infoAboutUs.Content);
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public List<App> GetAppVersions()
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query = "SELECT version, releaseNotes FROM app";
+                var cmd = new MySqlCommand(query, connection);
+                var reader = cmd.ExecuteReader();
+                var apps = new List<App>();
+                while (reader.Read())
+                {
+                    apps.Add(new App(reader["version"].ToString(), reader["releaseNotes"].ToString()));
+                }
+
+                return apps;
             }
         }
     }

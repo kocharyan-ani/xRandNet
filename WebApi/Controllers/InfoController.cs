@@ -52,5 +52,26 @@ namespace WebApi.Controllers
 
             return Ok(links);
         }
+
+        [HttpDelete]
+        [Route("links")]
+        public ActionResult<string> DeleteLinks([FromBody] Link link)
+        {
+            DbManager.DeleteLink(link);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("links")]
+        public ActionResult<string> AddLink([FromBody] Link link)
+        {
+            var linkAdded = DbManager.AddLink(link);
+            if (linkAdded == null)
+            {
+                return BadRequest("Something gone wrong. Link was not added");
+            }
+
+            return Ok(link);
+        }
     }
 }

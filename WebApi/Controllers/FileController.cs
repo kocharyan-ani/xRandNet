@@ -1,10 +1,7 @@
 ﻿using System.IO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using WebApi.Database;
-using WebApi.Models;
 using File = WebApi.Models.File;
 
 namespace WebApi.Controllers
@@ -21,38 +18,6 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("downloadApp")]
-        public ActionResult<byte[]> DownloadApp(string version)
-        {
-            var app = DbManager.GetApp(version);
-            if (app?.File == null) return NotFound();
-
-            return File(app.File.Data, app.File.MimeType, app.File.Name);
-        }
-
-        [HttpPost]
-        [Route("uploadApp")]
-        public ActionResult UploadApp()
-        {
-            var formFile = (FormFile) Request.Form.Files[0];
-            var softwareInfo = Request.Form["software"];
-            var jObject = JObject.Parse(softwareInfo);
-            var stream = formFile.OpenReadStream();
-            byte[] data = null;
-            using (var memoryStream = new MemoryStream())
-            {
-                stream.CopyTo(memoryStream);
-                data = memoryStream.ToArray();
-            }
-
-            if (data == null) return BadRequest();
-            var file = new File {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
-            var app = new App(jObject["version"].ToString(), file, jObject["releaseNotes"].ToString());
-            DbManager.SaveApp(app);
-            return Ok();
-        }
-
-        [HttpGet]
         [Route("userManual")]
         public ActionResult<byte[]> DownloadUserManual()
         {
@@ -60,13 +25,6 @@ namespace WebApi.Controllers
             if (userManualFile == null) return NotFound();
 
             return File(userManualFile.Data, userManualFile.MimeType, userManualFile.Name);
-        }
-
-        [HttpGet]
-        [Route("test")]
-        public ActionResult<string> test()
-        {
-            return "";
         }
 
         [HttpPost]
