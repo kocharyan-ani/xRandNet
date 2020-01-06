@@ -24,6 +24,7 @@ namespace WebApi.Services
 
         public User Authenticate(CredentialsForLoginDto credentials)
         {
+            credentials.Password = this.Hash(credentials.Password);
             var user = DbManager.GetUser(credentials);
 
             if (user == null)

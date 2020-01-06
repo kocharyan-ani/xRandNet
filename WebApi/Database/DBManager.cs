@@ -311,6 +311,57 @@ namespace WebApi.Database
             }
         }
 
+        public Bug SaveBug(Bug bug)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query = @"INSERT INTO bugs (description, summary, reportDate, reporter, version)
+                       VALUES(@description, @summary, @reportDate, @reporter, @version);
+                       SELECT LAST_INSERT_ID() as id; ";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@description", bug.Description);
+                cmd.Parameters.AddWithValue("@version", bug.Version);
+                cmd.Parameters.AddWithValue("@summary", bug.Summary);
+                cmd.Parameters.AddWithValue("@reportDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@reporter", bug.Reporter);
+                var reader = cmd.ExecuteReader();
+                if (!reader.Read()) return null;
+                var bugId = Convert.ToInt32(reader["id"]);
+                bug.Id = bugId;
+                return bug;
+            }
+        }
+
+        public List<Bug> GetBugs(string version)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query =
+                    "SELECT id, version, summary, description, reporter, reportDate, status " +
+                    "FROM bugs " +
+                    "WHERE version = @version ";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@version", version);
+                var reader = cmd.ExecuteReader();
+                var bugs = new List<Bug>();
+                while (reader.Read())
+                {
+                    int bugId = Convert.ToInt32(reader["id"]);
+                    string summary = reader["summary"].ToString();
+                    string description = reader["description"].ToString();
+                    string reporter = reader["reporter"].ToString();
+                    int status = Convert.ToInt32(reader["status"]);
+                    string reportDate = reader["reportDate"].ToString();
+                    bugs.Add(new Bug(bugId, summary, description, reporter, version, status, reportDate));
+                }
+                return bugs;
+            }
+        }
+
         public List<App> GetAppVersions()
         {
             var connection = new MySqlConnection(_connectionString);

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,32 @@ namespace WebApi.Controllers
         {
             var apps = DbManager.GetAppVersions();
             return Ok(apps);
+        }
+
+        [HttpGet]
+        [Route("bugs")]
+        public ActionResult<App[]> GetBugs([FromQuery] string version)
+        {
+            var bugs = DbManager.GetBugs(version);
+            if (bugs == null)
+            {
+                throw new Exception("Could not get bugs for version " + version);
+            }
+
+            return Ok(bugs);
+        }
+
+        [HttpPut]
+        [Route("bugs")]
+        public ActionResult<App[]> ReportBug(Bug bug)
+        {
+            var bugWithId = DbManager.SaveBug(bug);
+            if (bugWithId == null)
+            {
+                throw new Exception("Could not save bug");
+            }
+
+            return Ok(bugWithId);
         }
 
         [HttpGet]
