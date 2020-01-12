@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
@@ -61,7 +62,7 @@ namespace Research
         private List<AbstractResearch> subResearches = null;
         private int currentResearchIndex = -1;
 
-        public override void StartResearch()
+        public override Task StartResearch()
         {
             ValidateResearchParameters();
 
@@ -116,8 +117,10 @@ namespace Research
             if (subResearches.Count() != 0)
             {
                 ++currentResearchIndex;
-                subResearches[currentResearchIndex].StartResearch();
+                return subResearches[currentResearchIndex].StartResearch();
             }
+
+            return Task.Run(() => {});
         }
 
         private void method(Object sender, ResearchEventArgs e)

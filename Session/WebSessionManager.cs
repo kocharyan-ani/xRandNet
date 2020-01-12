@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
@@ -103,14 +104,9 @@ namespace Session
             return research.ResearchFileName;
         }
 
-        public bool IsCompleted()
+        public Task StartResearch()
         {
-            return research.StatusInfo.Status == ResearchStatus.Completed;
-        }
-
-        public void StartResearch()
-        {
-            research.StartResearch();
+            return research.StartResearch();
         }
     }
 }

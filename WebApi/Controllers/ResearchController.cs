@@ -52,8 +52,8 @@ namespace WebApi.Controllers
                     manager.SetGenerationParameterValue(gp, parameter.value);
             }
 
-            manager.StartResearch();
-
+            manager.StartResearch().Wait();
+            
             return manager.GetFilePath() + GetFileExtension(research.storage);
         }
 

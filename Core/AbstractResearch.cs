@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Threading.Tasks;
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
@@ -159,7 +159,7 @@ namespace Core
         /// <summary>
         /// Creates single EnsembleManager, runs in background thread.
         /// </summary>
-        public virtual void StartResearch()
+        public virtual Task StartResearch()
         {
             ValidateResearchParameters();
 
@@ -168,8 +168,11 @@ namespace Core
             CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                 ". Research - " + ResearchName + ". STARTED " + GetResearchType() + " RESEARCH.");
 
-            ManagerRunner r = new ManagerRunner(currentManager.Run);
-            r.BeginInvoke(new AsyncCallback(RunCompleted), null);
+            return Task.Run(() =>
+                {
+                    currentManager.Run();
+                    RunCompleted();
+                });
         }
 
         /// <summary>
@@ -208,7 +211,7 @@ namespace Core
         /// <summary>
         /// Callback method whn research running completes.
         /// </summary>
-        protected virtual void RunCompleted(IAsyncResult res)
+        protected virtual void RunCompleted()
         {
             realizationCount = currentManager.RealizationsDone;
             result.EnsembleResults.Add(currentManager.Result);
