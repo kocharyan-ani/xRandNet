@@ -51,7 +51,6 @@ namespace Session
 
         static SessionManager()
         {
-            CustomLogger.webMode = false;
             CustomLogger.Write("---------------------- SESSION MANAGER STARTED ----------------------");
             existingResearches = new Dictionary<Guid, AbstractResearch>();
         }

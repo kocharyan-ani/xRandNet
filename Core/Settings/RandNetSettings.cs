@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Microsoft.Practices.EnterpriseLibrary.Logging.Configuration;
 using Core.Exceptions;
 using Core.Enumerations;
+using Core.Utility;
 
 namespace Core.Settings
 {
@@ -17,7 +18,6 @@ namespace Core.Settings
             Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "\\xRandNet";
 
         static private Configuration config;
-        private const bool skipConfiguration = true;
 
         static private String loggingDirectory = "";        
         static private String storageDirectory = "";
@@ -31,28 +31,9 @@ namespace Core.Settings
 
         static RandNetSettings()
         {
-            if (!skipConfiguration)
+            if (!CustomLogger.WebMode)
             {
-                config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                
-                try
-                {
-                    loggingDirectory = config.AppSettings.Settings["LoggingDirectory"].Value;
-                    storageDirectory = config.AppSettings.Settings["StorageDirectory"].Value;
-                    tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
-                    tracingType = (TracingType)Enum.Parse(typeof(TracingType),
-                        config.AppSettings.Settings["Tracingtype"].Value);
-                    workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
-                        config.AppSettings.Settings["WorkingMode"].Value);
-                    staticGenerationDirectory = config.AppSettings.Settings["StaticGenerationDirectory"].Value;
-                    matrixConvertionToolDirectory = config.AppSettings.Settings["MatrixConvertionToolDirectory"].Value;
-                    modelCheckingToolDirectory = config.AppSettings.Settings["ModelCheckingToolDirectory"].Value;
-                    dataConvertionToolDirectory = config.AppSettings.Settings["DataConvertionToolDirectory"].Value;
-                }
-                catch
-                {
-                    throw new CoreException("The structure of Configuration file is not correct.");
-                }   
+                SetConfiguration();
             }
         }
 
@@ -283,6 +264,30 @@ namespace Core.Settings
         public static void ChangeDefaultDirectory(string newDirectory)
         {
             defaultDirectory = newDirectory;
+        }
+
+        private static void SetConfiguration()
+        {
+            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                
+            try
+            {
+                loggingDirectory = config.AppSettings.Settings["LoggingDirectory"].Value;
+                storageDirectory = config.AppSettings.Settings["StorageDirectory"].Value;
+                tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
+                tracingType = (TracingType)Enum.Parse(typeof(TracingType),
+                    config.AppSettings.Settings["Tracingtype"].Value);
+                workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
+                    config.AppSettings.Settings["WorkingMode"].Value);
+                staticGenerationDirectory = config.AppSettings.Settings["StaticGenerationDirectory"].Value;
+                matrixConvertionToolDirectory = config.AppSettings.Settings["MatrixConvertionToolDirectory"].Value;
+                modelCheckingToolDirectory = config.AppSettings.Settings["ModelCheckingToolDirectory"].Value;
+                dataConvertionToolDirectory = config.AppSettings.Settings["DataConvertionToolDirectory"].Value;
+            }
+            catch
+            {
+                throw new CoreException("The structure of Configuration file is not correct.");
+            }
         }
     }
 }

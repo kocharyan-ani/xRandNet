@@ -6,11 +6,11 @@ namespace Core.Utility
 {
     public static class CustomLogger
     {
-        public static bool webMode = false;
+        public static bool WebMode = false;
 
         public static void Write(object message)
         {
-            if (webMode)
+            if (WebMode)
             {
                 Console.WriteLine(message);
             } else
