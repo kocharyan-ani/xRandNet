@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Logging;
+﻿using System;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 using System.Web;
 
 namespace Core.Utility
@@ -11,7 +12,7 @@ namespace Core.Utility
         {
             if (webMode)
             {
-                System.Diagnostics.Debug.WriteLine(message);
+                Console.WriteLine(message);
             } else
             {
                 Logger.Write(message);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
-using System.Web;
 using Core.Enumerations;
 using Core.Exceptions;
 
@@ -24,15 +23,8 @@ namespace Core.Settings
 
         static RandNetStatSettings()
         {
-            if (HttpContext.Current != null)
-            {
-                config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-            }
-            else
-            {
-                config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            }
-
+            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+              
             try
             {
                 storageType = (StorageType)Enum.Parse(typeof(StorageType),

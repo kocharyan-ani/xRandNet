@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 using System.Configuration;
 using System.IO;
 using System.Diagnostics;
@@ -18,45 +17,42 @@ namespace Core.Settings
             Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "\\xRandNet";
 
         static private Configuration config;
+        private const bool skipConfiguration = true;
 
-        static private String loggingDirectory;        
-        static private String storageDirectory;
-        static private String tracingDirectory;
+        static private String loggingDirectory = "";        
+        static private String storageDirectory = "";
+        static private String tracingDirectory = "";
         static private TracingType tracingType;
         static private ManagerType workingMode;
-        static private String staticGenerationDirectory;
-        static private String matrixConvertionToolDirectory;
-        static private String modelCheckingToolDirectory;
-        static private String dataConvertionToolDirectory;
+        static private String staticGenerationDirectory = "";
+        static private String matrixConvertionToolDirectory = "";
+        static private String modelCheckingToolDirectory = "";
+        static private String dataConvertionToolDirectory = "";
 
         static RandNetSettings()
         {
-            if (HttpContext.Current != null)
-            {
-                config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-            }
-            else
+            if (!skipConfiguration)
             {
                 config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            }
-
-            try
-            {
-                loggingDirectory = config.AppSettings.Settings["LoggingDirectory"].Value;
-                storageDirectory = config.AppSettings.Settings["StorageDirectory"].Value;
-                tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
-                tracingType = (TracingType)Enum.Parse(typeof(TracingType),
-                    config.AppSettings.Settings["Tracingtype"].Value);
-                workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
-                    config.AppSettings.Settings["WorkingMode"].Value);
-                staticGenerationDirectory = config.AppSettings.Settings["StaticGenerationDirectory"].Value;
-                matrixConvertionToolDirectory = config.AppSettings.Settings["MatrixConvertionToolDirectory"].Value;
-                modelCheckingToolDirectory = config.AppSettings.Settings["ModelCheckingToolDirectory"].Value;
-                dataConvertionToolDirectory = config.AppSettings.Settings["DataConvertionToolDirectory"].Value;
-            }
-            catch
-            {
-                throw new CoreException("The structure of Configuration file is not correct.");
+                
+                try
+                {
+                    loggingDirectory = config.AppSettings.Settings["LoggingDirectory"].Value;
+                    storageDirectory = config.AppSettings.Settings["StorageDirectory"].Value;
+                    tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
+                    tracingType = (TracingType)Enum.Parse(typeof(TracingType),
+                        config.AppSettings.Settings["Tracingtype"].Value);
+                    workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
+                        config.AppSettings.Settings["WorkingMode"].Value);
+                    staticGenerationDirectory = config.AppSettings.Settings["StaticGenerationDirectory"].Value;
+                    matrixConvertionToolDirectory = config.AppSettings.Settings["MatrixConvertionToolDirectory"].Value;
+                    modelCheckingToolDirectory = config.AppSettings.Settings["ModelCheckingToolDirectory"].Value;
+                    dataConvertionToolDirectory = config.AppSettings.Settings["DataConvertionToolDirectory"].Value;
+                }
+                catch
+                {
+                    throw new CoreException("The structure of Configuration file is not correct.");
+                }   
             }
         }
 
