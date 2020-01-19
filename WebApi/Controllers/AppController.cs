@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,17 @@ namespace WebApi.Controllers
             return Ok(apps);
         }
 
+        [HttpDelete]
+        [Route("bugs")]
+        public ActionResult DeleteBug(Bug bug)
+        {
+            DbManager.DeleteBug(bug);
+            return Ok();
+        }
+
         [HttpGet]
         [Route("bugs")]
-        public ActionResult<App[]> GetBugs([FromQuery] string version)
+        public ActionResult<List<Bug>> GetBugs([FromQuery] string version)
         {
             var bugs = DbManager.GetBugs(version);
             if (bugs == null)
@@ -43,7 +52,7 @@ namespace WebApi.Controllers
 
         [HttpPut]
         [Route("bugs")]
-        public ActionResult<App[]> ReportBug(Bug bug)
+        public ActionResult<Bug> ReportBug(Bug bug)
         {
             var bugWithId = DbManager.SaveBug(bug);
             if (bugWithId == null)
@@ -52,6 +61,14 @@ namespace WebApi.Controllers
             }
 
             return Ok(bugWithId);
+        }
+
+        [HttpPost]
+        [Route("bugs")]
+        public ActionResult<Bug> EditBug(Bug bug)
+        {
+            DbManager.UpdateBug(bug);
+            return Ok(bug);
         }
 
         [HttpGet]

@@ -30,6 +30,64 @@ namespace WebApi.Database
             }
         }
 
+        public void UpdateBug(Bug bug)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query =
+                    "UPDATE bugs set status = @status " +
+                    "WHERE id = @id";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@status", bug.Status);
+                cmd.Parameters.AddWithValue("@id", bug.Id);
+                var reader = cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteBug(Bug bug)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query = "DELETE FROM bugs " +
+                            "WHERE id = @id ";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@id", bug.Id);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public Bug GetBug(int bugId)
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query =
+                    "SELECT id, version, summary, description, reporter, reportDate, status " +
+                    "FROM bugs " +
+                    "WHERE id = @id ";
+                var cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@id", bugId);
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    string summary = reader["summary"].ToString();
+                    string description = reader["description"].ToString();
+                    string reporter = reader["reporter"].ToString();
+                    string version = reader["version"].ToString();
+                    int status = Convert.ToInt32(reader["status"]);
+                    string reportDate = reader["reportDate"].ToString();
+                    return new Bug(bugId, summary, description, reporter, version, status, reportDate);
+                }
+
+                return null;
+            }
+        }
+
         public User GetUser(CredentialsForLoginDto credentials)
         {
             const string query = @"
@@ -358,6 +416,7 @@ namespace WebApi.Database
                     string reportDate = reader["reportDate"].ToString();
                     bugs.Add(new Bug(bugId, summary, description, reporter, version, status, reportDate));
                 }
+
                 return bugs;
             }
         }
