@@ -26,7 +26,7 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             CustomLogger.WebMode = true;
-            
+
             services.AddCors(options =>
             {
                 options.AddPolicy("EnableCORS", builder =>
@@ -60,6 +60,10 @@ namespace WebApi
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("role", "Admin"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

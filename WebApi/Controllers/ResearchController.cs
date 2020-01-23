@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Core.Settings;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -18,6 +19,7 @@ namespace WebApi.Controllers
         private const string DefaultDirectory = "xRandNet";
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("start")]
         public ActionResult<string> Index([FromBody] Models.Research.Research research)
         {
@@ -58,6 +60,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("download")]
         public HttpResponseMessage Download([FromQuery] string path)
         {
@@ -65,6 +68,7 @@ namespace WebApi.Controllers
         }
         
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("downloadFolder")]
         public HttpResponseMessage DownloadFolder([FromQuery] string path)
         {

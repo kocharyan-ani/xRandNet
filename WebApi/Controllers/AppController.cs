@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -30,6 +31,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult DeleteBug(Bug bug)
         {
@@ -38,6 +40,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult<List<Bug>> GetBugs([FromQuery] string version)
         {
@@ -51,6 +54,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult<Bug> ReportBug(Bug bug)
         {
@@ -64,6 +68,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult<Bug> EditBug(Bug bug)
         {
@@ -81,6 +86,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public ActionResult UploadApp()
         {
             var formFile = (FormFile) Request.Form.Files[0];

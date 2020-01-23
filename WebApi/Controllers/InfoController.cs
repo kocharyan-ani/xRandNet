@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 using WebApi.Database;
@@ -33,6 +34,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("aboutUs")]
         public ActionResult<string> EditInfoAboutUs([FromBody] InfoAboutUs infoAboutUs)
         {
@@ -55,6 +57,7 @@ namespace WebApi.Controllers
 
         [HttpDelete]
         [Route("links")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<string> DeleteLinks([FromBody] Link link)
         {
             DbManager.DeleteLink(link);
@@ -63,6 +66,7 @@ namespace WebApi.Controllers
 
         [HttpPut]
         [Route("links")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<string> AddLink([FromBody] Link link)
         {
             var linkAdded = DbManager.AddLink(link);

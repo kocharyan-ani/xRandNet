@@ -72,7 +72,8 @@ namespace WebApi.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Role, "User"),
                 }),
                 Issuer = "http://xrand.net:8080",
                 Expires = DateTime.Now.AddHours(1),
