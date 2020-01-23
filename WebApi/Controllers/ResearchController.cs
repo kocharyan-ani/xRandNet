@@ -19,7 +19,7 @@ namespace WebApi.Controllers
         private const string DefaultDirectory = "xRandNet";
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [Route("start")]
         public ActionResult<string> Index([FromBody] Models.Research.Research research)
         {
@@ -60,7 +60,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [Route("download")]
         public HttpResponseMessage Download([FromQuery] string path)
         {
@@ -68,7 +68,7 @@ namespace WebApi.Controllers
         }
         
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [Route("downloadFolder")]
         public HttpResponseMessage DownloadFolder([FromQuery] string path)
         {
