@@ -77,5 +77,19 @@ namespace WebApi.Controllers
 
             return Ok(link);
         }
+        
+        [HttpPost]
+        [Route("links")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<string> EditLink([FromBody] Link link)
+        {
+            var linkAdded = DbManager.UpdateLink(link);
+            if (linkAdded == null)
+            {
+                return BadRequest("Something gone wrong. Link was not updated");
+            }
+
+            return Ok(link);
+        }
     }
 }

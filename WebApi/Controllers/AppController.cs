@@ -102,7 +102,7 @@ namespace WebApi.Controllers
 
             if (data == null) return BadRequest();
             var file = new File {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
-            var app = new App(jObject["version"].ToString(), file, jObject["releaseNotes"].ToString());
+            var app = new App(jObject["version"].ToString(), file, jObject["releaseNotes"].ToString(),DateTime.Now);
             DbManager.SaveApp(app);
             return Ok();
         }

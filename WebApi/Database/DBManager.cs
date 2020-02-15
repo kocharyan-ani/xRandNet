@@ -262,9 +262,7 @@ namespace WebApi.Database
                 cmd.Parameters.AddWithValue("@version", version);
                 var reader = cmd.ExecuteReader();
                 if (!reader.Read()) return null;
-                return new App
-                {
-                    File = new File
+                return new App((int) reader["id"], version, new File
                     {
                         Id = (int) reader["fileId"],
                         Name = reader["name"].ToString(),
@@ -273,10 +271,7 @@ namespace WebApi.Database
                         DownloadId = reader["downloadId"].ToString(),
                         MimeType = reader["mimeType"].ToString()
                     },
-                    Version = version,
-                    Id = (int) reader["id"],
-                    ReleaseNotes = (string) reader["releaseNotes"]
-                };
+                    (string) reader["releaseNotes"], (DateTime) reader["releaseDate"]);
             }
         }
 
@@ -294,6 +289,11 @@ namespace WebApi.Database
                 var reader = cmd.ExecuteReader();
                 return !reader.Read() ? null : reader["content"].ToString();
             }
+        }
+
+        public Link UpdateLink(Link link)
+        {
+            return null;
         }
 
         public List<Link> GetLinks(int type)
@@ -427,13 +427,14 @@ namespace WebApi.Database
             using (connection)
             {
                 connection.Open();
-                var query = "SELECT version, releaseNotes FROM app";
+                var query = "SELECT version, releaseNotes, releaseDate FROM app";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 var apps = new List<App>();
                 while (reader.Read())
                 {
-                    apps.Add(new App(reader["version"].ToString(), reader["releaseNotes"].ToString()));
+                    apps.Add(new App(reader["version"].ToString(), reader["releaseNotes"].ToString(),
+                        DateTime.Parse(reader["releaseDate"].ToString())));
                 }
 
                 return apps;
