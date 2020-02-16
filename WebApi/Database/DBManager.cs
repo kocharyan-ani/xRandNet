@@ -238,11 +238,12 @@ namespace WebApi.Database
                 var fileId = reader["id"];
                 app.File.Id = Convert.ToInt64(fileId);
                 reader.Close();
-                query = @"INSERT INTO app (version, fileId, releaseNotes) VALUES (@version, @fileId, @releaseNotes)";
+                query = @"INSERT INTO app (version, fileId, releaseNotes, releaseDate) VALUES (@version, @fileId, @releaseNotes, @releaseDate)";
                 cmd = new MySqlCommand(query, connection) {CommandText = query};
                 cmd.Parameters.AddWithValue("@version", app.Version);
                 cmd.Parameters.AddWithValue("@fileId", app.File.Id);
                 cmd.Parameters.AddWithValue("@releaseNotes", app.ReleaseNotes);
+                cmd.Parameters.AddWithValue("@releaseDate", app.ReleaseDate);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -294,6 +295,28 @@ namespace WebApi.Database
         public Link UpdateLink(Link link)
         {
             return null;
+        }
+
+        public List<Announcement> GetAnnouncements()
+        {
+            var connection = new MySqlConnection(_connectionString);
+            using (connection)
+            {
+                connection.Open();
+                var query =
+                    "SELECT title, content, datePosted " +
+                    "FROM news ";
+                var cmd = new MySqlCommand(query, connection);
+                var reader = cmd.ExecuteReader();
+                List<Announcement> announcements = new List<Announcement>();
+                while (reader.Read())
+                {
+                    announcements.Add(new Announcement(reader["title"].ToString(), reader["content"].ToString(),
+                        DateTime.Parse(reader["datePosted"].ToString())));
+                }
+
+                return announcements;
+            }
         }
 
         public List<Link> GetLinks(int type)

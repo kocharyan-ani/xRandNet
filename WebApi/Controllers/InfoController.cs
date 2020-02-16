@@ -27,10 +27,7 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(new
-            {
-                content = info
-            });
+            return Ok(new {content = info});
         }
 
         [HttpPost]
