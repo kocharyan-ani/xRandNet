@@ -7,9 +7,12 @@ namespace Core.Utility
     public static class CustomLogger
     {
         public static bool WebMode = false;
+        public static bool VisualMode = false;
 
         public static void Write(object message)
         {
+            if (VisualMode)
+                return;
             if (WebMode)
             {
                 Console.WriteLine(message);

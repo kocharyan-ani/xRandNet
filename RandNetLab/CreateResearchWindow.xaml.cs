@@ -71,6 +71,9 @@ namespace RandNetLab
                     return;
                 }
                 SetAnalyzeOptionsValues();
+
+                LabSessionManager.StartResearch();
+
                 DialogResult = true;
                 Close();
             }

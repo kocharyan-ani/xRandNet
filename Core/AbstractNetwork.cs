@@ -32,6 +32,7 @@ namespace Core
         public int NetworkID { get; set; }
         public bool SuccessfullyCompleted { get; private set; }
         public RealizationResult NetworkResult { get; protected set; }
+        public List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
 
         public event NetworkStatusUpdateHandler OnUpdateStatus;
 
@@ -82,7 +83,7 @@ namespace Core
         /// <summary>
         /// Generates random network from generation parameters.
         /// </summary>
-        public bool Generate()
+        public bool Generate(bool visualMode = false)
         {
             try
             {
@@ -103,13 +104,18 @@ namespace Core
                 else
                 {
                     Debug.Assert(!GenerationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrix));
-                    networkGenerator.RandomGeneration(GenerationParameterValues);
+                    networkGenerator.RandomGeneration(GenerationParameterValues, visualMode);
                     if (ResearchType == ResearchType.Activation)
                     {
                         Debug.Assert(ResearchParameterValues.ContainsKey(ResearchParameter.InitialActivationProbability));
                         Double IP = Double.Parse(ResearchParameterValues[ResearchParameter.InitialActivationProbability].ToString(),
                             CultureInfo.InvariantCulture);
                         (networkGenerator.Container as AbstractNetworkContainer).RandomActivating(IP);
+                    }
+                    if (visualMode)
+                    {
+                        Debug.Assert(networkGenerator.GenerationSteps != null);
+                        GenerationSteps = networkGenerator.GenerationSteps;
                     }
 
                     CustomLogger.Write("Research - " + ResearchName +

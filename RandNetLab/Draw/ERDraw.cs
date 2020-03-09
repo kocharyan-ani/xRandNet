@@ -17,7 +17,7 @@ namespace Draw
     {
         public ERDraw(Canvas mainCanvas) : base(mainCanvas)
         {
-            LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability);
+            //LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability);
             GetNetwork();
         }
 

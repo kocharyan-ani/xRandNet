@@ -18,10 +18,4 @@ namespace Core
         public int Vertex2 { get; set; }
         public bool Added { get; set; }
     }
-
-    public struct VertexAvailable
-    {
-        public int Vertex { get; set; }
-        public bool Available { get; set; }
-    }
 }

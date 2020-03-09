@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using Core;
+using Core.Utility;
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
@@ -14,22 +16,22 @@ namespace Session
     public static class LabSessionManager
     {
         private static AbstractResearch existingResearch;
-        private static List<List<EdgesAddedOrRemoved>> steps;
+        //private static List<List<EdgesAddedOrRemoved>> steps;
+
         public static void CreateResearch(ResearchType researchType)
         {
+            CustomLogger.VisualMode = true;
             existingResearch = AbstractResearch.CreateResearchByType(researchType);
             existingResearch.ModelType = GetAvailableModelTypes()[0];
             existingResearch.ResearchName = "Default";
+            existingResearch.VisualMode = true;
+            existingResearch.GenerationType = GenerationType.Random;
         }
 
-        //public static Guid CreateResearch(Core.ResearchType researchType,
-        //                                  Core.ModelType modelType,
-        //                                  string researchName)
-        //{
-        //    existingResearch = AbstractResearchToDraw.CreateResearchByType(researchType);
-        //    existingResearch.Model= modelType;
-        //    existingResearch.ResearchName = researchName;
-        //}
+        public static void StartResearch()
+        {
+            existingResearch.StartResearch();
+        }
 
         public static void DestroyResearch()
         {
@@ -41,17 +43,6 @@ namespace Session
             return existingResearch != null ? true : false;
         }
 
-        public static void StartDraw()
-        {
-
-            existingResearch.StartResearch();
-
-        }
-
-        public static void StopDraw()
-        {
-            existingResearch.StopResearch();
-        }
         public static ResearchType GetResearchType()
         {
             return existingResearch.GetResearchType();
@@ -95,12 +86,6 @@ namespace Session
         {
             return existingResearch.ModelType;
         }
-
-        //public static ModelType GetResearchModelType()
-        //{
-        //    Enum.TryParse(existingResearch.Model.ToString(), out ModelType model);
-        //    return model;
-        //}
 
         public static void SetResearchModelType(ModelType model)
         {
@@ -175,7 +160,6 @@ namespace Session
 
         public static void SetGenerationParameterValue(GenerationParameter p, object value)
         {
-
             existingResearch.GenerationParameterValues[p] = value;
         }
 
@@ -209,23 +193,25 @@ namespace Session
             //To Do
         }
 
-        public static void Generate(int numberOfVertices, double probability, int stepCount = 0,int edges = 0)
+        /*public static void Generate(int numberOfVertices, double probability, int stepCount = 0,int edges = 0)
         {
             if (steps != null)
             {
                 steps.Clear();
             }
             steps = existingResearch.Generate(numberOfVertices,probability,stepCount,edges);
-        }
+        }*/
 
         public static List<EdgesAddedOrRemoved> GetStep(int stepNumber)
         {
-           return steps[stepNumber];
+            Debug.Assert(existingResearch.GenerationSteps != null);
+            return existingResearch.GenerationSteps[stepNumber];
         }
 
         public static int GetStepCount()
         {
-            return steps.Count;
+            Debug.Assert(existingResearch.GenerationSteps != null);
+            return existingResearch.GenerationSteps.Count;
         }
     }
 }

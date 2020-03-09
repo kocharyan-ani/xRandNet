@@ -26,7 +26,7 @@ namespace Draw
             StepCount = (int)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.StepCount];
             Edges = (int)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.Edges];
 
-            LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability, (int)StepCount, (int)Edges);
+            //LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability, (int)StepCount, (int)Edges);
             GetNetwork();
         }
 

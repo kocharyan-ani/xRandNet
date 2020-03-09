@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Diagnostics;
 
+using Core;
 using Core.Model;
 using Core.Enumerations;
 using Core.Exceptions;
@@ -17,14 +18,16 @@ namespace ERModel
     class ERNetworkGenerator : AbstractNetworkGenerator
     {
         private NonHierarchicContainer container = new NonHierarchicContainer();
-     
+
+        public override List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
+
         public override INetworkContainer Container
         {
             get { return container; }
             set { container = (NonHierarchicContainer)value; }
         }
 
-        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam)
+        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam, bool visualMode)
         {
             Debug.Assert(genParam.ContainsKey(GenerationParameter.Vertices));
             Debug.Assert(genParam.ContainsKey(GenerationParameter.Probability));
@@ -35,14 +38,16 @@ namespace ERModel
             if (probability < 0 || probability > 1)
                 throw new InvalidGenerationParameters();
             
-            container.Size = numberOfVertices;           
+            container.Size = numberOfVertices;
+            if (visualMode)
+                GenerationSteps = new List<List<EdgesAddedOrRemoved>>();
             FillValuesByProbability(probability);
         }
 
         private RNGCrypto rand = new RNGCrypto();
 
         private void FillValuesByProbability(double p)
-        {            
+        {
             for (int i = 0; i < container.Size; ++i)
             {
                 for (int j = i + 1; j < container.Size; ++j)
@@ -50,6 +55,12 @@ namespace ERModel
                     if (rand.NextDouble() < p)
                     {
                         container.AddConnection(i, j);
+                        if (GenerationSteps != null)
+                        {
+                            List<EdgesAddedOrRemoved> l = new List<EdgesAddedOrRemoved>();
+                            l.Add(new EdgesAddedOrRemoved(i, j, true));
+                            GenerationSteps.Add(l);
+                        }
                     }
                 }
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Globalization;
 using System.Diagnostics;
 
+using Core;
 using Core.Enumerations;
 using Core.Model;
 using Core.Exceptions;
@@ -18,14 +19,16 @@ namespace BAModel
     class BANetworkGenerator : AbstractNetworkGenerator
     {
         private NonHierarchicContainer container = new NonHierarchicContainer();
-        
+
+        public override List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
+
         public override INetworkContainer Container
         {
             get { return container; }
             set { container = (NonHierarchicContainer)value; }
         }
 
-        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam)
+        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam, bool visualMode)
         {
             Debug.Assert(genParam.ContainsKey(GenerationParameter.Vertices));
             Debug.Assert(genParam.ContainsKey(GenerationParameter.Edges));
@@ -41,6 +44,8 @@ namespace BAModel
                 throw new InvalidGenerationParameters();
 
             container.Size = numberOfVertices;
+            if (visualMode)
+                GenerationSteps = new List<List<EdgesAddedOrRemoved>>();
             Generate(stepCount, probability, edges);
         }
 
@@ -60,12 +65,19 @@ namespace BAModel
 
         private void GenerateInitialGraph(Double probability)
         {
+            List<EdgesAddedOrRemoved> initialStep = (GenerationSteps != null) ? new List<EdgesAddedOrRemoved>() : null;
             for (Int32 i = 0; i < container.Size; ++i)
                 for (Int32 j = i + 1; j < container.Size; ++j)
                 {
                     if (rand.NextDouble() < probability)
+                    {
                         container.AddConnection(i, j);
+                        if(initialStep != null)
+                            initialStep.Add(new EdgesAddedOrRemoved(i, j, true));
+                    }
                 }
+            if(GenerationSteps != null)
+                GenerationSteps.Add(initialStep);
         }
 
         private Double[] CalculateProbabilities()
@@ -89,6 +101,7 @@ namespace BAModel
 
         public void RefreshNeighbourships(Boolean[] generatedVector)
         {
+            List<EdgesAddedOrRemoved> currentStep = (GenerationSteps != null) ? new List<EdgesAddedOrRemoved>() : null;
             Int32 newVertexDegree = 0;
             for (Int32 i = 0; i < generatedVector.Length; ++i)
             {
@@ -96,9 +109,13 @@ namespace BAModel
                 {
                     ++newVertexDegree;
                     container.AddConnection(i, container.Size - 1);
+                    if(currentStep != null) 
+                        currentStep.Add(new EdgesAddedOrRemoved(i, container.Size - 1, true));
                 }
             }
             ++container.Degrees[newVertexDegree];
+            if(GenerationSteps != null)
+                GenerationSteps.Add(currentStep);
         }
 
         private Boolean[] MakeGenerationStep(Double[] probabilityArray, Int32 edges)
