@@ -49,8 +49,8 @@ namespace RandNetLab
                 {
                     return;
                 }
-                SetAnalyzeOptionsValues();
 
+                //SetAnalyzeOptionsValues();
                 LabSessionManager.StartResearch();
 
                 DialogResult = true;
@@ -149,7 +149,7 @@ namespace RandNetLab
         //            opts |= current;
         //    }
         //    LabSessionManager.SetAnalyzeOptions(opts);
-        //}        
+        //}
 
         private void InitializeEditResearchDialog()
         {
