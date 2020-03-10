@@ -23,7 +23,6 @@ namespace Draw
         private List<EdgesAddedOrRemoved> initialNetwork;
         Random rand;
 
-
         public BADraw(Canvas mainCanvas) : base(mainCanvas)
         {
             StepCount = (int)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.StepCount];
@@ -32,7 +31,7 @@ namespace Draw
             VerticesAddedToCanvas = new List<Ellipse>();
             addedVertexPoints = new Point[StepCount];
 
-            LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability, (int)StepCount, (int)Edges);
+            //LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability, (int)StepCount, (int)Edges);
             GetNetwork();
 
             rand = new Random(DateTime.Now.Millisecond);

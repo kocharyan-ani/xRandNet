@@ -1,17 +1,21 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Logging;
+﻿using System;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 using System.Web;
 
 namespace Core.Utility
 {
     public static class CustomLogger
     {
-        public static bool webMode = false;
+        public static bool WebMode = false;
+        public static bool VisualMode = false;
 
         public static void Write(object message)
         {
-            if (webMode)
+            if (VisualMode)
+                return;
+            if (WebMode)
             {
-                System.Diagnostics.Debug.WriteLine(message);
+                Console.WriteLine(message);
             } else
             {
                 Logger.Write(message);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Threading.Tasks;
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
@@ -23,13 +23,16 @@ namespace Core
         protected int processStepCount = -1;
 
         private ManagerType managerType = ManagerType.Local;
-        private List<int> degrees;
+        // TODO remove
+        //private List<int> degrees;
 
         protected AbstractEnsembleManager currentManager;
         protected delegate void ManagerRunner();
 
         private ResearchStatusInfo status;
         protected ResearchResult result = new ResearchResult();
+
+        public List<List<EdgesAddedOrRemoved>> GenerationSteps { get; private set; }
 
         public event ResearchStatusUpdateHandler OnUpdateResearchStatus;
 
@@ -117,6 +120,8 @@ namespace Core
 
         public bool CheckConnected { get; set; }
 
+        public bool VisualMode { get; set; }
+
         public ResearchStatusInfo StatusInfo
         {
             get { return status; }
@@ -159,7 +164,7 @@ namespace Core
         /// <summary>
         /// Creates single EnsembleManager, runs in background thread.
         /// </summary>
-        public virtual void StartResearch()
+        public virtual Task StartResearch()
         {
             ValidateResearchParameters();
 
@@ -168,8 +173,11 @@ namespace Core
             CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                 ". Research - " + ResearchName + ". STARTED " + GetResearchType() + " RESEARCH.");
 
-            ManagerRunner r = new ManagerRunner(currentManager.Run);
-            r.BeginInvoke(new AsyncCallback(RunCompleted), null);
+            return Task.Run(() =>
+                {
+                    currentManager.Run();
+                    RunCompleted();
+                });
         }
 
         /// <summary>
@@ -208,11 +216,13 @@ namespace Core
         /// <summary>
         /// Callback method whn research running completes.
         /// </summary>
-        protected virtual void RunCompleted(IAsyncResult res)
+        protected virtual void RunCompleted()
         {
             realizationCount = currentManager.RealizationsDone;
             result.EnsembleResults.Add(currentManager.Result);
-            SaveResearch();
+            GenerationSteps = currentManager.GenerationSteps;
+            if(!VisualMode)
+                SaveResearch();
         }
 
         /// <summary>
@@ -229,6 +239,7 @@ namespace Core
             currentManager.TracingDirectory = TracingPath == "" ? "" : TracingPath;
             currentManager.TracingPath = (TracingPath == "" ? "" : TracingPath + "\\" + ResearchName);
             currentManager.CheckConnected = CheckConnected;
+            currentManager.VisualMode = VisualMode;
             currentManager.RealizationCount = realizationCount;
             currentManager.ResearchName = ResearchName;
             currentManager.ResearchType = GetResearchType();
@@ -344,7 +355,7 @@ namespace Core
             }
         }
 
-        public List<List<EdgesAddedOrRemoved>> Generate(int numberOfVertices, double probability, int stepCount = 0, int edges = 0)
+        /*public List<List<EdgesAddedOrRemoved>> Generate(int numberOfVertices, double probability, int stepCount = 0, int edges = 0)
         {
             switch (modelType)
             {
@@ -555,6 +566,6 @@ namespace Core
             }
 
             return probabilities;
-        }
+        }*/
     }
 }

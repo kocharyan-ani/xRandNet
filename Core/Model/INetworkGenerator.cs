@@ -12,6 +12,11 @@ namespace Core.Model
     public interface INetworkGenerator
     {
         /// <summary>
+        /// 
+        /// </summary>
+        List<List<EdgesAddedOrRemoved>> GenerationSteps { get; }
+
+        /// <summary>
         /// Generated network's container.
         /// </summary>
         INetworkContainer Container { get; set; }
@@ -20,7 +25,7 @@ namespace Core.Model
         /// Generates random network with specified generation parameters.
         /// </summary>
         /// <param name="genParam">Generation parameter values.</param>
-        void RandomGeneration(Dictionary<GenerationParameter, Object> genParam);
+        void RandomGeneration(Dictionary<GenerationParameter, Object> genParam, bool visualMode);
 
         /// <summary>
         /// Generates network from input network information.

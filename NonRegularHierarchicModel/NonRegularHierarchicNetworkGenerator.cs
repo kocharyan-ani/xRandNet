@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 
+using Core;
 using Core.Enumerations;
 using Core.Model;
 using Core.Utility;
@@ -22,13 +23,15 @@ namespace NonRegularHierarchicModel
         /// </summary>
         private NonRegularHierarchicNetworkContainer container = new NonRegularHierarchicNetworkContainer();
 
+        public override List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
+
         public override INetworkContainer Container
         {
             get { return container; }
             set { container = (NonRegularHierarchicNetworkContainer)value; }
         }
 
-        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam)
+        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam, bool visualMode)
         {
             Debug.Assert(genParam.ContainsKey(GenerationParameter.Vertices));
             Debug.Assert(genParam.ContainsKey(GenerationParameter.BranchingIndex));
@@ -42,7 +45,10 @@ namespace NonRegularHierarchicModel
                 throw new InvalidGenerationParameters();
 
             container.Vertices = vertices;
-            container.BranchIndex = branchingIndex;            
+            container.BranchIndex = branchingIndex;
+            // TODO add logic
+            if(visualMode)
+                GenerationSteps = new List<List<EdgesAddedOrRemoved>>();
             container.HierarchicTree = GenerateByVertices(mu);
         }
 

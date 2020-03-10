@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Core;
 using Core.Enumerations;
 using Core.Model;
 using Core.Utility;
@@ -20,6 +21,8 @@ namespace WSModel
     {
         private NonHierarchicContainer container;
 
+        public override List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
+
         public WSNetworkGenerator()
         {
             container = new NonHierarchicContainer();
@@ -31,7 +34,7 @@ namespace WSModel
             set { container = (NonHierarchicContainer)value; }
         }
 
-        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam)
+        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam, bool visualMode)
         {
             Int32 numberOfVertices = Convert.ToInt32(genParam[GenerationParameter.Vertices]);
             Int32 numberOfEdges = Convert.ToInt32(genParam[GenerationParameter.Edges]);

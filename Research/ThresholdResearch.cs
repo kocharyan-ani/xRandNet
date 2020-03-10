@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading.Tasks;
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
@@ -54,7 +55,7 @@ namespace Research
         private Double maxProbability;
         private Double delta;
 
-        public override void StartResearch()
+        public override Task StartResearch()
         {
             ValidateResearchParameters();
 
@@ -72,7 +73,7 @@ namespace Research
             CustomLogger.Write("Research ID - " + ResearchID.ToString() +
                 ". Research - " + ResearchName + ". STARTED Threshold RESEARCH.");
 
-            StartCurrentEnsemble();
+            return StartCurrentEnsemble();
         }
 
         public override void StopResearch()
@@ -105,7 +106,7 @@ namespace Research
             base.ValidateResearchParameters();
         }
 
-        protected override void RunCompleted(IAsyncResult res)
+        protected override void RunCompleted()
         {
             if (isCanceled)
                 ResearchParameterValues[ResearchParameter.ProbabilityMax] = currentProbability;
@@ -116,17 +117,20 @@ namespace Research
             StartCurrentEnsemble();
         }
 
-        private void StartCurrentEnsemble()
+        private Task StartCurrentEnsemble()
         {
             if (currentProbability <= maxProbability && !isCanceled)
             {
                 base.CreateEnsembleManager();
-                ManagerRunner r = new ManagerRunner(currentManager.Run);
-                r.BeginInvoke(new AsyncCallback(RunCompleted), null);
+                return Task.Run(() =>
+                {
+                    currentManager.Run();
+                    RunCompleted();
+                });
             }
             else
             {
-                base.SaveResearch();
+                return Task.Run(() => base.SaveResearch());
             }
         }
 

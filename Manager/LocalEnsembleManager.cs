@@ -114,8 +114,10 @@ namespace Manager
                 for (int i = 0; (d.ThreadIndex + i * d.ThreadCount) < networks.Length; ++i)
                 {
                     int networkToRun = d.ThreadIndex + i * d.ThreadCount;
-                    if (!networks[networkToRun].Generate())
+                    if (!networks[networkToRun].Generate(VisualMode))
                         continue;
+                    if (VisualMode)
+                        GenerationSteps = networks[networkToRun].GenerationSteps;
                     if (CheckConnected)
                     {
                         if (!networks[networkToRun].CheckConnected())

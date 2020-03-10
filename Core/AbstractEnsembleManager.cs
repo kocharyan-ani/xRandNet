@@ -23,6 +23,8 @@ namespace Core
 
         public bool CheckConnected { protected get; set; }
 
+        public bool VisualMode { protected get; set; }
+
         public Int32 RealizationCount { protected get; set; }
 
         public String ResearchName { get; set; }
@@ -48,6 +50,8 @@ namespace Core
         }
 
         public EnsembleResult Result { get; protected set; }
+        
+        public List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
 
         /// <summary>
         /// Runs generation, analyze and save for each realization in Double ensemble.

@@ -9,9 +9,11 @@ namespace Core.Model
 {
     public abstract class AbstractNetworkGenerator : INetworkGenerator
     {
+        public abstract List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
+
         public abstract INetworkContainer Container { get; set; }
 
-        public abstract void RandomGeneration(Dictionary<GenerationParameter, Object> genParam);
+        public abstract void RandomGeneration(Dictionary<GenerationParameter, Object> genParam, bool visualMode);
 
         public virtual void StaticGeneration(NetworkInfoToRead info)
         {

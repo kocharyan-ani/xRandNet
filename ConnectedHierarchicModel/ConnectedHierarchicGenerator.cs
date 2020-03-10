@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Diagnostics;
 
+using Core;
 using Core.Enumerations;
 using Core.Model;
 using Core.Exceptions;
@@ -18,13 +19,16 @@ namespace ConnectedHierarchicModel
     {
         private ConnectedHierarchicContainer container = new ConnectedHierarchicContainer();
 
+        // Not used in this model
+        public override List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
+
         public override INetworkContainer Container
         {
             get { return container; }
             set { container = (ConnectedHierarchicContainer)value; }
         }
 
-        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam)
+        public override void RandomGeneration(Dictionary<GenerationParameter, Object> genParam, bool visualMode /*not used in this model*/)
         {
             Debug.Assert(genParam.ContainsKey(GenerationParameter.BranchingIndex));
             Debug.Assert(genParam.ContainsKey(GenerationParameter.Level));

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Database;
 using WebApi.Models;
@@ -9,30 +10,39 @@ namespace WebApi.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private DbManager dbManager { get; }
-        private AuthService authService { get; }
+        private AuthService AuthService { get; }
 
-        public AuthController(DbManager dbManager, AuthService authService)
+        public AuthController(AuthService authService)
         {
-            this.dbManager = dbManager;
-            this.authService = authService;
+            AuthService = authService;
         }
 
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody] Credentials credentials)
+        public IActionResult Login([FromBody] CredentialsForLoginDto credentials)
         {
-            if (credentials?.Username == null || credentials.Password == null)
-            {
-                return BadRequest(new {message = "Invalid credentials"});
-            }
-
-            var user = authService.Authenticate(credentials);
+            var user = AuthService.Authenticate(credentials);
             if (user == null)
             {
                 return BadRequest(new {message = "Username or password is incorrect"});
             }
 
-            user.Credentials.Password = null;
+            user.Password = null;
+            return Ok(user);
+        }
+
+        [HttpPost, Route("register")]
+        public IActionResult Register([FromBody] CredentialsForRegisterDto credentials)
+        {
+            var user = AuthService.Register(credentials);
+            if (user == null)
+            {
+                return BadRequest(new
+                {
+                    message = $"User with username '{credentials.Username}' already exists"
+                });
+            }
+
+            user.Password = null;
             return Ok(user);
         }
     }
