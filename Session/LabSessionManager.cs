@@ -30,7 +30,7 @@ namespace Session
 
         public static void StartResearch()
         {
-            existingResearch.StartResearch();
+            existingResearch.StartResearch().Wait();
         }
 
         public static void DestroyResearch()

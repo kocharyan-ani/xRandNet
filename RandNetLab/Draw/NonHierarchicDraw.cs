@@ -30,10 +30,11 @@ namespace Draw
             edgesBySteps = new List<List<EdgesAddedOrRemoved>>();
         }
 
-        protected void DrawVertices()
+        protected void DrawVertices(bool isSmall = false)
         {
             Point center = new Point(MainCanvas.ActualWidth / 2, MainCanvas.ActualHeight / 2);
             Double radius = Math.Min((MainCanvas.ActualHeight) / 2, (MainCanvas.ActualWidth / 2)) * 0.9;
+            if(isSmall) { radius /= 2; }
 
             Vertices = GetVertices(center, (int)InitialVertexCount, (int)radius);
 
