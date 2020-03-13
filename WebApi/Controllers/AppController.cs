@@ -54,7 +54,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User,Admin")]
         [Route("bugs")]
         public ActionResult<Bug> ReportBug(Bug bug)
         {

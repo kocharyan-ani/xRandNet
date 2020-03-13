@@ -74,7 +74,7 @@ namespace WebApi.Controllers
 
             return Ok(link);
         }
-        
+
         [HttpPost]
         [Route("links")]
         [Authorize(Roles = "Admin")]
@@ -87,6 +87,34 @@ namespace WebApi.Controllers
             }
 
             return Ok(link);
+        }
+
+        [HttpGet]
+        [Route("news")]
+        public ActionResult<string> Get()
+        {
+            var news = DbManager.GetAnnouncements();
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(news);
+        }
+
+        [HttpPost]
+        [Route("news")]
+        [Authorize(Roles = "Admin")]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        // DELETE api/news/5
+        [HttpDelete("{id}")]
+        [Route("news")]
+        [Authorize(Roles = "Admin")]
+        public void Delete(int id)
+        {
         }
     }
 }

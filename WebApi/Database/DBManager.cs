@@ -255,7 +255,7 @@ namespace WebApi.Database
             {
                 connection.Open();
                 var query =
-                    "SELECT a.id, f.id as fileId, version, releaseNotes, name, downloadId, mimeType, type, data " +
+                    "SELECT a.id, f.id as fileId, version, releaseNotes, releaseDate, name, downloadId, mimeType, type, data " +
                     "FROM app as a " +
                     "JOIN files as f ON a.fileId = f.id " +
                     "WHERE version = @version AND type = 'AppFile' LIMIT 1";
