@@ -48,6 +48,14 @@ namespace ERModel
 
         private void FillValuesByProbability(double p)
         {
+            int edgesAdded = 0;
+            int numberOfVertices = container.Size;
+            List<EdgesAddedOrRemoved> l = new List<EdgesAddedOrRemoved>();
+            if (GenerationSteps != null)
+            {
+                GenerationSteps.Add(null);
+            }
+            
             for (int i = 0; i < container.Size; ++i)
             {
                 for (int j = i + 1; j < container.Size; ++j)
@@ -57,13 +65,30 @@ namespace ERModel
                         container.AddConnection(i, j);
                         if (GenerationSteps != null)
                         {
-                            List<EdgesAddedOrRemoved> l = new List<EdgesAddedOrRemoved>();
                             l.Add(new EdgesAddedOrRemoved(i, j, true));
-                            GenerationSteps.Add(l);
+                            if (edgesAdded >= ((numberOfVertices - 1) / p))
+                            {
+                                GenerationSteps.Add(l);
+                                l = new List<EdgesAddedOrRemoved>();
+                                edgesAdded = 0;
+                            }
+                            edgesAdded++;
                         }
                     }
                 }
             }
+
+            if (GenerationSteps != null)
+            {
+                if (l.Count != 0)
+                {
+                    GenerationSteps.Add(l);
+                }
+            }
+            
+
+
+
         }
     }
 }
