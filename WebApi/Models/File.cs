@@ -1,7 +1,5 @@
-﻿namespace WebApi.Models
-{
-    public class File
-    {
+﻿namespace WebApi.Models {
+    public class File {
         public long Id { get; set; }
         public string Name { get; set; }
         public string DownloadId { get; set; }

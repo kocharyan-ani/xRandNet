@@ -1,16 +1,12 @@
-namespace WebApi.Models
-{
-    public class InfoAboutUs
-    {
+namespace WebApi.Models {
+    public class InfoAboutUs {
         public string Content { get; set; }
 
-        public InfoAboutUs(string content)
-        {
+        public InfoAboutUs(string content) {
             Content = content;
         }
 
-        public InfoAboutUs()
-        {
+        public InfoAboutUs() {
         }
     }
 }

@@ -5,23 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.Database;
 using File = WebApi.Models.File;
 
-namespace WebApi.Controllers
-{
+namespace WebApi.Controllers {
     [Route("api/files")]
     [ApiController]
-    public class FileController : Controller
-    {
+    public class FileController : Controller {
         public DbManager DbManager { get; }
 
-        public FileController(DbManager dbManager)
-        {
+        public FileController(DbManager dbManager) {
             DbManager = dbManager;
         }
 
         [HttpGet]
         [Route("userManual")]
-        public ActionResult<byte[]> DownloadUserManual()
-        {
+        public ActionResult<byte[]> DownloadUserManual() {
             var userManualFile = DbManager.GetUserManual();
             if (userManualFile == null) return NotFound();
 
@@ -31,13 +27,11 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("userManual")]
-        public ActionResult UploadUserManual()
-        {
+        public ActionResult UploadUserManual() {
             var formFile = (FormFile) Request.Form.Files[0];
             var stream = formFile.OpenReadStream();
             byte[] data = null;
-            using (var memoryStream = new MemoryStream())
-            {
+            using (var memoryStream = new MemoryStream()) {
                 stream.CopyTo(memoryStream);
                 data = memoryStream.ToArray();
             }

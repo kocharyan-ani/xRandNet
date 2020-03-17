@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.Models
-{
-    public class CredentialsForRegisterDto
-    {
+namespace WebApi.Models {
+    public class CredentialsForRegisterDto {
         [Required] public string FirstName { get; set; }
 
         [Required] public string LastName { get; set; }

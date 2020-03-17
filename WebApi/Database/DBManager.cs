@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
 using WebApi.Models;
+using MySql.Data.MySqlClient;
 
-namespace WebApi.Database
-
-{
-    public class DbManager
-    {
+namespace WebApi.Database {
+    public class DbManager {
         private readonly string _connectionString;
 
-        public DbManager(string connectionString)
-        {
+        public DbManager(string connectionString) {
             this._connectionString = connectionString;
         }
 
-        public string GetSecretKey()
-        {
+        public string GetSecretKey() {
             const string query = @"SELECT jwtSecretKey FROM auth";
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
@@ -30,11 +24,9 @@ namespace WebApi.Database
             }
         }
 
-        public void UpdateBug(Bug bug)
-        {
+        public void UpdateBug(Bug bug) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query =
                     "UPDATE bugs set status = @status " +
@@ -46,11 +38,9 @@ namespace WebApi.Database
             }
         }
 
-        public void DeleteBug(Bug bug)
-        {
+        public void DeleteBug(Bug bug) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query = "DELETE FROM bugs " +
                             "WHERE id = @id ";
@@ -60,11 +50,9 @@ namespace WebApi.Database
             }
         }
 
-        public Bug GetBug(int bugId)
-        {
+        public Bug GetBug(int bugId) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query =
                     "SELECT id, version, summary, description, reporter, reportDate, status " +
@@ -73,8 +61,7 @@ namespace WebApi.Database
                 var cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@id", bugId);
                 var reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
+                if (reader.Read()) {
                     string summary = reader["summary"].ToString();
                     string description = reader["description"].ToString();
                     string reporter = reader["reporter"].ToString();
@@ -88,16 +75,14 @@ namespace WebApi.Database
             }
         }
 
-        public User GetUser(CredentialsForLoginDto credentials)
-        {
+        public User GetUser(CredentialsForLoginDto credentials) {
             const string query = @"
             SELECT * 
             FROM users
             WHERE username = @username AND password = @password
             ";
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@username", credentials.Username);
@@ -111,15 +96,13 @@ namespace WebApi.Database
             }
         }
 
-        public void AddUser(User user)
-        {
+        public void AddUser(User user) {
             const string query = @"
             INSERT INTO users (firstName, lastName, password, username, isAdmin)
             VALUES (@firstName, @lastName, @password, @username, 0)
             ";
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var cmd = new MySqlCommand(query, connection);
                 cmd.CommandText = query;
@@ -131,8 +114,7 @@ namespace WebApi.Database
             }
         }
 
-        public bool Exists(User user)
-        {
+        public bool Exists(User user) {
             const string query = @"
             SELECT * 
             FROM users 
@@ -140,8 +122,7 @@ namespace WebApi.Database
             LIMIT 1
             ";
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var cmd = new MySqlCommand(query, connection);
                 cmd.CommandText = query;
@@ -151,22 +132,19 @@ namespace WebApi.Database
             }
         }
 
-        public File GetUserManual()
-        {
+        public File GetUserManual() {
             const string query = @"
             SELECT * 
             FROM files 
             WHERE type='UserManualFile' 
             LIMIT 1";
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 if (!reader.Read()) return null;
-                return new File
-                {
+                return new File {
                     Id = (int) reader["id"],
                     Name = reader["name"].ToString(),
                     Data = (byte[]) reader["data"],
@@ -177,21 +155,18 @@ namespace WebApi.Database
             }
         }
 
-        public void SetUserManual(File file)
-        {
+        public void SetUserManual(File file) {
             var query = @"
             SELECT * 
             FROM files 
             WHERE type='UserManualFile' 
             LIMIT 1";
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
+                if (reader.Read()) {
                     reader.Close();
                     query = "UPDATE files SET data=@data,name=@name,mimeType=@mimeType WHERE type='UserManualFile' ";
                     cmd = new MySqlCommand(query, connection);
@@ -201,8 +176,7 @@ namespace WebApi.Database
                     cmd.Parameters.AddWithValue("@mimeType", file.MimeType);
                     cmd.ExecuteNonQuery();
                 }
-                else
-                {
+                else {
                     reader.Close();
                     query = @"INSERT INTO files (name, downloadId, mimeType, type, data)
                               VALUES (@name, @downloadId, @mimeType, @type, @data)";
@@ -218,11 +192,9 @@ namespace WebApi.Database
             }
         }
 
-        public void SaveApp(App app)
-        {
+        public void SaveApp(App app) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query = @"INSERT INTO files (name, downloadId, mimeType, type, data)
                               VALUES (@name, @downloadId, @mimeType, @type, @data);
@@ -238,7 +210,8 @@ namespace WebApi.Database
                 var fileId = reader["id"];
                 app.File.Id = Convert.ToInt64(fileId);
                 reader.Close();
-                query = @"INSERT INTO app (version, fileId, releaseNotes, releaseDate) VALUES (@version, @fileId, @releaseNotes, @releaseDate)";
+                query =
+                    @"INSERT INTO app (version, fileId, releaseNotes, releaseDate) VALUES (@version, @fileId, @releaseNotes, @releaseDate)";
                 cmd = new MySqlCommand(query, connection) {CommandText = query};
                 cmd.Parameters.AddWithValue("@version", app.Version);
                 cmd.Parameters.AddWithValue("@fileId", app.File.Id);
@@ -248,11 +221,9 @@ namespace WebApi.Database
             }
         }
 
-        public App GetApp(string version)
-        {
+        public App GetApp(string version) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query =
                     "SELECT a.id, f.id as fileId, version, releaseNotes, releaseDate, name, downloadId, mimeType, type, data " +
@@ -263,8 +234,7 @@ namespace WebApi.Database
                 cmd.Parameters.AddWithValue("@version", version);
                 var reader = cmd.ExecuteReader();
                 if (!reader.Read()) return null;
-                return new App((int) reader["id"], version, new File
-                    {
+                return new App((int) reader["id"], version, new File {
                         Id = (int) reader["fileId"],
                         Name = reader["name"].ToString(),
                         Data = (byte[]) reader["data"],
@@ -276,11 +246,9 @@ namespace WebApi.Database
             }
         }
 
-        public string GetAboutUsInfo()
-        {
+        public string GetAboutUsInfo() {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query =
                     "SELECT content " +
@@ -292,26 +260,23 @@ namespace WebApi.Database
             }
         }
 
-        public Link UpdateLink(Link link)
-        {
+        public Link UpdateLink(Link link) {
             return null;
         }
 
-        public List<Announcement> GetAnnouncements()
-        {
+        public List<Announcement> GetAnnouncements() {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query =
-                    "SELECT title, content, datePosted " +
+                    "SELECT id, title, content, datePosted " +
                     "FROM news ";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 List<Announcement> announcements = new List<Announcement>();
-                while (reader.Read())
-                {
-                    announcements.Add(new Announcement(reader["title"].ToString(), reader["content"].ToString(),
+                while (reader.Read()) {
+                    announcements.Add(new Announcement((int) reader["id"], reader["title"].ToString(),
+                        reader["content"].ToString(),
                         DateTime.Parse(reader["datePosted"].ToString())));
                 }
 
@@ -319,11 +284,9 @@ namespace WebApi.Database
             }
         }
 
-        public List<Link> GetLinks(int type)
-        {
+        public List<Link> GetLinks(int type) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query =
                     "SELECT id, name, url, type " +
@@ -333,8 +296,7 @@ namespace WebApi.Database
                 cmd.Parameters.AddWithValue("@type", type);
                 var reader = cmd.ExecuteReader();
                 List<Link> links = new List<Link>();
-                while (reader.Read())
-                {
+                while (reader.Read()) {
                     links.Add(new Link((int) reader["id"], reader["name"].ToString(),
                         reader["url"].ToString(), (int) reader["type"]));
                 }
@@ -343,11 +305,9 @@ namespace WebApi.Database
             }
         }
 
-        public void DeleteLink(Link link)
-        {
+        public void DeleteLink(Link link) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query =
                     "DELETE FROM links " +
@@ -358,11 +318,9 @@ namespace WebApi.Database
             }
         }
 
-        public Link AddLink(Link link)
-        {
+        public Link AddLink(Link link) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query = @"INSERT INTO links (name, url, type)
                        VALUES(@name, @url, @type);
@@ -379,11 +337,9 @@ namespace WebApi.Database
             }
         }
 
-        public void UpdateAboutUsInfo(InfoAboutUs infoAboutUs)
-        {
+        public void UpdateAboutUsInfo(InfoAboutUs infoAboutUs) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query = "UPDATE info set content = @content";
                 var cmd = new MySqlCommand(query, connection);
@@ -392,11 +348,9 @@ namespace WebApi.Database
             }
         }
 
-        public Bug SaveBug(Bug bug)
-        {
+        public Bug SaveBug(Bug bug) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query = @"INSERT INTO bugs (description, summary, reportDate, reporter, version)
                        VALUES(@description, @summary, @reportDate, @reporter, @version);
@@ -415,11 +369,9 @@ namespace WebApi.Database
             }
         }
 
-        public List<Bug> GetBugs(string version)
-        {
+        public List<Bug> GetBugs(string version) {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query =
                     "SELECT id, version, summary, description, reporter, reportDate, status " +
@@ -429,8 +381,7 @@ namespace WebApi.Database
                 cmd.Parameters.AddWithValue("@version", version);
                 var reader = cmd.ExecuteReader();
                 var bugs = new List<Bug>();
-                while (reader.Read())
-                {
+                while (reader.Read()) {
                     int bugId = Convert.ToInt32(reader["id"]);
                     string summary = reader["summary"].ToString();
                     string description = reader["description"].ToString();
@@ -444,18 +395,15 @@ namespace WebApi.Database
             }
         }
 
-        public List<App> GetAppVersions()
-        {
+        public List<App> GetAppVersions() {
             var connection = new MySqlConnection(_connectionString);
-            using (connection)
-            {
+            using (connection) {
                 connection.Open();
                 var query = "SELECT version, releaseNotes, releaseDate FROM app";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 var apps = new List<App>();
-                while (reader.Read())
-                {
+                while (reader.Read()) {
                     apps.Add(new App(reader["version"].ToString(), reader["releaseNotes"].ToString(),
                         DateTime.Parse(reader["releaseDate"].ToString())));
                 }

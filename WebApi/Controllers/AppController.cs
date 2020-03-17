@@ -9,23 +9,19 @@ using WebApi.Database;
 using WebApi.Models;
 using File = WebApi.Models.File;
 
-namespace WebApi.Controllers
-{
+namespace WebApi.Controllers {
     [Route("api/app")]
     [ApiController]
-    public class AppController : Controller
-    {
+    public class AppController : Controller {
         public DbManager DbManager { get; }
 
-        public AppController(DbManager dbManager)
-        {
+        public AppController(DbManager dbManager) {
             DbManager = dbManager;
         }
 
         [HttpGet]
         [Route("versions")]
-        public ActionResult<App[]> GetVersions()
-        {
+        public ActionResult<App[]> GetVersions() {
             var apps = DbManager.GetAppVersions();
             return Ok(apps);
         }
@@ -33,8 +29,7 @@ namespace WebApi.Controllers
         [HttpDelete]
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
-        public ActionResult DeleteBug(Bug bug)
-        {
+        public ActionResult DeleteBug(Bug bug) {
             DbManager.DeleteBug(bug);
             return Ok();
         }
@@ -42,11 +37,9 @@ namespace WebApi.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
-        public ActionResult<List<Bug>> GetBugs([FromQuery] string version)
-        {
+        public ActionResult<List<Bug>> GetBugs([FromQuery] string version) {
             var bugs = DbManager.GetBugs(version);
-            if (bugs == null)
-            {
+            if (bugs == null) {
                 throw new Exception("Could not get bugs for version " + version);
             }
 
@@ -56,11 +49,9 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "User,Admin")]
         [Route("bugs")]
-        public ActionResult<Bug> ReportBug(Bug bug)
-        {
+        public ActionResult<Bug> ReportBug(Bug bug) {
             var bugWithId = DbManager.SaveBug(bug);
-            if (bugWithId == null)
-            {
+            if (bugWithId == null) {
                 throw new Exception("Could not save bug");
             }
 
@@ -70,15 +61,13 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
-        public ActionResult<Bug> EditBug(Bug bug)
-        {
+        public ActionResult<Bug> EditBug(Bug bug) {
             DbManager.UpdateBug(bug);
             return Ok(bug);
         }
 
         [HttpGet]
-        public ActionResult<byte[]> DownloadApp(string version)
-        {
+        public ActionResult<byte[]> DownloadApp(string version) {
             var app = DbManager.GetApp(version);
             if (app?.File == null) return NotFound();
 
@@ -87,22 +76,20 @@ namespace WebApi.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public ActionResult UploadApp()
-        {
+        public ActionResult UploadApp() {
             var formFile = (FormFile) Request.Form.Files[0];
             var softwareInfo = Request.Form["software"];
             var jObject = JObject.Parse(softwareInfo);
             var stream = formFile.OpenReadStream();
             byte[] data;
-            using (var memoryStream = new MemoryStream())
-            {
+            using (var memoryStream = new MemoryStream()) {
                 stream.CopyTo(memoryStream);
                 data = memoryStream.ToArray();
             }
 
             if (data == null) return BadRequest();
             var file = new File {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
-            var app = new App(jObject["version"].ToString(), file, jObject["releaseNotes"].ToString(),DateTime.Now);
+            var app = new App(jObject["version"].ToString(), file, jObject["releaseNotes"].ToString(), DateTime.Now);
             DbManager.SaveApp(app);
             return Ok();
         }
