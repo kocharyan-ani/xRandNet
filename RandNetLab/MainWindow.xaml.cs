@@ -76,13 +76,20 @@ namespace RandNetLab
                 draw = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), mainCanvas);
                 stepCount = LabSessionManager.GetStepCount();
 
-                Initial.IsEnabled = true;
+                //Initial.IsEnabled = true;
+                //Final.IsEnabled = true;
+                //Next.IsEnabled = false;
+                //Previous.IsEnabled = true;
+                //Save.IsEnabled = true;
+
+                Initial.IsEnabled = false;
                 Final.IsEnabled = true;
-                Next.IsEnabled = false;
-                Previous.IsEnabled = true;
+                Next.IsEnabled = true;
+                Previous.IsEnabled = false;
                 Save.IsEnabled = true;
 
-                DrawFinal();
+                draw.DrawInitial();
+                //DrawFinal();
 
             }
             else
@@ -102,7 +109,7 @@ namespace RandNetLab
 
         private void Initial_Click(object sender, RoutedEventArgs e)
         {
-            stepNumber = 1;
+            stepNumber = 0;
             TextBoxStepNumber.Text = stepNumber.ToString();
             mainCanvas.Children.Clear();
             draw.DrawInitial();
@@ -145,7 +152,7 @@ namespace RandNetLab
 
         private void DrawFinal()
         {
-            stepNumber = LabSessionManager.GetStepCount();
+            stepNumber = LabSessionManager.GetStepCount() - 1;
             mainCanvas.Children.Clear();
             draw.DrawFinal();
             TextBoxStepNumber.Text = stepNumber.ToString();
@@ -171,28 +178,37 @@ namespace RandNetLab
             Previous.IsEnabled = true;
             Initial.IsEnabled = true;
 
-            draw.DrawNext(stepNumber);
             stepNumber++;
+            draw.DrawNext(stepNumber);
+            if(stepNumber == stepCount - 1)
+            {
+                Next.IsEnabled = false;
+                Final.IsEnabled = false;
+            }
             TextBoxStepNumber.Text = stepNumber.ToString();
         }
 
         private void Previous_Click(object sender, RoutedEventArgs e)
         {
-            if (stepNumber == 2)
-            {
-                Previous.IsEnabled = false;
-                Initial.IsEnabled = false;
-            }
-            else if (stepNumber == 1)
-            {
-                return;
-            }
+            //if (stepNumber == 2)
+            //{
+            //    Previous.IsEnabled = false;
+            //    Initial.IsEnabled = false;
+            //}
+            //else if (stepNumber == 1)
+            //{
+            //    return;
+            //}
 
             Next.IsEnabled = true;
             Final.IsEnabled = true;
             
-            stepNumber--;
             draw.DrawPrevious(stepNumber);
+            stepNumber--;
+            if (stepNumber == 0)
+            {
+                Previous.IsEnabled = false;
+            }
             TextBoxStepNumber.Text = stepNumber.ToString();
         }
 
