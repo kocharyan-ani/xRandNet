@@ -40,13 +40,10 @@ namespace Draw
         protected override void GetNetwork()
         {
             
-            for (int i = 0; i < StepCount; i++)
+            for (int i = 0; i <= StepCount; i++)
             {
                 edgesBySteps.Add(LabSessionManager.GetStep(i));
             }
-
-            edgesBySteps.Add(LabSessionManager.GetStep(StepCount));
-
 
             initialNetwork = edgesBySteps[0];
         }

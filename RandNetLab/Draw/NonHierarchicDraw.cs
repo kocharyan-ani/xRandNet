@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Core;
+using System.Diagnostics;
 
 namespace Draw
 {
@@ -134,7 +135,8 @@ namespace Draw
         {
             string edgeUid = GenerateEdgeUid(edge);
 
-            for (int i = 0; i < MainCanvas.Children.Count; i++)
+            int i = 0;
+            for (; i < MainCanvas.Children.Count; i++)
             {
                 if (MainCanvas.Children[i].Uid == edgeUid)
                 {
@@ -142,11 +144,13 @@ namespace Draw
                     break;
                 }
             }
+            Debug.Assert(i != MainCanvas.Children.Count);
         }
 
         protected string GenerateEdgeUid(EdgesAddedOrRemoved edge)
         {
-            return "v" + edge.Vertex1.ToString() + "v" + edge.Vertex2.ToString();
+            return edge.Vertex1 < edge.Vertex2 ? "v" + edge.Vertex1.ToString() + "v" + edge.Vertex2.ToString() :
+                                                 "v" + edge.Vertex2.ToString() + "v" + edge.Vertex1.ToString();
         }
 
         protected string GenerateVertexUid(int vertexNumber)
