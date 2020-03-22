@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Database.Models {
     public partial class Auth {
-        public string JwtSecretKey { get; set; }
+        [Key] public string JwtSecretKeyId { get; set; }
     }
 }

@@ -5,20 +5,20 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using WebApi.Database.Models;
+using WebApi.Database.Context;
 using WebApi.Models;
 
 namespace WebApi.Services {
     public class AuthService {
-        private xRandNetDBContext Context { get; set; }
+        private xrandnetContext Context { get; set; }
 
-        public AuthService(xRandNetDBContext context) {
+        public AuthService(xrandnetContext context) {
             Context = context;
         }
 
         public User Authenticate(CredentialsForLoginDto credentials) {
             credentials.Password = this.Hash(credentials.Password);
-            var users = Context.Users.FirstOrDefault(user =>
+            var users = Context.User.FirstOrDefault(user =>
                 user.Username == credentials.Username && user.Password == credentials.Password);
             if (users == null)
                 return null;
@@ -33,7 +33,7 @@ namespace WebApi.Services {
                 Issuer = "http://xrand.net:8080",
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.Context.Auth.First().JwtSecretKey)),
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.Context.Auth.First().JwtSecretKeyId)),
                     SecurityAlgorithms.HmacSha256Signature)
             }));
             return user;
@@ -45,7 +45,7 @@ namespace WebApi.Services {
         }
 
         public User Register(CredentialsForRegisterDto credentials) {
-            if (Context.Users.Where(users => users.Username == credentials.Username).FirstOrDefault() != null) {
+            if (Context.User.Where(users => users.Username == credentials.Username).FirstOrDefault() != null) {
                 return null;
             }
 
@@ -60,7 +60,7 @@ namespace WebApi.Services {
                 Issuer = "http://xrand.net:8080",
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Context.Auth.First().JwtSecretKey)),
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Context.Auth.First().JwtSecretKeyId)),
                     SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

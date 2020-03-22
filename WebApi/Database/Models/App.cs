@@ -5,10 +5,10 @@ namespace WebApi.Database.Models {
     public partial class App {
         public int Id { get; set; }
         public string Version { get; set; }
-        public int FileId { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string ReleaseNotes { get; set; }
-
-        public virtual Files File { get; set; }
+        public int FileId { get; set; }
+        public AppFile File { get; set; }
+        public List<Bug> Bug { get; set; }
     }
 }

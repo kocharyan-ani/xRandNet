@@ -1,24 +1,25 @@
 ﻿using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Database;
-using File = WebApi.Models.File;
+using WebApi.Database.Models;
+using WebApi.Database.Repositories;
 
 namespace WebApi.Controllers {
     [Route("api/files")]
     [ApiController]
     public class FileController : Controller {
-        public DbManager DbManager { get; }
+        public UserManualFileRepository UserManualFileRepository;
 
-        public FileController(DbManager dbManager) {
-            DbManager = dbManager;
+        public FileController(UserManualFileRepository userManualFileRepository) {
+            UserManualFileRepository = userManualFileRepository;
         }
 
         [HttpGet]
         [Route("userManual")]
         public ActionResult<byte[]> DownloadUserManual() {
-            var userManualFile = DbManager.GetUserManual();
+            var userManualFile = UserManualFileRepository.Get(1);
             if (userManualFile == null) return NotFound();
 
             return File(userManualFile.Data, userManualFile.MimeType, userManualFile.Name);
@@ -36,9 +37,14 @@ namespace WebApi.Controllers {
                 data = memoryStream.ToArray();
             }
 
-            if (data == null) return BadRequest();
-            var file = new File {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
-            DbManager.SetUserManual(file);
+            var file = UserManualFileRepository.List().FirstOrDefault();
+            if (file == null) {
+                file = new ManualFile();
+            }
+            file.Name = formFile.FileName;
+            file.MimeType = formFile.ContentType;
+            file.Data = data;
+            UserManualFileRepository.Update(file);
             return Ok();
         }
     }

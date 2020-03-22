@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace WebApi.Database.Models {
+﻿namespace WebApi.Database.Models {
     public partial class Info {
         public int Id { get; set; }
-        public string Content { get; set; }
+        public int Content { get; set; }
     }
 }

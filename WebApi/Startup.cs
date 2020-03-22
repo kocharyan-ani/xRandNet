@@ -12,7 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
-using WebApi.Database.Models;
+using WebApi.Database.Context;
+using WebApi.Database.Repositories;
 using WebApi.Services;
 
 namespace WebApi {
@@ -23,10 +24,9 @@ namespace WebApi {
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             CustomLogger.WebMode = true;
-            services.AddDbContext<xRandNetDBContext>(options => options
+            services.AddDbContext<xrandnetContext>(options => options
                 .UseMySql(Configuration.GetConnectionString("DefaultConnection"), mySqlOptions => mySqlOptions
                     .ServerVersion(new ServerVersion(new Version(5, 7, 28), ServerType.MySql))
                 ));
@@ -39,12 +39,15 @@ namespace WebApi {
             });
             services.AddControllers();
             services.AddScoped<AuthService>();
+            services.AddScoped<AppRepository>();
+            services.AddScoped<BugRepository>();
+            services.AddScoped<UserManualFileRepository>();
             services.AddAuthentication(opt => {
                     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(options => {
-                    using (var db = new xRandNetDBContext()) {
+                    using (var db = new xrandnetContext()) {
                         options.TokenValidationParameters = new TokenValidationParameters {
                             ValidateIssuer = true,
                             ValidateAudience = false,
@@ -52,7 +55,7 @@ namespace WebApi {
                             ValidateIssuerSigningKey = true,
                             ValidIssuer = "http://xrand.net:8080",
                             IssuerSigningKey =
-                                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(db.Auth.First().JwtSecretKey)),
+                                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(db.Auth.First().JwtSecretKeyId)),
                             ClockSkew = TimeSpan.Zero
                         };
                     }
