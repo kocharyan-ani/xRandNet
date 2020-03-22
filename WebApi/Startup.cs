@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Text;
 using Core.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -47,18 +46,16 @@ namespace WebApi {
                     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(options => {
-                    using (var db = new DatabaseContext()) {
-                        options.TokenValidationParameters = new TokenValidationParameters {
-                            ValidateIssuer = true,
-                            ValidateAudience = false,
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidIssuer = Configuration.GetSection("IssuerDomain").Value,
-                            IssuerSigningKey = new SymmetricSecurityKey(
-                                Encoding.UTF8.GetBytes(Configuration.GetSection("SecretKey").Value)),
-                            ClockSkew = TimeSpan.Zero
-                        };
-                    }
+                    options.TokenValidationParameters = new TokenValidationParameters {
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration.GetSection("IssuerDomain").Value,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(Configuration.GetSection("SecretKey").Value)),
+                        ClockSkew = TimeSpan.Zero
+                    };
                 });
             services.AddAuthorization(options => {
                 options.AddPolicy("AdminOnly", policy => policy.RequireClaim("role", "Admin"));

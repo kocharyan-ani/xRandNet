@@ -19,10 +19,10 @@ namespace WebApi.Services {
             Configuration = configuration;
         }
 
-        public User Authenticate(CredentialsForLoginDto credentials) {
-            credentials.Password = this.Hash(credentials.Password);
+        public User Authenticate(SignInCredentials signInCredentials) {
+            signInCredentials.Password = this.Hash(signInCredentials.Password);
             var users = Context.User.FirstOrDefault(user =>
-                user.Username == credentials.Username && user.Password == credentials.Password);
+                user.Username == signInCredentials.Username && user.Password == signInCredentials.Password);
             if (users == null)
                 return null;
             var user = new User(users.FirstName, users.LastName, users.Username, users.Password, users.IsAdmin);
@@ -47,13 +47,13 @@ namespace WebApi.Services {
                 Encoding.UTF8.GetBytes(input))).Replace("-", "").ToLower();
         }
 
-        public User Register(CredentialsForRegisterDto credentials) {
-            if (Context.User.Where(users => users.Username == credentials.Username).FirstOrDefault() != null) {
+        public User Register(SignUpCredentials signUpCredentials) {
+            if (Context.User.Where(users => users.Username == signUpCredentials.Username).FirstOrDefault() != null) {
                 return null;
             }
 
-            var user = new User(credentials.FirstName, credentials.LastName, credentials.Username,
-                Hash(credentials.Password), false);
+            var user = new User(signUpCredentials.FirstName, signUpCredentials.LastName, signUpCredentials.Username,
+                Hash(signUpCredentials.Password), false);
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity(new Claim[] {

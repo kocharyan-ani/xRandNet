@@ -18,8 +18,8 @@ namespace WebApi.Controllers {
         }
 
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody] CredentialsForLoginDto credentials) {
-            var user = AuthService.Authenticate(credentials);
+        public IActionResult Login([FromBody] SignInCredentials signInCredentials) {
+            var user = AuthService.Authenticate(signInCredentials);
             if (user == null) {
                 return BadRequest(new {message = "Username or password is incorrect"});
             }
@@ -29,11 +29,11 @@ namespace WebApi.Controllers {
         }
 
         [HttpPost, Route("register")]
-        public IActionResult Register([FromBody] CredentialsForRegisterDto credentials) {
-            var user = AuthService.Register(credentials);
+        public IActionResult Register([FromBody] SignUpCredentials signUpCredentials) {
+            var user = AuthService.Register(signUpCredentials);
             if (user == null) {
                 return BadRequest(new {
-                    message = $"User with username '{credentials.Username}' already exists"
+                    message = $"User with username '{signUpCredentials.Username}' already exists"
                 });
             }
             user.Password = null;
