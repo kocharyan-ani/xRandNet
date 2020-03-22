@@ -53,9 +53,9 @@ namespace WebApi {
                             ValidateAudience = false,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidIssuer = "http://xrand.net:8080",
-                            IssuerSigningKey =
-                                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(db.Auth.First().JwtSecretKeyId)),
+                            ValidIssuer = Configuration.GetSection("IssuerDomain").Value,
+                            IssuerSigningKey = new SymmetricSecurityKey(
+                                Encoding.UTF8.GetBytes(Configuration.GetSection("SecretKey").Value)),
                             ClockSkew = TimeSpan.Zero
                         };
                     }

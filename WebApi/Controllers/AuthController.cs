@@ -36,7 +36,6 @@ namespace WebApi.Controllers {
                     message = $"User with username '{credentials.Username}' already exists"
                 });
             }
-
             user.Password = null;
             return Ok(user);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Database.Context;
 using WebApi.Models;
@@ -11,9 +12,11 @@ using WebApi.Models;
 namespace WebApi.Services {
     public class AuthService {
         private xrandnetContext Context { get; set; }
+        private IConfiguration Configuration { get; }
 
-        public AuthService(xrandnetContext context) {
+        public AuthService(xrandnetContext context, IConfiguration configuration) {
             Context = context;
+            Configuration = configuration;
         }
 
         public User Authenticate(CredentialsForLoginDto credentials) {
@@ -30,10 +33,10 @@ namespace WebApi.Services {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Role, role),
                 }),
-                Issuer = "http://xrand.net:8080",
+                Issuer = Configuration.GetSection("IssuerDomain").Value,
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.Context.Auth.First().JwtSecretKeyId)),
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("SecretKey").Value)),
                     SecurityAlgorithms.HmacSha256Signature)
             }));
             return user;
@@ -57,10 +60,10 @@ namespace WebApi.Services {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Role, "User"),
                 }),
-                Issuer = "http://xrand.net:8080",
+                Issuer = Configuration.GetSection("IssuerDomain").Value,
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Context.Auth.First().JwtSecretKeyId)),
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("SecretKey").Value)),
                     SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
