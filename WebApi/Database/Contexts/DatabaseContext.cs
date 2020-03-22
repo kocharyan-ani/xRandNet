@@ -2,11 +2,11 @@
 using WebApi.Database.Models;
 
 namespace WebApi.Database.Context {
-    public partial class xrandnetContext : DbContext {
-        public xrandnetContext() {
+    public partial class DatabaseContext : Microsoft.EntityFrameworkCore.DbContext {
+        public DatabaseContext() {
         }
 
-        public xrandnetContext(DbContextOptions<xrandnetContext> options)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options) {
         }
 

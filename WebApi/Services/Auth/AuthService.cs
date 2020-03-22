@@ -11,10 +11,10 @@ using WebApi.Models;
 
 namespace WebApi.Services {
     public class AuthService {
-        private xrandnetContext Context { get; set; }
+        private DatabaseContext Context { get; set; }
         private IConfiguration Configuration { get; }
 
-        public AuthService(xrandnetContext context, IConfiguration configuration) {
+        public AuthService(DatabaseContext context, IConfiguration configuration) {
             Context = context;
             Configuration = configuration;
         }

@@ -5,9 +5,9 @@ using WebApi.Database.Models;
 
 namespace WebApi.Database.Repositories {
     public abstract class Repository<T> : IRepository<T> where T : class {
-        protected readonly xrandnetContext Context;
+        protected readonly DatabaseContext Context;
 
-        protected Repository(xrandnetContext context) {
+        protected Repository(DatabaseContext context) {
             Context = context;
         }
 

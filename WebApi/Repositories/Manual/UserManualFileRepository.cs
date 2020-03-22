@@ -3,7 +3,7 @@ using UserManualFileDbEntity = WebApi.Database.Models.ManualFile;
 
 namespace WebApi.Database.Repositories {
     public sealed class UserManualFileRepository : Repository<UserManualFileDbEntity>, IUserManualFileRepository {
-        public UserManualFileRepository(xrandnetContext context) : base(context) {
+        public UserManualFileRepository(DatabaseContext context) : base(context) {
         }
     }
 }

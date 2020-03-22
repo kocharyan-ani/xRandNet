@@ -26,7 +26,7 @@ namespace WebApi {
 
         public void ConfigureServices(IServiceCollection services) {
             CustomLogger.WebMode = true;
-            services.AddDbContext<xrandnetContext>(options => options
+            services.AddDbContext<DatabaseContext>(options => options
                 .UseMySql(Configuration.GetConnectionString("DefaultConnection"), mySqlOptions => mySqlOptions
                     .ServerVersion(new ServerVersion(new Version(5, 7, 28), ServerType.MySql))
                 ));
@@ -47,7 +47,7 @@ namespace WebApi {
                     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(options => {
-                    using (var db = new xrandnetContext()) {
+                    using (var db = new DatabaseContext()) {
                         options.TokenValidationParameters = new TokenValidationParameters {
                             ValidateIssuer = true,
                             ValidateAudience = false,
