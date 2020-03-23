@@ -39,11 +39,18 @@ namespace WebApi {
             // Repositories
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAppRepository, AppRepository>();
+            services.AddTransient<IInfoRepository, InfoRepository>();
+            services.AddTransient<ILinkRepository, LinkRepository>();
+            services.AddTransient<INewsRepository, NewsRepository>();
+            services.AddTransient<IInfoRepository, InfoRepository>();
             services.AddTransient<IBugRepository, BugRepository>();
             services.AddTransient<IUserManualFileRepository, UserManualFileRepository>();
             // Services
             services.AddScoped<UserService>();
             services.AddScoped<AuthService>();
+            services.AddScoped<LinkService>();
+            services.AddScoped<NewsService>();
+            services.AddScoped<InfoService>();
             services.AddScoped<BugService>();
             services.AddScoped<AppService>();
             // Authentication

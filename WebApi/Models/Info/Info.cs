@@ -1,5 +1,5 @@
-﻿namespace WebApi.Database.Models {
-    public partial class Info {
+﻿namespace WebApi.Models {
+    public class Info {
         public int Id { get; set; }
         public string Content { get; set; }
 

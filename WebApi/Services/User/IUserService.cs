@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UserModel = WebApi.Models.User;
 
-namespace WebApi.Services.User {
+namespace WebApi.Services {
     public interface IUserService {
         void Add(UserModel model);
 

@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using WebApi.Database.Repositories;
 using WebApi.Models.Factories;
-using WebApi.Services.User;
 using UserModel = WebApi.Models.User;
 
-namespace WebApi.Services.Bug {
+namespace WebApi.Services {
     public sealed class UserService : IUserService {
         private readonly IUserRepository _userRepository;
 
@@ -47,11 +46,7 @@ namespace WebApi.Services.Bug {
 
         public UserModel Get(string username, string password) {
             var entity = _userRepository.Get(username, password);
-            if (entity == null) {
-                return null;
-            }
-
-            return UserFactory.Create(entity);
+            return entity == null ? null : UserFactory.Create(entity);
         }
     }
 }
