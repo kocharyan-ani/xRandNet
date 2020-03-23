@@ -22,5 +22,14 @@ namespace WebApi.Database.Models {
         public string Username { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public User(int id, string firstName, string lastName, string password, string username, bool isAdmin) {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Password = password;
+            Username = username;
+            IsAdmin = isAdmin;
+        }
     }
 }

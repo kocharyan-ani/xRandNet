@@ -14,15 +14,13 @@ namespace WebApi.Models {
         public Bug() {
         }
 
-        public Bug(int id, string summary, string description, string reporter, int status, DateTime reportDate,
-            App app) {
+        public Bug(int id, string summary, string description, string reporter, int status, DateTime reportDate) {
             Id = id;
             Summary = summary;
             Description = description;
             Reporter = reporter;
             Status = status;
             ReportDate = reportDate;
-            App = app;
         }
     }
 }

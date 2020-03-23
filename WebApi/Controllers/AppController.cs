@@ -9,24 +9,26 @@ using WebApi.Database;
 using WebApi.Database.Repositories;
 using WebApi.Models;
 using WebApi.Models.Factories;
+using WebApi.Services;
+using WebApi.Services.Bug;
 using File = WebApi.Models.File;
 
 namespace WebApi.Controllers {
     [Route("api/app")]
     [ApiController]
     public class AppController : Controller {
-        private AppRepository AppRepo { get; }
-        private BugRepository BugRepo { get; }
+        private AppService AppService { get; }
+        private BugService BugService { get; }
 
-        public AppController(AppRepository appRepository, BugRepository bugRepository) {
-            AppRepo = appRepository;
-            BugRepo = bugRepository;
+        public AppController(AppService appService, BugService bugService) {
+            AppService = appService;
+            BugService = bugService;
         }
 
         [HttpGet]
         [Route("versions")]
         public ActionResult<IEnumerable<App>> GetVersions() {
-            var apps = AppRepo.List();
+            var apps = AppService.List();
             return Ok(apps);
         }
 
@@ -34,7 +36,7 @@ namespace WebApi.Controllers {
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult DeleteBug(Bug bug) {
-            BugRepo.Delete(bug.Id);
+            BugService.Delete(bug.Id);
             return Ok();
         }
 
@@ -91,11 +93,9 @@ namespace WebApi.Controllers {
                 stream.CopyTo(memoryStream);
                 data = memoryStream.ToArray();
             }
-
-            if (data == null) return BadRequest();
             var file = new AppFile() {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
             var app = new App(jObject["version"].ToString(), file, jObject["releaseNotes"].ToString(), DateTime.Now);
-            AppRepo.Add(AppFactory.Create(app));
+            AppService.Add(app);
             return Ok();
         }
     }

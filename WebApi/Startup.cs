@@ -14,6 +14,7 @@ using Pomelo.EntityFrameworkCore.MySql.Storage;
 using WebApi.Database.Context;
 using WebApi.Database.Repositories;
 using WebApi.Services;
+using WebApi.Services.Bug;
 
 namespace WebApi {
     public class Startup {
@@ -25,38 +26,43 @@ namespace WebApi {
 
         public void ConfigureServices(IServiceCollection services) {
             CustomLogger.WebMode = true;
-            services.AddDbContext<DatabaseContext>(options => options
-                .UseMySql(Configuration.GetConnectionString("DefaultConnection"), mySqlOptions => mySqlOptions
-                    .ServerVersion(new ServerVersion(new Version(5, 7, 28), ServerType.MySql))
-                ));
             services.AddCors(options => {
-                options.AddPolicy("EnableCORS", builder => {
-                    builder.AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
+                options.AddPolicy("EnableCORS",
+                    builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
             });
             services.AddControllers();
+            // Database
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                    mySqlOptions =>
+                        mySqlOptions.ServerVersion(new ServerVersion(new Version(5, 7, 28), ServerType.MySql))));
+            // Repositories
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAppRepository, AppRepository>();
+            services.AddTransient<IBugRepository, BugRepository>();
+            services.AddTransient<IUserManualFileRepository, UserManualFileRepository>();
+            // Services
+            services.AddScoped<UserService>();
             services.AddScoped<AuthService>();
-            services.AddScoped<AppRepository>();
-            services.AddScoped<BugRepository>();
-            services.AddScoped<UserManualFileRepository>();
+            services.AddScoped<BugService>();
+            services.AddScoped<AppService>();
+            // Authentication
             services.AddAuthentication(opt => {
-                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options => {
-                    options.TokenValidationParameters = new TokenValidationParameters {
-                        ValidateIssuer = true,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration.GetSection("IssuerDomain").Value,
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration.GetSection("SecretKey").Value)),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration.GetSection("IssuerDomain").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(Configuration.GetSection("SecretKey").Value)),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+            // Authorization
             services.AddAuthorization(options => {
                 options.AddPolicy("AdminOnly", policy => policy.RequireClaim("role", "Admin"));
             });
@@ -65,7 +71,6 @@ namespace WebApi {
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("EnableCORS");

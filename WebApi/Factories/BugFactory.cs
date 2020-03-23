@@ -8,16 +8,15 @@ namespace WebApi.Models.Factories {
         public static BugDbEntity Create(BugModel model) {
             if (model == default) return default;
             AppDbEntity appDbEntity = AppFactory.Create(model.App);
-            return null;
-            // return new BugDbEntity(model.Id, model.Summary, model.Description, model.Status, model.ReportDate,
-            // model.Reporter, appDbEntity);
+            return new BugDbEntity(model.Id, model.Summary, model.Description, model.Status, model.ReportDate,
+                model.Reporter, appDbEntity.Id, appDbEntity);
         }
 
         public static BugModel Create(BugDbEntity entity) {
             if (entity == default) return default;
             AppModel appModel = AppFactory.Create(entity.App);
             return new BugModel(entity.Id, entity.Summary, entity.Description, entity.Reporter, entity.Status,
-                entity.ReportDate, appModel);
+                entity.ReportDate);
         }
     }
 }
