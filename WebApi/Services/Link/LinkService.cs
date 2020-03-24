@@ -3,6 +3,7 @@ using System.Linq;
 using WebApi.Database.Repositories;
 using WebApi.Models.Factories;
 using LinkModel = WebApi.Models.Link;
+using LinkDbEntiry = WebApi.Database.Models.Link;
 
 namespace WebApi.Services {
     public sealed class LinkService : ILinkService {
@@ -28,11 +29,6 @@ namespace WebApi.Services {
             var entity = _linkRepository.Get(id);
 
             return LinkFactory.Create(entity);
-        }
-
-        public LinkModel Get() {
-            var entity = _linkRepository.Get();
-            return entity == null ? null : LinkFactory.Create(entity);
         }
 
         public IEnumerable<LinkModel> List() {

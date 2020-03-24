@@ -10,9 +10,9 @@ namespace WebApi.Controllers {
     [Route("api/files")]
     [ApiController]
     public class FileController : Controller {
-        public UserManualFileRepository UserManualFileRepository;
+        public IUserManualFileRepository UserManualFileRepository;
 
-        public FileController(UserManualFileRepository userManualFileRepository) {
+        public FileController(IUserManualFileRepository userManualFileRepository) {
             UserManualFileRepository = userManualFileRepository;
         }
 
