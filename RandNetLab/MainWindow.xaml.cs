@@ -124,11 +124,11 @@ namespace RandNetLab
         {
             if (draw != null)
             {
-                if (stepNumber == 1)
+                if (stepNumber == 0)
                 {
                     draw.DrawInitial();
                 }
-                else if (stepNumber == stepCount)
+                else if (stepNumber == stepCount - 1)
                 {
                     draw.DrawFinal();
                 }
