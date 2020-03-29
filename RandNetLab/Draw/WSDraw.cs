@@ -32,14 +32,15 @@ namespace Draw
 
         protected override void GetNetwork()
         {
-            edgesBySteps.Add(LabSessionManager.GetStep(StepCount));
+            //edgesBySteps.Add(LabSessionManager.GetStep(StepCount));
             
-            for (int i = 0; i < StepCount; ++i)
+            // GetStep(0) - initial network, GetStep(i) - i = 1, ..., StepCount - generation steps
+            for (int i = 0; i <= StepCount; ++i)
             {
                 edgesBySteps.Add(LabSessionManager.GetStep(i));
             }
             
-            initialNetwork = edgesBySteps[0];
+                initialNetwork = edgesBySteps[0];
         }
 
         public override void DrawInitial()

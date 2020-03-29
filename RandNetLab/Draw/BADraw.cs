@@ -21,7 +21,6 @@ namespace Draw
         private List<Ellipse> VerticesAddedToCanvas;
         private readonly Point[] addedVertexPoints;
         private List<EdgesAddedOrRemoved> initialNetwork;
-        Random rand;
 
         public BADraw(Canvas mainCanvas) : base(mainCanvas)
         {
@@ -34,19 +33,15 @@ namespace Draw
             //LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability, (int)StepCount, (int)Edges);
             GetNetwork();
 
-            rand = new Random(DateTime.Now.Millisecond);
         }
 
         protected override void GetNetwork()
         {
             
-            for (int i = 0; i < StepCount; i++)
+            for (int i = 0; i <= StepCount; i++)
             {
                 edgesBySteps.Add(LabSessionManager.GetStep(i));
             }
-
-            edgesBySteps.Add(LabSessionManager.GetStep(StepCount));
-
 
             initialNetwork = edgesBySteps[0];
         }
@@ -54,7 +49,7 @@ namespace Draw
         public override void DrawInitial()
         {
             MainCanvas.Children.Clear();
-            DrawVertices();
+            DrawVertices(true);
 
             for (int i = 0; i < initialNetwork.Count; i++)
             {
@@ -73,7 +68,10 @@ namespace Draw
         {
             int vertexNumber = (int)InitialVertexCount + stepNumber - 1;
             DrawVertex(vertexNumber);
-            MakeVertexGray(vertexNumber - 1);
+            if (vertexNumber != InitialVertexCount)
+            {
+                MakeVertexGray(vertexNumber - 1);
+            }
             base.DrawNext(stepNumber);
         }
 
@@ -132,8 +130,12 @@ namespace Draw
             {
                 // If vertex appears at first time , generate random coordinamtes to place it
 
-                x = rand.Next(0, (int)MainCanvas.ActualWidth);
-                y = rand.Next(0, (int)MainCanvas.ActualHeight);
+                Point center = new Point(MainCanvas.ActualWidth / 2, MainCanvas.ActualHeight / 2);
+                Double radius = Math.Min((MainCanvas.ActualHeight) / 2, (MainCanvas.ActualWidth / 2)) * 0.9;
+                Point[] newVertices = GetVertices(center, StepCount, (int)radius);
+
+                x = (int)newVertices[vertexNumber - Vertices.Length].X;
+                y = (int)newVertices[vertexNumber - Vertices.Length].Y;
                 addedVertexPoints[vertexNumber - InitialVertexCount] = new Point()
                 {
                     X = x,
@@ -185,7 +187,7 @@ namespace Draw
             {
                 if (MainCanvas.Children[i].Uid == Uid)
                 {
-                    ((Ellipse)MainCanvas.Children[i]).Fill = (SolidColorBrush)new BrushConverter().ConvertFromString("#323336");
+                    ((Ellipse)MainCanvas.Children[i]).Fill = (SolidColorBrush)new BrushConverter().ConvertFromString("#014e9d");
                     return;
                 }
             }

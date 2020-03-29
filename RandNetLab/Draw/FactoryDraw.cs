@@ -26,6 +26,12 @@ namespace RandNetLab.Draw
                 case ModelType.WS:
                     draw = new WSDraw(canvas);
                     break;
+                case ModelType.RegularHierarchic:
+                    draw = new RegularBlockHierarchicDraw(canvas);
+                    break;
+                case ModelType.NonRegularHierarchic:
+                    draw = new NonRegularBlockHierarchicDraw(canvas);
+                    break;
                 default:
                     draw = null;
                     break;
