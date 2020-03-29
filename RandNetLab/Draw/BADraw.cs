@@ -21,7 +21,6 @@ namespace Draw
         private List<Ellipse> VerticesAddedToCanvas;
         private readonly Point[] addedVertexPoints;
         private List<EdgesAddedOrRemoved> initialNetwork;
-        Random rand;
 
         public BADraw(Canvas mainCanvas) : base(mainCanvas)
         {
@@ -34,7 +33,6 @@ namespace Draw
             //LabSessionManager.Generate((int)this.InitialVertexCount, this.Probability, (int)StepCount, (int)Edges);
             GetNetwork();
 
-            rand = new Random(DateTime.Now.Millisecond);
         }
 
         protected override void GetNetwork()
