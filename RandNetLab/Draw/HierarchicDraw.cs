@@ -11,7 +11,6 @@ using System.Windows.Shapes;
 using Core;
 using Core.Enumerations;
 using Session;
-using static alglib;
 using Cluster = System.Windows.Shapes.Ellipse;
 
 namespace Draw
