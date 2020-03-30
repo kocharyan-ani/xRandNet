@@ -1,0 +1,4 @@
+.max-content-height {
+    max-height: 200px;
+    overflow: auto;
+}

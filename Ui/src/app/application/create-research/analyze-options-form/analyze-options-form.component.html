@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-title>Analyze Options</mat-card-title>
+  <mat-card-content class="max-content-height">
+    <div *ngFor="let control of analyzeOptions">
+      <mat-checkbox [formControl]="formGroup.get(control)">{{control}}</mat-checkbox>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" type="button" (click)="selectAll()">Select All</button>
+    <button mat-raised-button color="primary" type="button" (click)="deselectAll()">Deselect All</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,62 @@
+<div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+    <h1 mat-dialog-title>Bug details</h1>
+    <mat-dialog-content fxFlex>
+        <mat-list>
+            <mat-list-item style="display: inline-block;width: auto">
+                <mat-icon mat-list-icon>fingerprint</mat-icon>
+                <h4 mat-line>ID</h4>
+                <p mat-line> {{bug.id}} </p>
+            </mat-list-item>
+            <mat-list-item style="display: inline-block;width: auto">
+                <mat-icon mat-list-icon>new_releases</mat-icon>
+                <h4 mat-line>Version</h4>
+                <p mat-line> {{bug.version}} </p>
+            </mat-list-item>
+            <mat-list-item style="display: inline-block;width: auto">
+                <mat-icon mat-list-icon>account_circle</mat-icon>
+                <h4 mat-line>Reporter</h4>
+                <p mat-line> {{bug.reporter}} </p>
+            </mat-list-item>
+            <mat-list-item style="display: inline-block;width: auto">
+                <mat-icon mat-list-icon>date_range</mat-icon>
+                <h4 mat-line>Reported date</h4>
+                <p mat-line> {{bug.reportDate}} </p>
+            </mat-list-item>
+            <mat-list-item style="display: inline-block;width: auto">
+                <mat-icon mat-list-icon>note</mat-icon>
+                <h4 mat-line>Status</h4>
+                <p mat-line> {{toBugStatusString(bug.status)}} </p>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-icon mat-list-icon>notes</mat-icon>
+                <h4 mat-line>Summary</h4>
+                <p mat-line> {{bug.summary}} </p>
+            </mat-list-item>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <mat-list-item>
+                <mat-icon mat-list-icon>format_align_justify</mat-icon>
+                <h4 mat-line>Description</h4>
+                <p style="white-space: normal; word-wrap: break-word;" mat-line>{{bug.description}}</p>
+            </mat-list-item>
+        </mat-list>
+    </mat-dialog-content>
+    <mat-dialog-actions class="actions">
+        <button *ngIf="isBugClosed()" (click)="onClickReopen()" mat-raised-button [matTooltip]="'Reopen'">
+            <mat-icon class="button-icon">loop</mat-icon>
+        </button>
+        <button *ngIf="!isBugClosed()" (click)="onClickFixed()" mat-raised-button [matTooltip]="'Fixed'">
+            <mat-icon class="button-icon">done</mat-icon>
+        </button>
+        <button *ngIf="!isBugClosed()" (click)="onClickNotBug()" mat-raised-button [matTooltip]="'Not a bug'">
+            <mat-icon class="button-icon">not_interested</mat-icon>
+        </button>
+        <button mat-raised-button mat-dialog-close [matTooltip]="'Close dialog'">
+            <mat-icon class="button-icon">close</mat-icon>
+        </button>
+    </mat-dialog-actions>
+    <br>
+</div>

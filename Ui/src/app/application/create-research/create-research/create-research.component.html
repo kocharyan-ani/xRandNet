@@ -1,0 +1,12 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit(formGroup.value)">
+    <div class="general-form">
+        <app-general-form [formGroup]="formGroup.get('general')" [generationTypes]="generationTypes"
+                          [modelTypes]="modelTypes" [storageTypes]="storageTypes"></app-general-form>
+    </div>
+    <div class="form-wrapper">
+        <app-parameters-form class="form-component" [formGroup]="formGroup.get('parameters')" [parameters]="parameters"></app-parameters-form>
+        <app-analyze-options-form class="form-component" [formGroup]="formGroup.get('analyzeOptions')"
+                                  [analyzeOptions]="analyzeOptions"></app-analyze-options-form>
+    </div>
+    <button mat-raised-button color="primary" class="submit-button">Save</button>
+</form>

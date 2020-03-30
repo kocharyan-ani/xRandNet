@@ -1,0 +1,18 @@
+h1 {
+    color: #673ab7;
+    margin-top: 50px;
+}
+
+h2 {
+    margin-top: 50px;
+    color: #673ab7;
+}
+
+a {
+    /*display: block;*/
+}
+
+.downloads {
+    margin-left: 15%;
+    margin-right: 15%;
+}

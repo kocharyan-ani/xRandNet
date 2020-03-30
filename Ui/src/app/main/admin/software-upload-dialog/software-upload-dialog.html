@@ -1,0 +1,38 @@
+<input type="file" #file style="display: none" (change)="onFileAdded()"/>
+<div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+    <h1 mat-dialog-title>Upload Software</h1>
+    <mat-form-field style="width: 100px">
+        <input matInput [(ngModel)]="software.version" placeholder="Version">
+    </mat-form-field>
+    <mat-form-field class="description">
+        <textarea class="description" matInput [(ngModel)]="releaseNotes"
+                  placeholder="Release Notes (separated by |)"></textarea>
+    </mat-form-field>
+    <div>
+        <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" class="add-files-btn"
+                (click)="addFiles()">
+            <mat-icon class="button-icon">attach_file</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content fxFlex>
+        <mat-list>
+            <mat-list-item *ngIf="softwareFile">
+                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                <h4 mat-line>{{softwareFile.name}}</h4>
+                <span mat-line>Size - {{sizeHumanReadable(softwareFile.size)}} Mb</span>
+                <mat-progress-bar *ngIf="progress" mode="determinate"
+                                  [value]="progress | async"></mat-progress-bar>
+            </mat-list-item>
+        </mat-list>
+    </mat-dialog-content>
+    <mat-dialog-actions class="actions">
+        <button *ngIf="showCancelButton" mat-raised-button mat-dialog-close [matTooltip]="'Close'">
+            <mat-icon class="button-icon">close</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" [disabled]="!canBeClosed"
+                (click)="upload()">
+            <mat-icon>{{iconText}}</mat-icon>
+        </button>
+    </mat-dialog-actions>
+    <br>
+</div>

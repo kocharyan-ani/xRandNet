@@ -1,0 +1,51 @@
+<nav class=" navbar-expand-lg bg-light bg-transparent ">
+    <div class="navi">
+        <div class="col-11 coll">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link x-nav-item" *ngIf="currentUser" routerLink="/application">Application</a>
+                <a class="nav-item nav-link x-nav-item" routerLink="/home">Home</a>
+                <a class="nav-item nav-link x-nav-item" routerLink="/news">News</a>
+                <a class="nav-item nav-link x-nav-item" routerLink="/info">Info</a>
+                <a class="nav-item nav-link x-nav-item" routerLink="/downloads">Downloads</a>
+                <a class="nav-item nav-link x-nav-item" *ngIf="currentUser" href="#"
+                   (click)="$event.preventDefault(); openDialog()">Report a bug</a>
+            </div>
+        </div>
+        <div class="ex" [class.example-is-mobile]="mobileQuery.matches">
+            <mat-toolbar>
+                <div class="col-11 butmenu">
+                    <button mat-icon-button (click)="snav.toggle()">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                </div>
+                <div class="log">
+                    <a class="nav-link text-right" *ngIf="!currentUser" routerLink="/login">Login</a>
+                    <a class="nav-link text-right" *ngIf="currentUser" (click)="logout()"
+                       routerLink="/login">Sign out</a>
+                </div>
+            </mat-toolbar>
+            <mat-sidenav-container class="example-sidenav-container"
+                                   [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+                <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                             [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+                    <mat-nav-list>
+                        <a class="nav-item nav-link x-nav-item" *ngIf="currentUser" routerLink="/application">Application</a>
+                        <a class="nav-item nav-link x-nav-item" routerLink="/home">Home</a>
+                        <a class="nav-item nav-link x-nav-item" routerLink="/info">Info</a>
+                        <a class="nav-item nav-link x-nav-item" routerLink="/news">News</a>
+                        <a class="nav-item nav-link x-nav-item" routerLink="/downloads">Downloads</a>
+                        <a class="nav-item nav-link x-nav-item" *ngIf="currentUser" href="#"
+                           (click)="$event.preventDefault(); openDialog()">Report a bug</a>
+                        <a class="nav-item nav-link x-nav-item" href="{{ userManualFileUrl}}">User Manual</a>
+                    </mat-nav-list>
+                </mat-sidenav>
+            </mat-sidenav-container>
+        </div>
+
+        <div class="logblock">
+            <a class="nav-link text-right x-nav-item" *ngIf="!currentUser" routerLink="/login">Sign in</a>
+            <a class="nav-link text-right x-nav-item" *ngIf="currentUser" (click)="logout()"
+               routerLink="/login">Sign out</a>
+        </div>
+    </div>
+</nav>
