@@ -73,12 +73,10 @@ namespace Api.Controllers {
 
         [HttpGet]
         public ActionResult<byte[]> DownloadApp(string version) {
-            // TODO return app file based on version
-            // var app = null;
-            // if (app?.File == null) return NotFound();
+            var app = AppService.Get(version);
+            if (app?.File == null) return NotFound();
 
-            // return File(app.File.Data, app.File.MimeType, app.File.Name);
-            return null;
+            return File(app.File.Data, app.File.MimeType, app.File.Name);
         }
 
         [HttpPut]

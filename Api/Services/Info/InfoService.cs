@@ -4,6 +4,7 @@ using Api.Database.Repositories;
 using Api.Models;
 using Api.Models.Factories;
 using InfoModel = Api.Models.Info;
+using InfoDBEntity = Api.Database.Models.Info;
 
 namespace Api.Services {
     public sealed class InfoService : IInfoService {
@@ -41,9 +42,15 @@ namespace Api.Services {
         }
 
         public void Update(Info model) {
-            var entity = InfoFactory.Create(model);
-
-            _infoRepository.Update(entity);
+            var infos = _infoRepository.List().ToList();
+            if (!infos.Any()) {
+                Add(model);
+            }
+            else {
+                InfoDBEntity info = infos.FirstOrDefault();
+                info.Content = model.Content;
+                _infoRepository.Update(info);
+            }
         }
     }
 }

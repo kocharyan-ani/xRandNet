@@ -7,5 +7,8 @@
             Id = id;
             Content = content;
         }
+
+        public Info() {
+        }
     }
 }

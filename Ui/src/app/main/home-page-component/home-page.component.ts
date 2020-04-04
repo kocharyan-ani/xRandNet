@@ -16,7 +16,7 @@ export class HomePageComponent implements OnInit {
     generalLinks: Array<Link> = Array<Link>();
 
     constructor(private titleService: Title, private httpClient: HttpClient) {
-        this.httpClient.get(environment.apiUrl + '/api/data/aboutUs')
+        this.httpClient.get(environment.apiUrl + '/api/data/info')
             .subscribe((aboutInfo: AboutInfo) => {
                 if (aboutInfo != null) {
                     this.aboutInfo = aboutInfo;

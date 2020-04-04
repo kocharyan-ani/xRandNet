@@ -4,14 +4,14 @@ using AppModel = Api.Models.App;
 
 namespace Api.Models.Factories {
     public static class AppFileFactory {
-        public static Database.Models.AppFile Create(AppFile model) {
+        public static AppFileDbEntity Create(AppFileModel model) {
             if (model == default) return default;
-            return new Database.Models.AppFile(model.Id, model.Name, model.MimeType, model.Data);
+            return new AppFileDbEntity(model.Id, model.Name, model.MimeType, model.Data);
         }
 
-        public static AppFile Create(Database.Models.AppFile entity) {
+        public static AppFileModel Create(AppFileDbEntity entity) {
             if (entity == default) return default;
-            return new AppFile(entity.Id, entity.Name, entity.MimeType, entity.Data);
+            return new AppFileModel(entity.Id, entity.Name, entity.MimeType, entity.Data);
         }
     }
 }

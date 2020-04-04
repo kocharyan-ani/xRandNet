@@ -11,7 +11,11 @@
             MimeType = mimeType;
             Data = data;
         }
-
+        public File( string name, string mimeType, byte[] data) {
+            Name = name;
+            MimeType = mimeType;
+            Data = data;
+        }
         protected File() {
             
         }

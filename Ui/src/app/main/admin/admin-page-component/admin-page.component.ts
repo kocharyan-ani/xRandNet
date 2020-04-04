@@ -48,7 +48,7 @@ export class AdminPageComponent implements OnInit {
     }
 
     editInfo() {
-        this.httpClient.post(environment.apiUrl + '/api/data/info', this.aboutInfo)
+        this.httpClient.post(environment.apiUrl + '/api/data/info', this.aboutInfo.toJson())
             .subscribe((data) => {
                 console.log(data);
             });
@@ -106,7 +106,8 @@ export class AdminPageComponent implements OnInit {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            body: link.toJson()
+            body: {},
+            params: new HttpParams().append("id", link.id.toString())
         };
         this.httpClient.delete(environment.apiUrl + '/api/data/links', options).toPromise().then(() => {
             const index: number = this.generalLinks.indexOf(link);
@@ -231,7 +232,7 @@ export class AdminPageComponent implements OnInit {
         let params = new HttpParams().set('version', this.selectedVersion);
         this.httpClient.get(environment.apiUrl + '/api/app/bugs', {params})
             .subscribe((data: Array<Bug>) => {
-                data.forEach((bugObj) => {
+                Array.from(data).forEach((bugObj) => {
                     this.bugs.push(new Bug(bugObj.id, bugObj.summary, bugObj.description, bugObj.reporter, bugObj.version, bugObj.status, bugObj.reportDate))
                 });
             });
@@ -254,10 +255,12 @@ export class AdminPageComponent implements OnInit {
                 this.selectedVersion = this.softwareVersions[0];
                 this.onVersionChanged();
             });
-        this.httpClient.get(environment.apiUrl + '/api/data/aboutUs')
+        this.httpClient.get(environment.apiUrl + '/api/data/info')
             .subscribe((aboutInfo: AboutInfo) => {
                 if (aboutInfo != null) {
-                    this.aboutInfo = aboutInfo;
+                    this.aboutInfo = new AboutInfo(aboutInfo.id, aboutInfo.content);
+                } else {
+                    this.aboutInfo = new AboutInfo()
                 }
             });
         let params = new HttpParams().set('type', LinkType.GENERAL.toString());

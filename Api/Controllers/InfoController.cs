@@ -27,15 +27,15 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
-            return Ok(new {content = info});
+            return Ok(info);
         }
 
         [HttpPost]
         // [Authorize(Roles = "Admin")]
         [Route("info")]
-        public ActionResult<string> EditInfoAboutUs([FromBody] Info infoAboutUs) {
-            InfoService.Update(infoAboutUs);
-            return Ok();
+        public ActionResult<string> EditInfoAboutUs([FromBody] Info info) {
+           InfoService.Update(info);
+           return Ok(info);
         }
 
         [HttpGet]
