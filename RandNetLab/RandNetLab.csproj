@@ -65,6 +65,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Draw\Cluster.cs" />
+    <Compile Include="Draw\NonRegularBlockHierarchicDraw.cs" />
+    <Compile Include="Draw\RegularBlockHierarchicDraw.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -85,13 +88,11 @@
     </Compile>
     <Compile Include="Draw\AbstractDraw.cs" />
     <Compile Include="Draw\BADraw.cs" />
-    <Compile Include="Draw\DrawFactory.cs" />
     <Compile Include="Draw\ERDraw.cs" />
     <Compile Include="Draw\FactoryDraw.cs" />
     <Compile Include="Draw\HMNDraw.cs" />
     <Compile Include="Draw\NonHierarchicDraw.cs" />
-    <Compile Include="Draw\NonRegularHierarchicDraw.cs" />
-    <Compile Include="Draw\RegularHierarchicDraw.cs" />
+    <Compile Include="Draw\HierarchicDraw.cs" />
     <Compile Include="Draw\WSDraw.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

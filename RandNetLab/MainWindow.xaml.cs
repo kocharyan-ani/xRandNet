@@ -68,10 +68,10 @@ namespace RandNetLab
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+            stepNumber = 0;
             if (Start.Content.ToString() == "Start")
             {
                 Start.Content = "Stop";
-                stepNumber = 0;
                 
                 draw = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), mainCanvas);
                 stepCount = LabSessionManager.GetStepCount();
@@ -91,6 +91,15 @@ namespace RandNetLab
                 Next.IsEnabled = true;
                 Previous.IsEnabled = false;
                 Save.IsEnabled = true;
+
+                if((bool)Flat.IsChecked)
+                {
+                    if (draw != null)
+                    {
+                        HierarchicDraw hierDraw = draw as HierarchicDraw;
+                        hierDraw.IsFlat = true;
+                    }
+                }
 
                 draw.DrawInitial();
                 //DrawFinal();
@@ -114,6 +123,7 @@ namespace RandNetLab
         private void Initial_Click(object sender, RoutedEventArgs e)
         {
             stepNumber = 0;
+            draw.StepNumber = stepNumber;
             TextBoxStepNumber.Text = stepNumber.ToString();
             mainCanvas.Children.Clear();
             draw.DrawInitial();
@@ -149,22 +159,11 @@ namespace RandNetLab
 
         private void Final_Click(object sender, RoutedEventArgs e)
         {
+            stepNumber = stepCount - 1;
+            draw.StepNumber = stepNumber;
             Previous.IsEnabled = true;
             Next.IsEnabled = false;
             DrawFinal();
-        }
-
-        private void DrawFinal()
-        {
-            stepNumber = LabSessionManager.GetStepCount() - 1;
-            mainCanvas.Children.Clear();
-            draw.DrawFinal();
-            TextBoxStepNumber.Text = stepNumber.ToString();
-
-            Next.IsEnabled = false;
-            Previous.IsEnabled = true;
-            Initial.IsEnabled = true;
-            Final.IsEnabled = false;
         }
 
         private void Next_Click(object sender, RoutedEventArgs e)
@@ -183,6 +182,7 @@ namespace RandNetLab
             Initial.IsEnabled = true;
 
             stepNumber++;
+            draw.StepNumber = stepNumber;
             draw.DrawNext(stepNumber);
             if(stepNumber == stepCount - 1)
             {
@@ -206,7 +206,8 @@ namespace RandNetLab
 
             Next.IsEnabled = true;
             Final.IsEnabled = true;
-            
+
+            draw.StepNumber = stepNumber;
             draw.DrawPrevious(stepNumber);
             stepNumber--;
             if (stepNumber == 0)
@@ -237,9 +238,40 @@ namespace RandNetLab
             }
         }
 
+        private void Flat_Checked(object sender, RoutedEventArgs e)
+        {
+            if (draw != null)
+            {
+                HierarchicDraw hierDraw = draw as HierarchicDraw;
+                hierDraw.IsFlat = true;
+            }
+        }
+
+        private void Flat_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (draw != null)
+            {
+                HierarchicDraw hierDraw = draw as HierarchicDraw;
+                hierDraw.IsFlat = false;
+            }
+        }
+
         #endregion
 
         #region Utility
+
+        private void DrawFinal()
+        {
+            stepNumber = LabSessionManager.GetStepCount() - 1;
+            mainCanvas.Children.Clear();
+            draw.DrawFinal();
+            TextBoxStepNumber.Text = stepNumber.ToString();
+
+            Next.IsEnabled = false;
+            Previous.IsEnabled = true;
+            Initial.IsEnabled = true;
+            Final.IsEnabled = false;
+        }
 
         private void ShowCreateResearchDialog(ResearchType researchType)
         {
@@ -260,6 +292,16 @@ namespace RandNetLab
             Previous.IsEnabled = false;
             Start.Content = "Start";
             mainCanvas.Children.Clear();
+
+            if (LabSessionManager.GetResearchType() == ResearchType.Basic && 
+                (LabSessionManager.GetResearchModelType() == ModelType.RegularHierarchic || LabSessionManager.GetResearchModelType() == ModelType.NonRegularHierarchic))
+            {
+                Flat.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                Flat.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
 
         private void AddResearchToTable()
