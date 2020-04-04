@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Api.Models;
 using Api.Services;
 using Api.Services.Bug;
@@ -44,9 +45,7 @@ namespace Api.Controllers {
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult<List<Bug>> GetBugs([FromQuery] string version) {
-            var bugs = new Bug(); // = AppRepo.Get();
-            // BugRepo.Get()
-            // TODO find bug list by app version
+            var bugs = BugService.List(version);
             return Ok(bugs);
         }
 
@@ -54,20 +53,15 @@ namespace Api.Controllers {
         [Authorize(Roles = "User,Admin")]
         [Route("bugs")]
         public ActionResult<Bug> ReportBug(Bug bug) {
-            // BugRepo.Add(bug);
-            // TODO  return bug with id
-            // if (bugWithId == null) {
-            //     throw new Exception("Could not save bug");
-            // }
-
-            return Ok();
+            BugService.Add(bug);
+            return Ok(bug);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult<Bug> EditBug(Bug bug) {
-            // BugRepo.Update(bug);
+            BugService.Update(bug);
             return Ok();
         }
 
@@ -91,6 +85,7 @@ namespace Api.Controllers {
                 stream.CopyTo(memoryStream);
                 data = memoryStream.ToArray();
             }
+
             var file = new AppFile() {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
             var app = new App(jObject["version"].ToString(), file, jObject["releaseNotes"].ToString(), DateTime.Now);
             AppService.Add(app);

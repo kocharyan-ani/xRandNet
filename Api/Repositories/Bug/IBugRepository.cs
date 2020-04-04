@@ -1,7 +1,8 @@
-using Api.Database.Models;
+using System.Collections.Generic;
 using BugDbEntity = Api.Database.Models.Bug;
 
 namespace Api.Database.Repositories {
-    public interface IBugRepository : IRepository<Bug> {
+    public interface IBugRepository : IRepository<BugDbEntity> {
+        public IEnumerable<BugDbEntity> List(int appId);
     }
 }

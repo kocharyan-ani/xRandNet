@@ -60,10 +60,6 @@ export class AuthenticationService {
 
 
     logout() {
-        // remove user from local storage to log user out
-        this.http.get(environment.apiUrl + "/api/auth/logout").toPromise().then((data) => {
-            console.log(data)
-        });
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }

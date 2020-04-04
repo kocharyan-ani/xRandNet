@@ -16,7 +16,7 @@ namespace Api.Database.Models {
         }
 
         public Bug(int id, string summary, string description, int status, DateTime reportDate, string reporter,
-            int appId, App app) {
+            int appId) {
             Id = id;
             Summary = summary;
             Description = description;
@@ -24,7 +24,6 @@ namespace Api.Database.Models {
             ReportDate = reportDate;
             Reporter = reporter;
             AppId = appId;
-            App = app;
         }
     }
 }
