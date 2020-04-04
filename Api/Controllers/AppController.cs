@@ -53,6 +53,7 @@ namespace Api.Controllers {
         [Authorize(Roles = "User,Admin")]
         [Route("bugs")]
         public ActionResult<Bug> ReportBug(Bug bug) {
+            bug.ReportDate = DateTime.Now;
             BugService.Add(bug);
             return Ok(bug);
         }

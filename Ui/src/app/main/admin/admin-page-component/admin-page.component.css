@@ -5,7 +5,7 @@ mat-form-field {
 
 textarea {
     resize: none;
-    min-height: 100px;
+    min-height: 200px;
 }
 
 .userManualButton {
@@ -86,12 +86,12 @@ h2 {
 
 .bug {
     float: left;
-    width: 400px;
+    width: 300px;
     display: inline-block;
     margin: 10px;
     border-radius: 20px;
     filter: drop-shadow(3px 2px 5px gray);
-    min-height: 300px;
+    /*min-height: 300px;*/
 }
 
 .bug_status_0 {
@@ -137,5 +137,6 @@ h2 {
 
 .links_section {
     float: left;
+    display: inline-block;
     margin-bottom: 40px;
 }
