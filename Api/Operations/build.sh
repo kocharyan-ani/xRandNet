@@ -6,6 +6,7 @@ git clone https://github.com/kocharyan-ani/xRandNet.git /opt/xRandNet/xRandNet
 
 # copying config file
 cp /opt/xRandNet/automation/appsettings.json /opt/xRandNet/xRandNet/Api/appsettings.json
+cp /opt/xRandNet/automation/appsettings.json /opt/xRandNet/xRandNet/Api/appsettings.Development.json
 
 #run dotnet command to create corresponding directories for mono build
 cd /opt/xRandNet/xRandNet/Api
