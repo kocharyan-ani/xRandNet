@@ -59,8 +59,10 @@ namespace Api.Services.Bug {
         }
 
         public void Update(Models.Bug model) {
+            var appDbEntity = _appRepository.Get(model.Version);
+            var appModel = AppFactory.Create(appDbEntity);
+            model.App = appModel;
             var entity = BugFactory.Create(model);
-
             _bugRepository.Update(entity);
         }
     }

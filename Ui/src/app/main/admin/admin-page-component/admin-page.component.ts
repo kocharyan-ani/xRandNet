@@ -12,6 +12,7 @@ import {UserManualUploadDialog} from "../user-manual-upload-dialog/user-manual-u
 import {BugDetailsDialog} from "../bug-details-dialog/bug-details-dialog";
 import {News} from "../../../common/models/news";
 import {MatDialog} from "@angular/material/dialog";
+import {JSONP_HOME} from "@angular/http/src/backends/browser_jsonp";
 
 @Component({
     selector: 'app-admin-page',
@@ -35,6 +36,7 @@ export class AdminPageComponent implements OnInit {
 
     newGeneralLink: Link = new Link();
     newLiteratureLink: Link = new Link();
+    newPost: News = new News();
 
     softwareVersions: Array<string> = new Array<string>();
     selectedVersion: string = null;
@@ -242,7 +244,11 @@ export class AdminPageComponent implements OnInit {
         this.titleService.setTitle('Admin');
         this.httpClient.get(environment.apiUrl + '/api/data/news')
             .subscribe((data: Array<News>) => {
-                this.news = data;
+                data.forEach((news) => {
+                    let post = new News(news.title, news.datePosted, news.content, news.id);
+                    post.editable = false;
+                    this.news.push(post)
+                })
             });
         this.httpClient.get(environment.apiUrl + '/api/app/versions')
             .subscribe((data: Array<object>) => {
@@ -293,16 +299,30 @@ export class AdminPageComponent implements OnInit {
         }
     }
 
-    editNews() {
-
+    editNews(n) {
+        n.editable = true
     }
+
+    saveNews(n) {
+        this.httpClient.post(environment.apiUrl + '/api/data/news', JSON.parse(JSON.stringify(n))).toPromise().then(() => {
+            n.editable = false
+        })
+    }
+
+    addNews(n) {
+        this.httpClient.put(environment.apiUrl + "/api/data/news", n.toJson()).toPromise().then((newPost: News) => {
+            this.news.push(new News(newPost.title, newPost.datePosted, newPost.content, newPost.id));
+            this.newPost = new News()
+        });
+    }
+
 
     deleteNews(news: News) {
         const options = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            body: JSON.stringify(news)
+            body: news.toJson()
         };
         this.httpClient.delete(environment.apiUrl + '/api/data/news', options).toPromise().then(() => {
             const index: number = this.news.indexOf(news);

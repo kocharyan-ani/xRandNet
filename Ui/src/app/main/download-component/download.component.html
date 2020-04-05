@@ -20,7 +20,7 @@
         <p>Windows 10, 8.1, 7, Vista and XP. Including both 32-bit and 64-bit versions.</p>
     </div>
     <h2 *ngIf="selectedSoftware">Release Notes ({{selectedSoftware.releaseDate}})</h2>
-    <div class="text-center" *ngIf="selectedSoftware">
+    <div class="release_notes" *ngIf="selectedSoftware">
         <p *ngFor="let releaseNote of selectedSoftware.releaseNotes.split('|')">• {{releaseNote}}</p>
     </div>
 </div>

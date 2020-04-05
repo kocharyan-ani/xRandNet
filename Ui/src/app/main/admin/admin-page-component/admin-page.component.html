@@ -3,7 +3,7 @@
     <mat-card class="section">
         <h2 [align]="'center'">Home</h2>
         <mat-form-field>
-            <textarea matInput [(ngModel)]="aboutInfo.content" placeholder="About us"></textarea>
+            <textarea class="info_text" matInput [(ngModel)]="aboutInfo.content" placeholder="About us"></textarea>
         </mat-form-field>
         <br>
         <button color="primary" mat-raised-button (click)="editInfo()" [matTooltip]="'Save'">
@@ -24,12 +24,14 @@
         <mat-form-field style="width: 100px;text-align: center">
             <mat-label>Select the version</mat-label>
             <mat-select [(ngModel)]="selectedVersion" (ngModelChange)="onVersionChanged()">
-                <mat-option style="text-align: center" *ngFor="let version of softwareVersions" [value]="version">{{version}}</mat-option>
+                <mat-option style="text-align: center" *ngFor="let version of softwareVersions"
+                            [value]="version">{{version}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-list>
             <h3 mat-subheader>Bugs</h3>
-            <mat-card *ngFor="let bug of bugs" [ngClass]="'bug_status_'+ bug.status" class="bug" style="background-color: #e91e63{{bug.status}}">
+            <mat-card *ngFor="let bug of bugs" [ngClass]="'bug_status_'+ bug.status" class="bug"
+                      style="background-color: #e91e63{{bug.status}}">
                 <mat-card-header>
                     <div mat-card-avatar>
                         <mat-icon>bug_report</mat-icon>
@@ -69,20 +71,45 @@
 
     <mat-card class="section news_section">
         <h2 [align]="'center'">News</h2>
-        <mat-card class="news" *ngFor="let announcement of news">
+        <mat-card class="news" *ngFor="let n of news">
             <mat-card-header>
                 <div mat-card-avatar>
                     <mat-icon>announcement</mat-icon>
                 </div>
-                <mat-card-title class="title">{{announcement.title}}</mat-card-title>
-                <mat-card-subtitle>Posted date: {{announcement.datePosted | date:'dd/MM/yyyy'}}</mat-card-subtitle>
+                <mat-card-title *ngIf="!n.editable" class="title">{{n.title}}</mat-card-title>
+                <mat-card-title *ngIf="n.editable" class="title">
+                    <input matInput [(ngModel)]="n.title"/>
+                </mat-card-title>
+                <mat-card-subtitle>Posted date: {{n.datePosted | date:'dd/MM/yyyy'}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-                <p>{{announcement.content}}</p>
+                <textarea class="news_textarea" *ngIf="n.editable" matInput
+                          [(ngModel)]="n.content"></textarea>
+                <p *ngIf="!n.editable">{{n.content}}</p>
             </mat-card-content>
             <mat-card-actions class="action-buttons">
-                <button color="primary" mat-button (click)="editNews()">Edit</button>
-                <button color="primary" mat-button (click)="deleteNews(announcement)">Delete</button>
+                <button *ngIf="!n.editable" color="primary" mat-button (click)="editNews(n)">Edit</button>
+                <button *ngIf="n.editable" color="primary" mat-button (click)="saveNews(n)">Save</button>
+                <button color="primary" mat-button (click)="deleteNews(n)">Delete</button>
+            </mat-card-actions>
+        </mat-card>
+        <mat-card class="news">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>announcement</mat-icon>
+                </div>
+                <mat-card-title class="title">
+                    <input placeholder="Title" matInput [(ngModel)]="newPost.title"/>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <textarea placeholder="Content" class="new_post_textarea" matInput
+                          [(ngModel)]="newPost.content"></textarea>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button [disabled]="newPost.content == null || newPost.title == null" color="primary" mat-button
+                        (click)="addNews(newPost)">Add
+                </button>
             </mat-card-actions>
         </mat-card>
     </mat-card>
@@ -97,7 +124,8 @@
                 <span mat-line><input *ngIf="editMode" matInput type="text" placeholder="Name"
                                       [(ngModel)]="link.name"/></span>
                 <span *ngIf="!editMode" mat-line> {{link.url}} </span>
-                <span mat-line><input *ngIf="editMode" matInput type="text" placeholder="URL" [(ngModel)]="link.url"></span>
+                <span mat-line><input *ngIf="editMode" matInput type="text" placeholder="URL"
+                                      [(ngModel)]="link.url"></span>
                 <button mat-button color="primary" *ngIf="!editMode" (click)="editMode = true; editLiteratureLink(link)"
                         [matTooltip]="'Edit'">
                     <mat-icon>edit</mat-icon>
@@ -106,7 +134,8 @@
                         [matTooltip]="'Save'">
                     <mat-icon>save</mat-icon>
                 </button>
-                <button mat-button color="primary" *ngIf="editMode" (click)="editMode = false; cancelEditingLiteratureLink(link)"
+                <button mat-button color="primary" *ngIf="editMode"
+                        (click)="editMode = false; cancelEditingLiteratureLink(link)"
                         [matTooltip]="'Cancel'">
                     <mat-icon>cancel</mat-icon>
                 </button>
@@ -123,9 +152,11 @@
             </button>
             <mat-list-item *ngIf="addLiteratureLink">
                 <mat-icon color="primary" mat-list-icon>link</mat-icon>
-                <span mat-line><input matInput type="text" placeholder="Name" [(ngModel)]="newLiteratureLink.name"/></span>
+                <span mat-line><input matInput type="text" placeholder="Name"
+                                      [(ngModel)]="newLiteratureLink.name"/></span>
                 <span mat-line><input matInput type="text" placeholder="URL" [(ngModel)]="newLiteratureLink.url"></span>
-                <button mat-button color="primary" (click)="addNewLiteratureLink(newLiteratureLink);addLiteratureLink=false"
+                <button mat-button color="primary"
+                        (click)="addNewLiteratureLink(newLiteratureLink);addLiteratureLink=false"
                         [matTooltip]="'Save'">
                     <mat-icon>save</mat-icon>
                 </button>
@@ -143,7 +174,8 @@
                 <span mat-line><input *ngIf="editMode" matInput type="text" placeholder="Name"
                                       [(ngModel)]="link.name"/></span>
                 <span *ngIf="!editMode" mat-line> {{link.url}} </span>
-                <span mat-line><input *ngIf="editMode" matInput type="text" placeholder="URL" [(ngModel)]="link.url"></span>
+                <span mat-line><input *ngIf="editMode" matInput type="text" placeholder="URL"
+                                      [(ngModel)]="link.url"></span>
                 <button [matTooltip]="'Edit'" *ngIf="!editMode" mat-button color="primary"
                         (click)="editMode = true; editGeneralLink(link)">
                     <mat-icon>edit</mat-icon>
@@ -169,7 +201,8 @@
                 <mat-icon color="primary" mat-list-icon>link</mat-icon>
                 <span mat-line><input matInput type="text" placeholder="Name" [(ngModel)]="newGeneralLink.name"/></span>
                 <span mat-line><input matInput type="text" placeholder="URL" [(ngModel)]="newGeneralLink.url"></span>
-                <button [matTooltip]="'Save'" mat-button color="primary" (click)="addNewGeneralLink(newGeneralLink);addGeneralLink=false">
+                <button [matTooltip]="'Save'" mat-button color="primary"
+                        (click)="addNewGeneralLink(newGeneralLink);addGeneralLink=false">
                     <mat-icon>save</mat-icon>
                 </button>
                 <button [matTooltip]="'Cancel'" mat-button color="primary" (click)="addGeneralLink=false">

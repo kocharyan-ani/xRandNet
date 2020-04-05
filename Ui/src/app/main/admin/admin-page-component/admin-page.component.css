@@ -3,9 +3,19 @@ mat-form-field {
     width: 100%;
 }
 
-textarea {
+
+.info_text {
     resize: none;
     min-height: 200px;
+}
+
+.news_textarea {
+    min-height: 200px;
+    resize: none;
+}
+.new_post_textarea {
+    min-height: 100px;
+    resize: none;
 }
 
 .userManualButton {
@@ -120,7 +130,9 @@ h2 {
     background-color: white;
     /*background-color: #d9d7f4de;*/
 }
-
+.news_edit_input{
+    height: 100%;
+}
 .news_section {
     float: right;
     display: inline-block;

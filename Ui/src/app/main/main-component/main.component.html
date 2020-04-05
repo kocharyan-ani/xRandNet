@@ -7,8 +7,8 @@
                 <a class="nav-item nav-link x-nav-item" routerLink="/news">News</a>
                 <a class="nav-item nav-link x-nav-item" routerLink="/info">Info</a>
                 <a class="nav-item nav-link x-nav-item" routerLink="/downloads">Downloads</a>
-                <a class="nav-item nav-link x-nav-item" *ngIf="currentUser" href="#"
-                   (click)="$event.preventDefault(); openDialog()">Report a bug</a>
+                <button mat-button class="nav-item nav-link x-nav-item" *ngIf="currentUser" href="#"
+                   (click)="$event.preventDefault(); openDialog()">Report a bug</button>
             </div>
         </div>
         <div class="ex" [class.example-is-mobile]="mobileQuery.matches">

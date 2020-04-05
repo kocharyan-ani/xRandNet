@@ -82,25 +82,27 @@ namespace Api.Controllers {
 
         [HttpPut]
         [Route("news")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<News> AddNews([FromBody] News news) {
+            news.DatePosted =  DateTime.Now;
             NewsService.Add(news);
             return Ok(news);
         }
 
         [HttpPost]
         [Route("news")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<News> UpdateNews([FromBody] News news) {
+            news.DatePosted =  DateTime.Now;
             NewsService.Update(news);
             return Ok(news);
         }
 
         [HttpDelete]
         [Route("news")]
-        // [Authorize(Roles = "Admin")]
-        public ActionResult DeleteNews(int id) {
-            NewsService.Delete(id);
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeleteNews([FromBody] News news) {
+            NewsService.Delete(news.Id);
             return Ok();
         }
     }
