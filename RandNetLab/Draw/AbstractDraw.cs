@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,9 @@ namespace Draw
         protected System.Windows.Controls.Canvas MainCanvas { get; }
         public Point[] Vertices { get; set; }
         public Int32 InitialVertexCount { get; set; }
+        public int StepNumber { get; set; }
+
+        protected const double vertexRadius = 2.5;
 
 
         public AbstractDraw(Canvas mainCanvas)
@@ -85,15 +89,28 @@ namespace Draw
 
                 MainCanvas.Children.Add(ell);
                 Canvas.SetTop(ell, vertices[i].Y - (double)ell.Width / 2);
-                Canvas.SetRight(ell, 10);
                 Canvas.SetLeft(ell, vertices[i].X - (double)ell.Width / 2);
 
-                double left = Canvas.GetLeft(ell);
-                double right = Canvas.GetRight(ell);
                 vertexEllipses.Add(ell);
             }
 
             return vertexEllipses;
+        }
+
+        protected void RemoveEdge(EdgesAddedOrRemoved edge)
+        {
+            string edgeUid = GenerateEdgeUid(edge);
+
+            int i = 0;
+            for (; i < MainCanvas.Children.Count; i++)
+            {
+                if (MainCanvas.Children[i].Uid == edgeUid)
+                {
+                    MainCanvas.Children.RemoveAt(i);
+                    break;
+                }
+            }
+    //        Debug.Assert(i != MainCanvas.Children.Count);
         }
 
         protected string GenerateEdgeUid(EdgesAddedOrRemoved edge)

@@ -28,8 +28,7 @@ namespace Draw
             Probability = (double)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.Probability];
             edgesBySteps = new List<List<EdgesAddedOrRemoved>>();
         }
-
-
+ 
         public override void DrawFinal()
         {
             DrawInitial();
@@ -84,21 +83,6 @@ namespace Draw
 
         protected abstract void AddEdge(EdgesAddedOrRemoved edge);
 
-        protected void RemoveEdge(EdgesAddedOrRemoved edge)
-        {
-            string edgeUid = GenerateEdgeUid(edge);
-
-            int i = 0;
-            for (; i < MainCanvas.Children.Count; i++)
-            {
-                if (MainCanvas.Children[i].Uid == edgeUid)
-                {
-                    MainCanvas.Children.RemoveAt(i);
-                    break;
-                }
-            }
-            Debug.Assert(i != MainCanvas.Children.Count);
-        }
 
 
     }

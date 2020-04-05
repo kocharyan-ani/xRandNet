@@ -33,9 +33,9 @@
             <Menu Height="25" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1">
                 <MenuItem Name ="FileMenuItem" Header="File">
                     <MenuItem Name ="CreateResearchMenuItem" Header="Create Research">
-                        <MenuItem Name ="BasicMenuItem" Header="Basic"  Click="BasicMenuItem_Click"></MenuItem>
-                        <MenuItem Name ="EvolutionMenuItem" Header="Evolution" Click="EvolutionMenuItem_Click" IsEnabled="False"/>
-                        <MenuItem Name="ActivationMenuItem" Header="Activation" Click="ActivationMenuItem_Click" IsEnabled="False"></MenuItem>
+                        <MenuItem Name ="BasicMenuItem" Header="Basic"  Click="BasicMenuItem_Click"/>
+                        <MenuItem Name ="EvolutionMenuItem" Header="Evolution" Click="EvolutionMenuItem_Click" />
+                        <MenuItem Name="ActivationMenuItem" Header="Activation" Click="ActivationMenuItem_Click" />
                     </MenuItem>
                     <MenuItem Name ="SettingsMenuItem" Header="Settings" Click="SettingsMenuItem_Click"></MenuItem>
                     <MenuItem Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click" ></MenuItem>
@@ -60,8 +60,8 @@
                             <ContextMenu Name="CreateEditResearchContextCanvas"  Background="WhiteSmoke">
                                 <MenuItem Name ="CreateResearchContextMenuCanvas" Header="Create Research">
                                     <MenuItem Name ="BasicContextCanvas" Header="Basic"  Click="BasicMenuItem_Click"></MenuItem>
-                                    <MenuItem Name ="EvolutionContextCanvas" Header="Evolution" Click="EvolutionMenuItem_Click" IsEnabled="False"></MenuItem>
-                                    <MenuItem Name="ActivationContextCanvas" Header="Activation" Click="ActivationMenuItem_Click" IsEnabled="False"></MenuItem>
+                                    <MenuItem Name ="EvolutionContextCanvas" Header="Evolution" Click="EvolutionMenuItem_Click"></MenuItem>
+                                    <MenuItem Name="ActivationContextCanvas" Header="Activation" Click="ActivationMenuItem_Click"></MenuItem>
                                 </MenuItem>
                             </ContextMenu>
                         </Canvas.ContextMenu>
@@ -97,6 +97,7 @@
             <Button Name ="Next" Grid.Column="3"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Next_Click">Next</Button>
             <Button Name ="Previous" Grid.Column="4"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click">Previous</Button>
             <Button Name ="Save" Grid.Column="5"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click">Save</Button>
+            <CheckBox Name="Flat" Grid.Column="6" Content="Flat" Visibility="Hidden" Margin="50 15" Checked="Flat_Checked" Unchecked="Flat_Unchecked"></CheckBox>
             <TextBlock Grid.Column="6" HorizontalAlignment="Right" Text="Step Number" Height="23" Width="75"/>
             <TextBox Name="TextBoxStepNumber" Grid.Column="7" HorizontalAlignment="Center" Height="23" Width="75"></TextBox>
             
