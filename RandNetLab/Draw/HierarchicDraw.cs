@@ -221,7 +221,7 @@ namespace Draw
                 if(setVertices)
                 {
                     int begin, end;
-                    getVerticesOfCluster(level, clusterNumber, out begin, out end);
+                    GetVerticesOfCluster(level, clusterNumber, out begin, out end);
                     for (int i = 0; i < nodes.Length; ++i)
                     {
                         Vertices[begin + i] = nodes[i];
@@ -231,7 +231,7 @@ namespace Draw
             if(!setVertices) AddVerticesToCanvas(nodes, r, fill);
 
             int clusterBegin, clusterEnd;
-            getPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
+            GetPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
             for (int i = 0; i < nodes.Length; ++i)
             {
                 DrawPreviousLevels(radius / 3, nodes[i], level - 1, clusterBegin + i, setVertices);
@@ -276,8 +276,8 @@ namespace Draw
             }
 
             int innerClusters1Begin, innerClusters1End, innerClusters2Begin, innerClusters2End;
-            getPreviousLevelClustersOfCluster(level, cluster1, out innerClusters1Begin, out innerClusters1End);
-            getPreviousLevelClustersOfCluster(level, cluster2, out innerClusters2Begin, out innerClusters2End);
+            GetPreviousLevelClustersOfCluster(level, cluster1, out innerClusters1Begin, out innerClusters1End);
+            GetPreviousLevelClustersOfCluster(level, cluster2, out innerClusters2Begin, out innerClusters2End);
 
             for (int i = innerClusters1Begin; i <= innerClusters1End; ++i)
             {
@@ -304,7 +304,7 @@ namespace Draw
         private void RemoveLevel(int level)
         {
             Debug.Assert(level >= 0 && level < clustersByLevel.Count());
-
+        }
 
         private void AddEdges(int level)
         {
@@ -328,16 +328,16 @@ namespace Draw
                     {
                         Uid = GenerateEdgeUid(edge),
                         Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#323336"),
-                        X1 = levelCenters[edge.Vertex1 - 1].X,
-                        Y1 = levelCenters[edge.Vertex1 - 1].Y,
-                        X2 = levelCenters[edge.Vertex2 - 1].X,
-                        Y2 = levelCenters[edge.Vertex2 - 1].Y
+                        X1 = levelCenters[edge.Vertex1].X,
+                        Y1 = levelCenters[edge.Vertex1].Y,
+                        X2 = levelCenters[edge.Vertex2].X,
+                        Y2 = levelCenters[edge.Vertex2].Y
                     };
                 }
                 else
                 {
-                    Tuple<Point, Point> edgeCoordinates = GetEdgeCoordinates(levelCenters[edge.Vertex1 - 1],
-                                                                             levelCenters[edge.Vertex2 - 1],
+                    Tuple<Point, Point> edgeCoordinates = GetEdgeCoordinates(levelCenters[edge.Vertex1],
+                                                                             levelCenters[edge.Vertex2],
                                                                              radius);
                     Point coordinate1 = edgeCoordinates.Item1;
                     Point coordinate2 = edgeCoordinates.Item2;
@@ -418,5 +418,46 @@ namespace Draw
 
             return edgeCoordinates;
         }
+
+        // returns indeces of first and last vertices contained in cluster
+        private void GetVerticesOfCluster(int level, int clusterNumber, out int beginIndex, out int endIndex)
+        {
+            beginIndex = 0;
+            for (int i = 0; i < clusterNumber; ++i)
+            {
+                GetCountOfVerticesInCluster(level, i, ref beginIndex);
+            }
+            endIndex = 0;
+            GetCountOfVerticesInCluster(level, clusterNumber, ref endIndex);
+            endIndex += (beginIndex - 1);
+        }
+
+        private void GetCountOfVerticesInCluster(int level, int clusterNumber, ref int numberOfVertices)
+        {
+            if (level == 1)
+            {
+                numberOfVertices += branching[level][clusterNumber];
+                return;
+            }
+            int clusterBegin, clusterEnd;
+            GetPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
+            for (int i = clusterBegin; i <= clusterEnd; ++i)
+            {
+                GetCountOfVerticesInCluster(level - 1, i, ref numberOfVertices);
+            }
+        }
+
+        // returns indeces of first and last clusters contained in cluster
+        private void GetPreviousLevelClustersOfCluster(int level, int clusterNumber, out int beginIndex, out int endIndex)
+        {
+            beginIndex = 0;
+            List<int> levelBranching = branching[level];
+            for (int i = 0; i < clusterNumber; ++i)
+            {
+                beginIndex += levelBranching[i];
+            }
+            endIndex = beginIndex + levelBranching[clusterNumber] - 1;
+        }
+
     }
 }
