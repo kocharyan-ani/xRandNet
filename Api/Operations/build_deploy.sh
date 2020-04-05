@@ -31,3 +31,5 @@ npm install
 ng build --prod
 
 service nginx restart
+
+servcie xrandnet restart
