@@ -14,6 +14,7 @@ export class DownloadComponent implements OnInit {
 
     software: Array<Software> = [];
     private _selectedSoftware: Software;
+    private apiUrl: string = environment.apiUrl;
 
     constructor(private httpClient: HttpClient,
                 private titleService: Title) {
