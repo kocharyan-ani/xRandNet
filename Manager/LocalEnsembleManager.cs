@@ -117,7 +117,10 @@ namespace Manager
                     if (!networks[networkToRun].Generate(VisualMode))
                         continue;
                     if (VisualMode)
+                    {
                         GenerationSteps = networks[networkToRun].GenerationSteps;
+                        Branches = networks[networkToRun].Branches;
+                    }
                     if (CheckConnected)
                     {
                         if (!networks[networkToRun].CheckConnected())
@@ -128,8 +131,13 @@ namespace Manager
                         if (!networks[networkToRun].Trace(TracingDirectory, TracingPath + "_" + networkToRun.ToString()))
                             continue;
                     }
-                    if (!networks[networkToRun].Analyze())
+                    if (!networks[networkToRun].Analyze(VisualMode))
                         continue;
+                    if (VisualMode)
+                    {
+                        ActivesInformation = networks[networkToRun].ActivesInformation;
+                        EvolutionInformation = networks[networkToRun].EvolutionInformation;
+                    }
 
                     Interlocked.Increment(ref realizationsDone);
                 }
