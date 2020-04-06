@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -33,11 +32,7 @@ namespace Core
         public int NetworkID { get; set; }
         public bool SuccessfullyCompleted { get; private set; }
         public RealizationResult NetworkResult { get; protected set; }
-
         public List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
-        public List<List<int>> Branches { get; protected set; }
-        public List<BitArray> ActivesInformation { get; protected set; }
-        public List<List<EdgesAddedOrRemoved>> EvolutionInformation { get; protected set; }
 
         public event NetworkStatusUpdateHandler OnUpdateStatus;
 
@@ -120,8 +115,7 @@ namespace Core
                     if (visualMode)
                     {
                         Debug.Assert(networkGenerator.GenerationSteps != null);
-                        GenerationSteps = networkGenerator.GenerationSteps;            
-                        Branches = networkGenerator.Container.GetBranches();
+                        GenerationSteps = networkGenerator.GenerationSteps;
                     }
 
                     CustomLogger.Write("Research - " + ResearchName +
@@ -181,7 +175,7 @@ namespace Core
         /// <summary>
         /// Calculates specified analyze options values.
         /// </summary>
-        public bool Analyze(bool visualMode = false)
+        public bool Analyze()
         {
             if (networkAnalyzer.Container == null)
                 networkAnalyzer.Container = networkGenerator.Container;
@@ -199,20 +193,7 @@ namespace Core
                 {
                     if (opt != AnalyzeOption.None && (AnalyzeOptions & opt) == opt)
                     {
-                        NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt, visualMode));
-
-                        if ((opt == AnalyzeOption.Algorithm_1_By_All_Nodes ||
-                            opt == AnalyzeOption.Algorithm_2_By_Active_Nodes_List ||
-                            opt == AnalyzeOption.Algorithm_Final) && visualMode)
-                        {
-                            ActivesInformation = networkAnalyzer.ActivesInformation;
-                        }
-
-                        if ((opt == AnalyzeOption.Cycles3Evolution) && visualMode)
-                        {
-                            EvolutionInformation = networkAnalyzer.EvolutionInformation;
-                        }
-
+                        NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt));
                         UpdateStatus(NetworkStatus.StepCompleted);
 
                         CustomLogger.Write("Research - " + ResearchName +

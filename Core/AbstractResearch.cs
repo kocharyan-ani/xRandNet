@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
@@ -33,16 +31,8 @@ namespace Core
 
         private ResearchStatusInfo status;
         protected ResearchResult result = new ResearchResult();
-        
-        // interface for xRandNetLab // TODO - redesign
-        // all data is from first network (it is mentioned, that count if networks is 1)
 
         public List<List<EdgesAddedOrRemoved>> GenerationSteps { get; private set; }
-        public List<List<int>> Branches { get; private set; }   // can be null
-        public List<BitArray> ActivesInformation { get; private set; }  // can be null
-        public List<List<EdgesAddedOrRemoved>> EvolutionInformation { get; private set; }   // can be null
-
-        // end of interface for xRandNetLab // TODO - redesign
 
         public event ResearchStatusUpdateHandler OnUpdateResearchStatus;
 
@@ -231,9 +221,6 @@ namespace Core
             realizationCount = currentManager.RealizationsDone;
             result.EnsembleResults.Add(currentManager.Result);
             GenerationSteps = currentManager.GenerationSteps;
-            Branches = currentManager.Branches;
-            ActivesInformation = currentManager.ActivesInformation;
-            EvolutionInformation = currentManager.EvolutionInformation;
             if(!VisualMode)
                 SaveResearch();
         }

@@ -18,7 +18,6 @@ namespace NetworkModel.Engines
     {
         private readonly AbstractNetwork network;
         private readonly NonHierarchicContainer container;
-        private readonly bool visualMode;
 
         private Int32 stepCount;
         private Double omega;
@@ -27,22 +26,17 @@ namespace NetworkModel.Engines
         private Double currentCycle3Count;
         
         public SortedDictionary<Double, Double> Cycles3Trajectory { get; private set; }
-        public List<List<EdgesAddedOrRemoved>> EvolutionInformation { get; private set; }
 
-        public NonHierarchicAnalyzerEvolutionEngine(AbstractNetwork n, NonHierarchicContainer c, bool vm, 
-            Int32 s, Double o, Boolean p, Int32 t, Double cycles3)
+        public NonHierarchicAnalyzerEvolutionEngine(AbstractNetwork n, NonHierarchicContainer c, Int32 s, Double o, Boolean p, Int32 t, Double cycles3)
         {
             network = n;
             container = c;
-            visualMode = vm;
             stepCount = s;
             omega = o;
             permanentDistribution = p;
             tracingStepIncrement = t;
             currentCycle3Count = cycles3;
             Cycles3Trajectory = new SortedDictionary<Double, Double>();
-            if (visualMode)
-                EvolutionInformation = new List<List<EdgesAddedOrRemoved>>();
         }
 
         public void Calculate()
@@ -52,25 +46,22 @@ namespace NetworkModel.Engines
 
             RNGCrypto rand = new RNGCrypto();
             int currentStep = 0, currentTracingStep = tracingStepIncrement;
-            Cycles3Trajectory.Add(currentStep, currentCycle3Count);                
+            Cycles3Trajectory.Add(currentStep, currentCycle3Count);
            
             while (currentStep != stepCount)
             {
                 NonHierarchicContainer savedContainer = (NonHierarchicContainer)containerToChange.Clone();
                 ++currentStep;
 
-                List<EdgesAddedOrRemoved> edges = visualMode ? new List<EdgesAddedOrRemoved>() : null;
                 double deltaCount = permanentDistribution ?
-                                    containerToChange.PermanentRandomization(ref edges) :
-                                    containerToChange.NonPermanentRandomization(ref edges);
+                                    containerToChange.PermanentRandomization() :
+                                    containerToChange.NonPermanentRandomization();
                 double newCycle3Count = currentCycle3Count + deltaCount;
 
                 int delta = (int)(newCycle3Count - currentCycle3Count);
                 if (delta > 0) // accept case
                 {   
                     Cycles3Trajectory.Add(currentStep, newCycle3Count);
-                    if (visualMode)
-                        EvolutionInformation.Add(edges);
                     currentCycle3Count = newCycle3Count;
                 }
                 else
@@ -79,8 +70,6 @@ namespace NetworkModel.Engines
                     if (rand.NextDouble() < probability) // accept case
                     {   
                         Cycles3Trajectory.Add(currentStep, newCycle3Count);
-                        if (visualMode)
-                            EvolutionInformation.Add(edges);
                         currentCycle3Count = newCycle3Count;
                     }
                     else // reject case

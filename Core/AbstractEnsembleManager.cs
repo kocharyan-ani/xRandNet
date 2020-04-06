@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using Core.Enumerations;
@@ -53,9 +52,6 @@ namespace Core
         public EnsembleResult Result { get; protected set; }
         
         public List<List<EdgesAddedOrRemoved>> GenerationSteps { get; protected set; }
-        public List<List<int>> Branches { get; protected set; }
-        public List<BitArray> ActivesInformation { get; protected set; }
-        public List<List<EdgesAddedOrRemoved>> EvolutionInformation { get; protected set; }
 
         /// <summary>
         /// Runs generation, analyze and save for each realization in Double ensemble.

@@ -184,18 +184,14 @@ namespace NetworkModel
             return result;
         }
 
-        protected override SortedDictionary<Double, Double> CalculateCycles3Evolution(bool visualMode)
+        protected override SortedDictionary<Double, Double> CalculateCycles3Evolution()
         {
             RetrieveEvolutionResearchParameters(out Int32 s, out Double o, out Boolean p, out Int32 t);
             CheckPathEngine();
             Debug.Assert(pathEngine != null);
-            NonHierarchicAnalyzerEvolutionEngine engine = new NonHierarchicAnalyzerEvolutionEngine(network, 
-                (NonHierarchicContainer)container, visualMode, s, o, p, t, pathEngine.Cycles3);
+            NonHierarchicAnalyzerEvolutionEngine engine =
+                new NonHierarchicAnalyzerEvolutionEngine(network, (NonHierarchicContainer)container, s, o, p, t, pathEngine.Cycles3);
             engine.Calculate();
-            if (visualMode)
-            {
-                EvolutionInformation = engine.EvolutionInformation;
-            }
             return engine.Cycles3Trajectory;            
         }
 

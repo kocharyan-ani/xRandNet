@@ -24,10 +24,6 @@ namespace Core.Model
             set { abstractContainer = (AbstractNetworkContainer)value; }
         }
 
-        // TODO - redesign
-        public List<BitArray> ActivesInformation { get; set; }
-        public List<List<EdgesAddedOrRemoved>> EvolutionInformation { get; set; }
-
         public AbstractNetworkAnalyzer(AbstractNetwork n)
         {
             network = n;
@@ -47,7 +43,7 @@ namespace Core.Model
         /// </summary>
         /// <param name="option">Option to calculate.</param>
         /// <returns>Calculated value.</returns>
-        public Object CalculateOption(AnalyzeOption option, bool visualMode = false)
+        public Object CalculateOption(AnalyzeOption option)
         {
             switch (option)
             {
@@ -96,13 +92,13 @@ namespace Core.Model
                     return CalculateDrDistribution();*/
                 // Trajectories //
                 case AnalyzeOption.Cycles3Evolution:
-                    return CalculateCycles3Evolution(visualMode);
+                    return CalculateCycles3Evolution();
                 case AnalyzeOption.Algorithm_1_By_All_Nodes:
-                    return ActivationAlgorithm1(visualMode);
+                    return ActivationAlgorithm1();
                 case AnalyzeOption.Algorithm_2_By_Active_Nodes_List:
-                    return ActivationAlgorithm2(visualMode);
+                    return ActivationAlgorithm2();
                 case AnalyzeOption.Algorithm_Final:
-                    return ActivationAlgorithmFinal(visualMode);
+                    return ActivationAlgorithmFinal();
                 // Centralities //
                 case AnalyzeOption.BetweennessCentrality:
                     return CalculateBetweennessCentrality();
@@ -346,7 +342,7 @@ namespace Core.Model
         /// Calculates the counts of cycles 3 in the network during evolution process.
         /// </summary>
         /// <returns>(step, cycles 3 count)</returns>
-        protected virtual SortedDictionary<Double, Double> CalculateCycles3Evolution(bool visualMode)
+        protected virtual SortedDictionary<Double, Double> CalculateCycles3Evolution()
         {
             throw new NotImplementedException();
         }
@@ -355,15 +351,11 @@ namespace Core.Model
         /// Calculates the part of active nodes in the network during activation process.
         /// </summary>
         /// <returns>(step, part of active nodes)</returns>
-        protected virtual SortedDictionary<Double, Double> ActivationAlgorithm1(bool visualMode)
+        protected virtual SortedDictionary<Double, Double> ActivationAlgorithm1()
         {
             RetrieveActivationResearchParameters(out Int32 s, out Double m, out Double l, out Int32 t);
-            AnalyzerActivationEngine engine = new AnalyzerActivationEngine(network, abstractContainer, visualMode, s, m, l, t);
+            AnalyzerActivationEngine engine = new AnalyzerActivationEngine(network, abstractContainer, s, m, l, t);
             engine.Calculate(AlgorithmType.Algorithm1);
-            if (visualMode)
-            {
-                ActivesInformation = engine.ActivesInformation;
-            }
             return engine.Trajectory;
         }
 
@@ -371,15 +363,11 @@ namespace Core.Model
         /// Calculates the part of active nodes in the network during activation process.
         /// </summary>
         /// <returns>(step, part of active nodes)</returns>
-        protected virtual SortedDictionary<Double, Double> ActivationAlgorithm2(bool visualMode)
+        protected virtual SortedDictionary<Double, Double> ActivationAlgorithm2()
         {
             RetrieveActivationResearchParameters(out Int32 s, out Double m, out Double l, out Int32 t);
-            AnalyzerActivationEngine engine = new AnalyzerActivationEngine(network, abstractContainer, visualMode, s, m, l, t);
+            AnalyzerActivationEngine engine = new AnalyzerActivationEngine(network, abstractContainer, s, m, l, t);
             engine.Calculate(AlgorithmType.Algorithm2);
-            if (visualMode)
-            {
-                ActivesInformation = engine.ActivesInformation;
-            }
             return engine.Trajectory;
         }
 
@@ -387,15 +375,11 @@ namespace Core.Model
         /// Calculates the part of active nodes in the network during activation process - the final algorithm.
         /// </summary>
         /// <returns>(step, part of active nodes)</returns>
-        protected virtual SortedDictionary<Double, Double> ActivationAlgorithmFinal(bool visualMode)
+        protected virtual SortedDictionary<Double, Double> ActivationAlgorithmFinal()
         {
             RetrieveActivationResearchParameters(out Int32 s, out Double m, out Double l, out Int32 t);
-            AnalyzerActivationEngine engine = new AnalyzerActivationEngine(network, abstractContainer, visualMode, s, m, l, t);
+            AnalyzerActivationEngine engine = new AnalyzerActivationEngine(network, abstractContainer, s, m, l, t);
             engine.Calculate(AlgorithmType.Final);
-            if (visualMode)
-            {
-                ActivesInformation = engine.ActivesInformation;
-            }
             return engine.Trajectory;
         }
 

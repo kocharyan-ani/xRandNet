@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 
 using Core.Enumerations;
 
@@ -27,10 +25,6 @@ namespace Core.Model
         /// </summary>
         /// <param name="option">Analyze option</param>
         /// <returns>Calculated value.</returns>
-        Object CalculateOption(AnalyzeOption option, bool visualMode = false);
-
-        // TODO - redesign
-        List<BitArray> ActivesInformation { get; set; }
-        List<List<EdgesAddedOrRemoved>> EvolutionInformation { get; set; }
+        Object CalculateOption(AnalyzeOption option);
     }
 }
