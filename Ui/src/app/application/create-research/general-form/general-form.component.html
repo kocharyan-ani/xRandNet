@@ -1,0 +1,59 @@
+<mat-card>
+  <mat-card-title>General</mat-card-title>
+  <mat-card-content>
+    <mat-grid-list cols="4" rowHeight="4git :1">
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-select placeholder="Research Type" [formControl]="formGroup.get('research')">
+            <mat-option *ngFor="let name of researchNames" [value]="name">
+              {{name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-select placeholder="Model Type" [formControl]="formGroup.get('model')">
+            <mat-option *ngFor="let type of modelTypes" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-select placeholder="Generation Type" [formControl]="formGroup.get('generation')">
+            <mat-option *ngFor="let type of generationTypes" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-checkbox [formControl]="formGroup.get('tracing')">Tracing</mat-checkbox>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <input matInput placeholder="Research Name" [formControl]="formGroup.get('name')">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-select placeholder="Storage Type" [formControl]="formGroup.get('storage')">
+            <mat-option *ngFor="let type of storageTypes" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <input matInput placeholder="Realization Count" type="number" min="1" step="1" [formControl]="formGroup.get('count')">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-checkbox [formControl]="formGroup.get('connected')">Check Connected</mat-checkbox>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,16 @@
+.content-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: #fafafa;
+}
+
+.main-content {
+    margin: auto;
+    max-width: 1200px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+}
