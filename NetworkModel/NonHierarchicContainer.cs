@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using Core;
 using Core.Model;
 using RandomNumberGeneration;
 
@@ -247,7 +248,7 @@ namespace NetworkModel
 
         #region Extra Interface for Evolution Process
 
-        internal Double PermanentRandomization()
+        internal Double PermanentRandomization(ref List<EdgesAddedOrRemoved> edges)
         {
             Debug.Assert(evolutionInformation != null, "Evolution Information is not initialized.");
             RNGCrypto rand = new RNGCrypto();
@@ -272,12 +273,22 @@ namespace NetworkModel
             int vertex3 = evolutionInformation.existingEdges[e2].Key, vertex4 = evolutionInformation.existingEdges[e2].Value;
             RemoveConnection(vertex1, vertex2);
             RemoveConnection(vertex3, vertex4);
+            if (edges != null)
+            {
+                edges.Add(new EdgesAddedOrRemoved(vertex1, vertex2, false));
+                edges.Add(new EdgesAddedOrRemoved(vertex3, vertex4, false));
+            }
             // Calculate removed cycles count
             int removedCyclesCount = Cycles3ByVertices(vertex1, vertex2) +
                 Cycles3ByVertices(vertex3, vertex4);
 
             AddConnection(vertex1, vertex3);
             AddConnection(vertex2, vertex4);
+            if (edges != null)
+            {
+                edges.Add(new EdgesAddedOrRemoved(vertex1, vertex3, true));
+                edges.Add(new EdgesAddedOrRemoved(vertex2, vertex4, true));
+            }
             // Calculate removed cycles count
             int addedCyclesCount = Cycles3ByVertices(vertex1, vertex3) +
                 Cycles3ByVertices(vertex2, vertex4);
@@ -285,7 +296,7 @@ namespace NetworkModel
             return addedCyclesCount - removedCyclesCount;
         }
 
-        internal Double NonPermanentRandomization()
+        internal Double NonPermanentRandomization(ref List<EdgesAddedOrRemoved> edges)
         {
             Debug.Assert(evolutionInformation != null, "Evolution Information is not initialized.");
             RNGCrypto rand = new RNGCrypto();
@@ -299,10 +310,18 @@ namespace NetworkModel
             int avertex2 = evolutionInformation.nonExistingEdges[edgeToAdd].Value;
 
             RemoveConnection(rvertex1, rvertex2);
+            if (edges != null)
+            {
+                edges.Add(new EdgesAddedOrRemoved(rvertex1, rvertex2, false));
+            }
             // Calculate removed cycles count
             int removedCyclesCount = Cycles3ByVertices(rvertex1, rvertex2);
 
             AddConnection(avertex1, avertex2);
+            if (edges != null)
+            {
+                edges.Add(new EdgesAddedOrRemoved(avertex1, avertex2, true));
+            }
             // Calculate removed cycles count
             int addedCyclesCount = Cycles3ByVertices(avertex1, avertex2);
 

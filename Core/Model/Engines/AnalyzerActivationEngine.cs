@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,9 @@ namespace Core.Model.Engines
         private readonly AbstractNetwork network;
         private readonly AbstractNetworkContainer container;
 
+        // TODO - redesign
+        private readonly bool visualMode;
+
         private Int32 stepCount;
         private Double mu;
         private Double lambda;
@@ -26,16 +30,21 @@ namespace Core.Model.Engines
         private Process processToRun;
 
         public SortedDictionary<Double, Double> Trajectory { get; private set; }
+        public List<BitArray> ActivesInformation { get; private set; }
 
-        public AnalyzerActivationEngine(AbstractNetwork n, AbstractNetworkContainer c, Int32 s, Double m, Double l, Int32 t)
+        public AnalyzerActivationEngine(AbstractNetwork n, AbstractNetworkContainer c, bool vm,
+            Int32 s, Double m, Double l, Int32 t)
         {
             network = n;
             container = c;
+            visualMode = vm;
             stepCount = s;
             mu = m;
             lambda = l;
             tracingStepIncrement = t;
             Trajectory = new SortedDictionary<Double, Double>();
+            if(visualMode) 
+                ActivesInformation = new List<BitArray>();
         }
 
         public void Calculate(AlgorithmType t)
@@ -47,12 +56,16 @@ namespace Core.Model.Engines
             Double timeStep = 0;
             Double currentTracingStep = tracingStepIncrement, currentActiveNodesCount = containerToChange.GetActiveNodesCount();
             Trajectory.Add(timeStep, currentActiveNodesCount / containerToChange.Size);
+            if(visualMode)
+                ActivesInformation.Add(containerToChange.GetActiveStatuses());
 
             while (timeStep <= stepCount && currentActiveNodesCount != 0)
             {
                 processToRun(containerToChange);
                 currentActiveNodesCount = containerToChange.GetActiveNodesCount();
                 Trajectory.Add(++timeStep, currentActiveNodesCount / containerToChange.Size);
+                if(visualMode)
+                    ActivesInformation.Add(containerToChange.GetActiveStatuses());
 
                 network.UpdateStatus(NetworkStatus.StepCompleted);
 
