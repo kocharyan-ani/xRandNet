@@ -1,0 +1,12 @@
+table {
+    width: 100%;
+}
+
+tr {
+    cursor: pointer;
+}
+
+.highlight{
+    background: #c0c0c0;
+    opacity: 0.7;
+}

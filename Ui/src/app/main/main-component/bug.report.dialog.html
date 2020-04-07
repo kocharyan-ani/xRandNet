@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Report a bug</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <input matInput [(ngModel)]="bug.summary" placeholder="Summary">
+    </mat-form-field>
+    <mat-form-field class="version">
+        <mat-select placeholder="Version" [(ngModel)]="bug.version" required>
+            <mat-option *ngFor="let version of softwareVersions" [value]="version">
+                {{version }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!bug.version">Please choose the software version in which the bug was found.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="description">
+        <textarea class="description" matInput [(ngModel)]="bug.description" placeholder="Description"></textarea>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onCancelClick()">Exit</button>
+    <button mat-raised-button color="primary" (click)="onSendClick()" [disabled]="!isDialogValid()"
+            *ngIf="!successfullySent">Send
+    </button>
+    <h4  style="margin-left: 20px" *ngIf="successfullySent">Reported bug: #{{bug.id}}</h4>
+</div>

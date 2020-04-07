@@ -1,0 +1,23 @@
+<h1 [align]="'center'">xRandNet</h1>
+
+<!--<h2 [align]="'center'">About us</h2>-->
+<mat-card class="card aboutInfo">
+    <!--    <mat-card-header>-->
+    <!--        <div mat-card-avatar>-->
+    <!--            <mat-icon>announcement</mat-icon>-->
+    <!--        </div>-->
+    <!--        <mat-card-title class="title">{{announcement.title}}</mat-card-title>-->
+    <!--        <mat-card-subtitle>{{announcement.datePosted | date:'dd/MM/yyyy'}}</mat-card-subtitle>-->
+    <!--    </mat-card-header>-->
+    <mat-card-content>
+        <div class="text-center">
+            <p>{{ aboutInfo.content  }}</p>
+        </div>
+
+    </mat-card-content>
+</mat-card>
+
+<!--<h2 [align]="'center'">Links</h2>-->
+<div class="text-center links">
+    <a *ngFor="let link of generalLinks" target="_blank" href="{{link.url}}">{{ link.name}}</a>
+</div>
