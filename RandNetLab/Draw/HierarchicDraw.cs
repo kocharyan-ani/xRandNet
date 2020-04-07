@@ -18,7 +18,6 @@ namespace Draw
     public class HierarchicDraw : AbstractDraw
     {
         protected int BranchingIndex { get; set; }
-        private double Mu { get; set; }
         protected int Level { get; set; }
         private bool isFlat;
         public bool IsFlat
@@ -34,14 +33,13 @@ namespace Draw
             }
         }
 
-        private List<List<Cluster>> clustersByLevel;
         private List<Point>[] centers;
+        private double[] radiuses;
         //*tmp
         private List<List<EdgesAddedOrRemoved>> steps;
         private List<List<int>> branching;
         public HierarchicDraw(Canvas mainCanvas) : base(mainCanvas)
         {
-            clustersByLevel = new List<List<Cluster>>();
             //*tmp
             branching = new List<List<int>>();
             steps = new List<List<EdgesAddedOrRemoved>>();
@@ -113,16 +111,13 @@ namespace Draw
         public override void DrawInitial()
         {
             MainCanvas.Children.Clear();
-            List<Cluster> level0;
-            level0 = (StepNumber == 0) ? DrawVertices() : AddVerticesToCanvas(Vertices, vertexRadius, true);
-
-            if (clustersByLevel.Count == 0)
+            if (StepNumber == 0)
             {
-                clustersByLevel.Add(level0);
+                DrawVertices();
             }
             else
             {
-                clustersByLevel[0] = level0;
+                AddVerticesToCanvas(Vertices, vertexRadius, true);
             }
         }
 
@@ -134,11 +129,6 @@ namespace Draw
             }
             else
             {
-                centers = new List<Point>[stepNumber];
-                for (int i = 0; i < stepNumber; i++)
-                {
-                    centers[i] = new List<Point>();
-                }
                 DrawLevel(stepNumber);
             }
         }
@@ -164,6 +154,7 @@ namespace Draw
         // setVertices = true -> called from flat mode
         private void DrawLevel(int level, bool setVertices = false)
         {
+
             Debug.Assert(level >= 0 && level <= Level);
 
             if (level == 0)
@@ -181,23 +172,49 @@ namespace Draw
                 return;
             }
 
-            if (!setVertices) MainCanvas.Children.Clear();
+            if (!setVertices)
+            {
+                radiuses = new double[level - 1];
+                centers = new List<Point>[level];
+                for (int i = 0; i < level; i++)
+                {
+                    centers[i] = new List<Point>();
+                }
+
+                MainCanvas.Children.Clear();
+            }
 
             double maxRadius = Math.Min((MainCanvas.ActualHeight) / 2, (MainCanvas.ActualWidth / 2)) * 0.9;
             double radius = Math.Pow(3, level - 1) * (maxRadius / Math.Pow(3, Level - 1));
+
+            if (level > 1)
+            {
+                radiuses[level - 2] = radius/3;
+
+                for (int i = level - 3; i >= 0; i--)
+                {
+                    radiuses[i] = radiuses[i + 1] / 3;
+                }
+            }
+
             Point center = new Point(MainCanvas.ActualWidth / 2, MainCanvas.ActualHeight / 2);
 
             Point[] clusterCenters = GetVertices(center, branching[level].Count, (int)(maxRadius - radius));
-            if(!setVertices) clustersByLevel.Add(AddVerticesToCanvas(clusterCenters, radius, false));
+            
+            if (!setVertices)
+            {
+                AddVerticesToCanvas(clusterCenters, radius, false);
+            }
+            
             for (int i = 0; i < clusterCenters.Length; ++i)
             {
                 DrawPreviousLevels(radius, clusterCenters[i], level, i, setVertices);
             }
+
             for (int i = 0; i < level; i++)
             {
                 AddEdges(i + 1);
             }
-
         }
 
         // for every cluster draws clusters which arecontained in it
@@ -217,8 +234,8 @@ namespace Draw
             // previous level nodes are vertices
             if (level == 1)
             {
-                r = vertexRadius;  fill = true;
-                if(setVertices)
+                r = vertexRadius; fill = true;
+                if (setVertices)
                 {
                     int begin, end;
                     GetVerticesOfCluster(level, clusterNumber, out begin, out end);
@@ -228,7 +245,7 @@ namespace Draw
                     }
                 }
             }
-            if(!setVertices) AddVerticesToCanvas(nodes, r, fill);
+            if (!setVertices) AddVerticesToCanvas(nodes, r, fill);
 
             int clusterBegin, clusterEnd;
             GetPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
@@ -301,18 +318,13 @@ namespace Draw
             MainCanvas.Children.Add(edge);
         }
 
-        private void RemoveLevel(int level)
-        {
-            Debug.Assert(level >= 0 && level < clustersByLevel.Count());
-        }
-
         private void AddEdges(int level)
         {
             double radius = 0;
 
             if (level != 1)
             {
-                radius = clustersByLevel[level - 1][0].Width / 2;
+                radius = radiuses[level - 2];
             }
 
             List<Point> levelCenters = centers[level - 1];
@@ -383,7 +395,7 @@ namespace Draw
             double distance2 = Math.Pow(x1 - x4, 2) + Math.Pow(y1 - y4, 2);
             double distance3 = Math.Pow(x3 - x2, 2) + Math.Pow(y3 - y2, 2);
             double distance4 = Math.Pow(x3 - x4, 2) + Math.Pow(y3 - y4, 2);
-            double minDistance =  Math.Min(Math.Min(Math.Min(distance1, distance2), distance3), distance4);
+            double minDistance = Math.Min(Math.Min(Math.Min(distance1, distance2), distance3), distance4);
 
             if (distance1 == minDistance)
             {
