@@ -7,6 +7,8 @@ using Core.Enumerations;
 using Draw;
 using System;
 using System.Windows.Controls;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace RandNetLab
 {
@@ -23,7 +25,8 @@ namespace RandNetLab
     {
         private int stepNumber = 0;
         private int stepCount = 0;
-        private AbstractDraw draw;
+ //       private AbstractDraw draw;
+        private AbstractResearchDraw researchDraw;
 
         private System.Windows.Forms.FolderBrowserDialog locationDlg = new System.Windows.Forms.FolderBrowserDialog();
 
@@ -68,153 +71,151 @@ namespace RandNetLab
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            stepNumber = 0;
-            if (Start.Content.ToString() == "Start")
-            {
-                Start.Content = "Stop";
+            researchDraw.StartResearch();
+            //stepNumber = 0;
+            //if (Start.Content.ToString() == "Start")
+            //{
+            //    Start.Content = "Stop";
                 
-                draw = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), mainCanvas);
-                stepCount = LabSessionManager.GetStepCount();
+            //    draw = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), mainCanvas);
+            //    stepCount = LabSessionManager.GetStepCount();
 
-                // *tmp
-                stepCount = 3;
-                stepCount = 4;
+            //    // *tmp
+            //    stepCount = 3;
+            //    stepCount = 4;
 
-                //Initial.IsEnabled = true;
-                //Final.IsEnabled = true;
-                //Next.IsEnabled = false;
-                //Previous.IsEnabled = true;
-                //Save.IsEnabled = true;
+            //    //Initial.IsEnabled = true;
+            //    //Final.IsEnabled = true;
+            //    //Next.IsEnabled = false;
+            //    //Previous.IsEnabled = true;
+            //    //Save.IsEnabled = true;
 
-                Initial.IsEnabled = false;
-                Final.IsEnabled = true;
-                Next.IsEnabled = true;
-                Previous.IsEnabled = false;
-                Save.IsEnabled = true;
+            //    Initial.IsEnabled = false;
+            //    Final.IsEnabled = true;
+            //    Next.IsEnabled = true;
+            //    Previous.IsEnabled = false;
+            //    Save.IsEnabled = true;
 
-                if((bool)Flat.IsChecked)
-                {
-                    if (draw != null)
-                    {
-                        HierarchicDraw hierDraw = draw as HierarchicDraw;
-                        hierDraw.IsFlat = true;
-                    }
-                }
+            //    if((bool)Flat.IsChecked)
+            //    {
+            //        if (draw != null)
+            //        {
+            //            HierarchicDraw hierDraw = draw as HierarchicDraw;
+            //            hierDraw.IsFlat = true;
+            //        }
+            //    }
 
-                draw.DrawInitial();
-                //DrawFinal();
+            //    draw.DrawInitial();
 
-            }
-            else
-            {
-                Start.Content = "Start";
+            //}
+            //else
+            //{
+            //    Start.Content = "Start";
 
-                Initial.IsEnabled = false;
-                Final.IsEnabled = false;
-                Next.IsEnabled = false;
-                Previous.IsEnabled = false;
-                Save.IsEnabled = false;
-                mainCanvas.Children.Clear();
+            //    Initial.IsEnabled = false;
+            //    Final.IsEnabled = false;
+            //    Next.IsEnabled = false;
+            //    Previous.IsEnabled = false;
+            //    Save.IsEnabled = false;
+            //    mainCanvas.Children.Clear();
 
-                TextBoxStepNumber.Text = "0";
-            }
+            //    TextBoxStepNumber.Text = "0";
+            //}
         }
 
         private void Initial_Click(object sender, RoutedEventArgs e)
         {
-            stepNumber = 0;
-            draw.StepNumber = stepNumber;
-            TextBoxStepNumber.Text = stepNumber.ToString();
-            mainCanvas.Children.Clear();
-            draw.DrawInitial();
+            Task.Run(() => { researchDraw.OnInitialButtonClick();  });
+            //stepNumber = 0;
+            //draw.StepNumber = stepNumber;
+            //TextBoxStepNumber.Text = stepNumber.ToString();
+            //mainCanvas.Children.Clear();
+            //draw.DrawInitial();
 
-            Initial.IsEnabled = false;
-            Final.IsEnabled = true;
-            Next.IsEnabled = true;
-            Previous.IsEnabled = false;
+            //Initial.IsEnabled = false;
+            //Final.IsEnabled = true;
+            //Next.IsEnabled = true;
+            //Previous.IsEnabled = false;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (draw != null)
+            if (researchDraw != null)
             {
-                if (stepNumber == 1)
-                {
-                    draw.DrawInitial();
-                }
-                else if (stepNumber == stepCount)
-                {
-                    draw.DrawFinal();
-                }
-                else
-                {
-                    draw.DrawInitial();
-                    for (int i = 0; i <= stepNumber; ++i)
-                    {
-                        draw.DrawNext(i);
-                    }
-                }
+                researchDraw.OnWindowSizeChanged();
             }
+            //if (draw != null)
+            //{
+            //    if (stepNumber == 1)
+            //    {
+            //        draw.DrawInitial();
+            //    }
+            //    else if (stepNumber == stepCount)
+            //    {
+            //        draw.DrawFinal();
+            //    }
+            //    else
+            //    {
+            //        draw.DrawInitial();
+            //        for (int i = 0; i <= stepNumber; ++i)
+            //        {
+            //            draw.DrawNext(i);
+            //        }
+            //    }
+            //}
         }
 
         private void Final_Click(object sender, RoutedEventArgs e)
         {
-            stepNumber = stepCount - 1;
-            draw.StepNumber = stepNumber;
-            Previous.IsEnabled = true;
-            Next.IsEnabled = false;
-            DrawFinal();
+            researchDraw.OnFinalButtonClick();
+            //stepNumber = stepCount - 1;
+            //draw.StepNumber = stepNumber;
+            //Previous.IsEnabled = true;
+            //Next.IsEnabled = false;
+            //DrawFinal();
         }
 
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            if (stepNumber == stepCount - 1)
-            {
-                Next.IsEnabled = false;
-                Final.IsEnabled = false;
-            }
-            else if (stepNumber == stepCount)
-            {
-                return;
-            }
-
-            Previous.IsEnabled = true;
-            Initial.IsEnabled = true;
-
-            stepNumber++;
-            draw.StepNumber = stepNumber;
-            draw.DrawNext(stepNumber);
-            if(stepNumber == stepCount - 1)
-            {
-                Next.IsEnabled = false;
-                Final.IsEnabled = false;
-            }
-            TextBoxStepNumber.Text = stepNumber.ToString();
-        }
-
-        private void Previous_Click(object sender, RoutedEventArgs e)
-        {
-            //if (stepNumber == 2)
+            researchDraw.OnNextButtonClick();
+            //if (stepNumber == stepCount - 1)
             //{
-            //    Previous.IsEnabled = false;
-            //    Initial.IsEnabled = false;
+            //    Next.IsEnabled = false;
+            //    Final.IsEnabled = false;
             //}
-            //else if (stepNumber == 1)
+            //else if (stepNumber == stepCount)
             //{
             //    return;
             //}
 
-            Next.IsEnabled = true;
-            Final.IsEnabled = true;
+            //Previous.IsEnabled = true;
+            //Initial.IsEnabled = true;
 
-            draw.StepNumber = stepNumber;
-            draw.DrawPrevious(stepNumber);
-            stepNumber--;
-            if (stepNumber == 0)
-            {
-                Previous.IsEnabled = false;
-            }
-            TextBoxStepNumber.Text = stepNumber.ToString();
+            //stepNumber++;
+            //draw.StepNumber = stepNumber;
+            //draw.DrawNext(stepNumber);
+            //if(stepNumber == stepCount - 1)
+            //{
+            //    Next.IsEnabled = false;
+            //    Final.IsEnabled = false;
+            //}
+            //TextBoxStepNumber.Text = stepNumber.ToString();
+        }
+
+        private void Previous_Click(object sender, RoutedEventArgs e)
+        {
+            researchDraw.OnPreviousButtonClick();
+            //Next.IsEnabled = true;
+            //Final.IsEnabled = true;
+
+            //draw.StepNumber = stepNumber;
+            //draw.DrawPrevious(stepNumber);
+            //stepNumber--;
+            //if (stepNumber == 0)
+            //{
+            //    Previous.IsEnabled = false;
+            //}
+            //TextBoxStepNumber.Text = stepNumber.ToString();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -240,18 +241,20 @@ namespace RandNetLab
 
         private void Flat_Checked(object sender, RoutedEventArgs e)
         {
-            if (draw != null)
+            Debug.Assert(researchDraw is BasicResearchDraw);
+            if (researchDraw.DrawObj != null)
             {
-                HierarchicDraw hierDraw = draw as HierarchicDraw;
+                HierarchicDraw hierDraw = researchDraw.DrawObj as HierarchicDraw;
                 hierDraw.IsFlat = true;
             }
         }
 
         private void Flat_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (draw != null)
+            Debug.Assert(researchDraw is BasicResearchDraw);
+            if (researchDraw.DrawObj != null)
             {
-                HierarchicDraw hierDraw = draw as HierarchicDraw;
+                HierarchicDraw hierDraw = researchDraw.DrawObj as HierarchicDraw;
                 hierDraw.IsFlat = false;
             }
         }
@@ -260,18 +263,18 @@ namespace RandNetLab
 
         #region Utility
 
-        private void DrawFinal()
-        {
-            stepNumber = LabSessionManager.GetStepCount() - 1;
-            mainCanvas.Children.Clear();
-            draw.DrawFinal();
-            TextBoxStepNumber.Text = stepNumber.ToString();
+        //private void DrawFinal()
+        //{
+        //    stepNumber = LabSessionManager.GetStepCount() - 1;
+        //    mainCanvas.Children.Clear();
+        //    draw.DrawFinal();
+        //    TextBoxStepNumber.Text = stepNumber.ToString();
 
-            Next.IsEnabled = false;
-            Previous.IsEnabled = true;
-            Initial.IsEnabled = true;
-            Final.IsEnabled = false;
-        }
+        //    Next.IsEnabled = false;
+        //    Previous.IsEnabled = true;
+        //    Initial.IsEnabled = true;
+        //    Final.IsEnabled = false;
+        //}
 
         private void ShowCreateResearchDialog(ResearchType researchType)
         {
@@ -282,6 +285,8 @@ namespace RandNetLab
             createResearchWnd.ShowDialog();
             if (createResearchWnd.DialogResult.HasValue && createResearchWnd.DialogResult.Value)
             {
+                researchDraw = FactoryReserchDraw.CreateResearchDraw(researchType, LabSessionManager.GetResearchModelType());
+
                 Start.IsEnabled = true;
                 AddResearchToTable();
                 FillParametersTable();

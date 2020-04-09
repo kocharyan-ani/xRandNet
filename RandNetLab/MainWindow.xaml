@@ -1,4 +1,4 @@
-﻿<Window x:Class="RandNetLab.MainWindow"
+﻿<Window x:Name="MainWindow1" x:Class="RandNetLab.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -98,6 +98,7 @@
             <Button Name ="Previous" Grid.Column="4"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click">Previous</Button>
             <Button Name ="Save" Grid.Column="5"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click">Save</Button>
             <CheckBox Name="Flat" Grid.Column="6" Content="Flat" Visibility="Hidden" Margin="50 15" Checked="Flat_Checked" Unchecked="Flat_Unchecked"></CheckBox>
+            <Button Name ="Pause" Grid.Column="7" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False">Start</Button>
             <TextBlock Grid.Column="6" HorizontalAlignment="Right" Text="Step Number" Height="23" Width="75"/>
             <TextBox Name="TextBoxStepNumber" Grid.Column="7" HorizontalAlignment="Center" Height="23" Width="75"></TextBox>
             

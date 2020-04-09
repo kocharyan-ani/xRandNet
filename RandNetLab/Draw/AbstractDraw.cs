@@ -63,7 +63,7 @@ namespace Draw
 
             Vertices = GetVertices(center, (int)InitialVertexCount, (int)radius);
 
-            return AddVerticesToCanvas(Vertices, 2.5, true);
+            return AddVerticesToCanvas(Vertices, vertexRadius, true);
         }
 
         protected List<Ellipse> AddVerticesToCanvas(Point[] vertices, double radius, bool fill)
@@ -129,6 +129,33 @@ namespace Draw
             return level + "." + number;
         }
 
+        public void ActivateOrDeactivateVertex(int vertex, bool activate)
+        {
+            double top = 0, left = 0;
+            string vertexID = GenerateVertexUid(vertex);
+            for (int i = 0; i < MainCanvas.Children.Count; i++)
+            {
+                if (MainCanvas.Children[i].Uid == vertexID)
+                {
+                    left = Canvas.GetLeft(MainCanvas.Children[i]);
+                    top = Canvas.GetTop(MainCanvas.Children[i]);
+                    MainCanvas.Children.RemoveAt(i);
+                    break;
+                }
+            }
+            double radius = (activate ? 6 : 5);
+            string color = (activate ? "#ff0000" : "#323336");
+            Ellipse v = new Ellipse()
+            {
+                Uid = vertexID,
+                Width = radius,
+                Height = radius,
+                Fill = (SolidColorBrush)new BrushConverter().ConvertFromString(color)
+            };
+            MainCanvas.Children.Add(v);
+            Canvas.SetLeft(v, left);
+            Canvas.SetTop(v, top);
+        }
     }
 }
 
