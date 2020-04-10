@@ -213,5 +213,11 @@ namespace Session
             Debug.Assert(existingResearch.GenerationSteps != null);
             return existingResearch.GenerationSteps.Count;
         }
+        
+        public static List<List<int>> GetBranches()
+        {
+            Debug.Assert(existingResearch.Branches != null);
+            return existingResearch.Branches;
+        }
     }
 }

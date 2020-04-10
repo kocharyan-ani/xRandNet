@@ -17,6 +17,7 @@ namespace Draw
 {
     public class HierarchicDraw : AbstractDraw
     {
+        public int StepCount { get; }
         protected int BranchingIndex { get; set; }
         protected int Level { get; set; }
         private bool isFlat;
@@ -35,45 +36,56 @@ namespace Draw
 
         private List<Point>[] centers;
         private double[] radiuses;
-        //*tmp
+        
         private List<List<EdgesAddedOrRemoved>> steps;
         private List<List<int>> branching;
         public HierarchicDraw(Canvas mainCanvas) : base(mainCanvas)
         {
-            //*tmp
-            branching = new List<List<int>>();
+            StepCount = LabSessionManager.GetStepCount();
+            branching = LabSessionManager.GetBranches();
+            //branching = new List<List<int>>();
+
             steps = new List<List<EdgesAddedOrRemoved>>();
 
-            steps.Add(null);
+            GetNetwork();
+            //steps.Add(null);
             //branching.Add(new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1 });
             //branching.Add(new List<int>() { 3, 3, 3 });
             //branching.Add(new List<int>() { 3 });
-            List<int> l = new List<int>();
-            for (int i = 0; i < 27; ++i)
-            {
-                l.Add(0);
-            }
-            branching.Add(l);
-            l.Clear();
-            for (int i = 0; i < 9; ++i)
-            {
-                l.Add(3);
-            }
-            branching.Add(l);
-            branching.Add(new List<int>() { 3, 3, 3 });
-            branching.Add(new List<int>() { 3 });
+            //List<int> l = new List<int>();
+            //for (int i = 0; i < 27; ++i)
+            //{
+            //    l.Add(0);
+            //}
+            ////branching.Add(l);
+            //l.Clear();
+            //for (int i = 0; i < 9; ++i)
+            //{
+            //    l.Add(3);
+            //}
+            ////branching.Add(l);
+            //branching.Add(new List<int>() { 3, 3, 3 });
+            //branching.Add(new List<int>() { 3 });
 
 
-            steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 1, true), new EdgesAddedOrRemoved(3, 5, true) });
-            steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 2, true), new EdgesAddedOrRemoved(1, 2, true), new EdgesAddedOrRemoved(3, 4, true), new EdgesAddedOrRemoved(4, 5, true), new EdgesAddedOrRemoved(6, 7, true) });
-            steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 1, true) });
-            //
+            //steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 1, true), new EdgesAddedOrRemoved(3, 5, true) });
+            //steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 2, true), new EdgesAddedOrRemoved(1, 2, true), new EdgesAddedOrRemoved(3, 4, true), new EdgesAddedOrRemoved(4, 5, true), new EdgesAddedOrRemoved(6, 7, true) });
+            //steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 1, true) });
+            ////
             BranchingIndex = (Int32)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.BranchingIndex];
 
             Level = branching.Count;
 
-            BranchingIndex = 3;
-            Level = 3;
+            //BranchingIndex = 3;
+            //Level = 3;
+        }
+
+        protected override void GetNetwork()
+        {
+            for (int i = 0; i <= StepCount; i++)
+            {
+                steps.Add(LabSessionManager.GetStep(i));
+            }
         }
 
         protected void OnFlatChanged()

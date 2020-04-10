@@ -31,6 +31,7 @@ namespace Draw
         public abstract void DrawFinal();
         public abstract void DrawNext(int stepNumber);
         public abstract void DrawPrevious(int stepNumber);
+        protected abstract void GetNetwork();
         protected static Point[] GetVertices(Point center, int number, int radius)
         {
             double angle = 360.0 / (double)(number);
@@ -101,8 +102,7 @@ namespace Draw
         {
             string edgeUid = GenerateEdgeUid(edge);
 
-            int i = 0;
-            for (; i < MainCanvas.Children.Count; i++)
+            for (int i = 0; i < MainCanvas.Children.Count; i++)
             {
                 if (MainCanvas.Children[i].Uid == edgeUid)
                 {
@@ -110,7 +110,6 @@ namespace Draw
                     break;
                 }
             }
-    //        Debug.Assert(i != MainCanvas.Children.Count);
         }
 
         protected string GenerateEdgeUid(EdgesAddedOrRemoved edge)
