@@ -7,13 +7,14 @@ using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Core.Settings;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers {
     [Route("api/research")]
     [ApiController]
-    public class ResearchController {
+    public class ResearchController: Controller {
         private const string DefaultDirectory = "xRandNet";
 
         [HttpPost]
@@ -57,14 +58,14 @@ namespace Api.Controllers {
         [HttpGet]
         [Authorize]
         [Route("download")]
-        public HttpResponseMessage Download([FromQuery] string path) {
+        public Task<IActionResult> Download([FromQuery] string path) {
             return GetFileResponse(GetFullDirectory(path), path);
         }
 
         [HttpGet]
         [Authorize]
         [Route("downloadFolder")]
-        public HttpResponseMessage DownloadFolder([FromQuery] string path) {
+        public Task<IActionResult> DownloadFolder([FromQuery] string path) {
             const string zipExtension = ".zip";
             var fileName = path + zipExtension;
             var folderDirectory = GetFullDirectory(path);
@@ -72,7 +73,7 @@ namespace Api.Controllers {
             ZipFile.CreateFromDirectory(folderDirectory, fileDirectory);
 
             var response = GetFileResponse(fileDirectory, fileName);
-            File.Delete(fileDirectory);
+            System.IO.File.Delete(fileDirectory);
 
             return response;
         }
@@ -81,21 +82,14 @@ namespace Api.Controllers {
             return DefaultDirectory + "/Results/" + path;
         }
 
-        private static HttpResponseMessage GetFileResponse(string directory, string name) {
-            var stream = new MemoryStream();
-
-            using (var file = new FileStream(directory, FileMode.Open, FileAccess.Read)) {
-                var bytes = new byte[file.Length];
-                file.Read(bytes, 0, (int) file.Length);
-                stream.Write(bytes, 0, (int) file.Length);
-            }
-
-            stream.Seek(0, SeekOrigin.Begin);
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StreamContent(stream)};
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                {FileName = name};
-
-            return response;
+        private async Task<IActionResult> GetFileResponse(string directory, string name) {
+            var memory = new MemoryStream();  
+            using (var stream = new FileStream(directory, FileMode.Open))  
+            {  
+                await stream.CopyToAsync(memory);  
+            }  
+            memory.Position = 0;  
+            return File(memory, MimeMapping.MimeUtility.GetMimeMapping(name), name);
         }
 
         private static string GetFileExtension(string storage) {
