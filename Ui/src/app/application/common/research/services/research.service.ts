@@ -15,15 +15,15 @@ export class ResearchService {
     }
 
     public startResearch(research: BaseResearch): Observable<string> {
-        return this.httpService.post('research/start', {}, research)
+        return this.httpService.post('api/research/start', {}, research)
     }
 
     public download(path: string): Observable<Blob> {
-        return this.httpService.blob(`research/download`, {path})
+        return this.httpService.blob(`api/research/download`, {path})
     }
 
     public downloadFolder(path: string): Observable<Blob> {
-        return this.httpService.blob(`research/downloadFolder`, {path})
+        return this.httpService.blob(`api/research/downloadFolder`, {path})
     }
 
     public getResearches(): Observable<BaseResearch[]> {
