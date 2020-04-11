@@ -1,4 +1,4 @@
-namespace Api.Database.Models {
+namespace Api.Models {
     public class Publication {
         public int Id { get; set; }
 
