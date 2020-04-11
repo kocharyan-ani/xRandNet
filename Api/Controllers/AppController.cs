@@ -76,6 +76,9 @@ namespace Api.Controllers {
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
+        [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)]
+        [DisableRequestSizeLimit]
+        [Consumes("multipart/form-data")]
         public ActionResult UploadApp() {
             var formFile = (FormFile) Request.Form.Files[0];
             var softwareInfo = Request.Form["software"];

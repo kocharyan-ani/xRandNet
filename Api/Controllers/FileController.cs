@@ -29,6 +29,9 @@ namespace Api.Controllers {
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("userManual")]
+        [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)] 
+        [DisableRequestSizeLimit] 
+        [Consumes("multipart/form-data")]
         public ActionResult UploadUserManual() {
             var formFile = (FormFile) Request.Form.Files[0];
             var stream = formFile.OpenReadStream();
