@@ -9,11 +9,11 @@ namespace Api.Database.Repositories {
         }
 
         public User Get(string username) {
-            return Context.User.FirstOrDefault(u => u.Username == username);
+            return Context.Users.FirstOrDefault(u => u.Username == username);
         }
 
         public User Get(string username, string password) {
-            return Context.User.FirstOrDefault(u => u.Username == username && u.Password == password);
+            return Context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Api.Database.Repositories {
         }
 
         public App Get(string version) {
-            return Context.App.FirstOrDefault(app => app.Version == version);
+            return Context.Apps.FirstOrDefault(app => app.Version == version);
         }
     }
 }

@@ -32,4 +32,4 @@ ng build --prod
 
 service nginx restart
 
-servcie xrandnet restart
+service xrandnet restart

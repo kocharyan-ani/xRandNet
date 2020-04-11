@@ -4,7 +4,6 @@ using Api.Database.Repositories;
 using Api.Models;
 using Api.Models.Factories;
 using LinkModel = Api.Models.Link;
-using LinkDbEntiry = Api.Database.Models.Link;
 
 namespace Api.Services {
     public sealed class LinkService : ILinkService {

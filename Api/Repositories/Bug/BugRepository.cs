@@ -10,7 +10,7 @@ namespace Api.Database.Repositories {
         }
 
         public IEnumerable<Bug> List(int appId) {
-            return Context.Bug.Where(bug => bug.AppId == appId);
+            return Context.Bugs.Where(bug => bug.AppId == appId);
         }
     }
 }
