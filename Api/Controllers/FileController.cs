@@ -5,6 +5,7 @@ using Api.Database.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using File = Api.Database.Models.File;
 
 namespace Api.Controllers {
     [Route("api/files")]
@@ -19,10 +20,10 @@ namespace Api.Controllers {
         [HttpGet]
         [Route("userManual")]
         public ActionResult<byte[]> DownloadUserManual() {
-            var userManualFile = UserManualFileRepository.Get(1);
-            if (userManualFile == null) return NotFound();
-
-            return File(userManualFile.Data, userManualFile.MimeType, userManualFile.Name);
+            var files = UserManualFileRepository.List();
+            var manualFiles = files as File[] ?? files.ToArray();
+            if (manualFiles.Length == 0) return NotFound();
+            return File(manualFiles[0].Data, manualFiles[0].MimeType, manualFiles[0].Name);
         }
 
         [HttpPost]
@@ -41,6 +42,7 @@ namespace Api.Controllers {
             if (file == null) {
                 file = new ManualFile();
             }
+
             file.Name = formFile.FileName;
             file.MimeType = formFile.ContentType;
             file.Data = data;
