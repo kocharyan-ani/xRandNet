@@ -4,9 +4,6 @@ using Session;
 using System;
 using System.IO;
 using System.IO.Compression;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Core.Settings;
 using Microsoft.AspNetCore.Authorization;
@@ -67,6 +64,8 @@ namespace Api.Controllers {
             var fileDirectory = folderDirectory + zipExtension;
             ZipFile.CreateFromDirectory(folderDirectory, fileDirectory);
 
+            Directory.Delete(folderDirectory, true);
+            
             return GetFileResponse(fileDirectory, fileName);
         }
 
@@ -79,8 +78,10 @@ namespace Api.Controllers {
             using (var stream = new FileStream(directory, FileMode.Open)) {
                 await stream.CopyToAsync(memory);
             }
-
             memory.Position = 0;
+            
+            System.IO.File.Delete(directory);
+            
             return File(memory, MimeMapping.MimeUtility.GetMimeMapping(name), name);
         }
 
