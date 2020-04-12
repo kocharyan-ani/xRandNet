@@ -15,15 +15,11 @@ namespace Api.Controllers {
     [Route("api/research")]
     [ApiController]
     public class ResearchController: Controller {
-        private const string DefaultDirectory = "xRandNet";
 
         [HttpPost]
         [Authorize]
         [Route("start")]
         public ActionResult<string> Index([FromBody] Models.Research.Research research) {
-            // @todo should be replaced
-            RandNetSettings.ChangeDefaultDirectory(DefaultDirectory);
-
             var manager = new WebSessionManager();
             manager.CreateResearch(research.research);
             manager.SetResearchName(research.name);
@@ -72,14 +68,11 @@ namespace Api.Controllers {
             var fileDirectory = folderDirectory + zipExtension;
             ZipFile.CreateFromDirectory(folderDirectory, fileDirectory);
 
-            var response = GetFileResponse(fileDirectory, fileName);
-            System.IO.File.Delete(fileDirectory);
-
-            return response;
+            return GetFileResponse(fileDirectory, fileName);
         }
 
         private static string GetFullDirectory(string path) {
-            return DefaultDirectory + "/Results/" + path;
+            return RandNetSettings.StorageDirectory + "\\" + path;
         }
 
         private async Task<IActionResult> GetFileResponse(string directory, string name) {
