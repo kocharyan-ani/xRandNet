@@ -14,8 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Api.Controllers {
     [Route("api/research")]
     [ApiController]
-    public class ResearchController: Controller {
-
+    public class ResearchController : Controller {
         [HttpPost]
         [Authorize]
         [Route("start")]
@@ -72,16 +71,16 @@ namespace Api.Controllers {
         }
 
         private static string GetFullDirectory(string path) {
-            return RandNetSettings.StorageDirectory + "\\" + path;
+            return Path.Combine(RandNetSettings.StorageDirectory, path);
         }
 
         private async Task<IActionResult> GetFileResponse(string directory, string name) {
-            var memory = new MemoryStream();  
-            using (var stream = new FileStream(directory, FileMode.Open))  
-            {  
-                await stream.CopyToAsync(memory);  
-            }  
-            memory.Position = 0;  
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(directory, FileMode.Open)) {
+                await stream.CopyToAsync(memory);
+            }
+
+            memory.Position = 0;
             return File(memory, MimeMapping.MimeUtility.GetMimeMapping(name), name);
         }
 
