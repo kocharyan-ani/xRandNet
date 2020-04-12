@@ -76,16 +76,6 @@ namespace RandNetLab
                 draw = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), mainCanvas);
                 stepCount = LabSessionManager.GetStepCount();
 
-                // *tmp
-                stepCount = 3;
-                stepCount = 4;
-
-                //Initial.IsEnabled = true;
-                //Final.IsEnabled = true;
-                //Next.IsEnabled = false;
-                //Previous.IsEnabled = true;
-                //Save.IsEnabled = true;
-
                 Initial.IsEnabled = false;
                 Final.IsEnabled = true;
                 Next.IsEnabled = true;
@@ -102,8 +92,6 @@ namespace RandNetLab
                 }
 
                 draw.DrawInitial();
-                //DrawFinal();
-
             }
             else
             {

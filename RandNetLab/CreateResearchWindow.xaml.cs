@@ -79,7 +79,7 @@ namespace RandNetLab
             ModelTypeComboBox.Items.Clear();
             foreach (ModelType m in LabSessionManager.GetAvailableModelTypes(researchType))
                 ModelTypeComboBox.Items.Add(m);
-            ModelTypeComboBox.SelectedItem = ModelType.RegularHierarchic;
+            ModelTypeComboBox.SelectedItem = ModelType.ER;
         }
 
         private void SetGeneralValues()
