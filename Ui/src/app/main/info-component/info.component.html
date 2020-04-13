@@ -1,0 +1,41 @@
+<h1 [align]="'center'">Info</h1>
+<h2 [align]="'center'">People</h2>
+<div class="text-center people">
+    <div *ngFor="let person of people" class="member w3-third">
+        <!-- Image -->
+        <div>
+            <img src="{{person.imageLink}}" class="avatar ">
+        </div>
+        <div>
+            <!-- Facebook -->
+            <a href="{{person.fbLink}}" class="social-nav" target="_blank">
+                <img src="assets/img/facebook.svg" class="social-icon">
+            </a>
+            <!-- Email -->
+            <a href="mailto:{{person.emailAddress}}}" class="social-nav" target="_blank">
+                <img src="assets/img/gmail.svg" class="social-icon">
+            </a>
+            <!-- LinkedIn -->
+            <a href="{{person.linkedInLink}}" class="social-nav" target="_blank">
+                <img src="assets/img/linkedin.svg" class="social-icon">
+            </a>
+        </div>
+        <div class="bio">
+            <p>{{person.firstName}} {{person.lastName}}</p>
+            <p>{{person.info}}</p>
+        </div>
+    </div>
+</div>
+
+<h2 [align]="'center'">Publications</h2>
+<div class="text-center publications">
+</div>
+
+<h2 [align]="'center'">Projects</h2>
+<div class="text-center publications">
+</div>
+
+<h2 [align]="'center'">Literature</h2>
+<div class="literature text-center">
+    <a *ngFor="let link of literatureLinks" target="_blank" href="{{link.url}}">{{ link.name}}</a>
+</div>

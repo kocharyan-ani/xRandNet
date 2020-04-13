@@ -1,0 +1,20 @@
+<mat-card>
+    <mat-card-title>Parameters</mat-card-title>
+    <mat-card-content>
+        <div>
+            <div *ngFor="let parameter of parameters">
+                <div [ngSwitch]="parameter.type">
+                    <div *ngSwitchCase="parameterTypeEnum.INPUT">
+                        <mat-form-field>
+                            <input matInput [placeholder]="parameter.name"
+                                   [formControl]="formGroup.get(parameter.name)">
+                        </mat-form-field>
+                    </div>
+                    <div *ngSwitchCase="parameterTypeEnum.CHECKBOX">
+                        <mat-checkbox [formControl]="formGroup.get(parameter.name)">{{parameter.name}}</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

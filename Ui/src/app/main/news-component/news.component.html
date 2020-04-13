@@ -1,0 +1,16 @@
+<h1 [align]="'center'">News</h1>
+<mat-card class="card" *ngFor="let announcement of announcements">
+    <mat-card-header>
+        <div mat-card-avatar>
+            <mat-icon>announcement</mat-icon>
+        </div>
+        <mat-card-title class="title">{{announcement.title}}</mat-card-title>
+        <mat-card-subtitle>Posted date: {{announcement.datePosted | date:'dd/MM/yyyy'}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p>{{announcement.content}}</p>
+    </mat-card-content>
+    <mat-card-actions class="action-buttons">
+<!--        <button mat-button>Like</button>-->
+    </mat-card-actions>
+</mat-card>

@@ -1,0 +1,154 @@
+mat-form-field {
+    margin-top: 2%;
+    width: 100%;
+}
+
+
+.info_text {
+    resize: none;
+    min-height: 200px;
+}
+
+.news_textarea {
+    min-height: 200px;
+    resize: none;
+}
+.new_post_textarea {
+    min-height: 100px;
+    resize: none;
+}
+
+.userManualButton {
+    margin-top: 15px;
+    max-width: 30%;
+    display: block;
+}
+
+.card {
+    margin: 20px auto 0;
+    width: 50%;
+}
+
+.softwareButton {
+    max-width: 30%;
+    display: block;
+}
+
+.writeNewsButton {
+    max-width: 30%;
+    display: block;
+}
+
+.bugs-section {
+    margin-left: 10%;
+    max-width: 20%;
+    padding-bottom: 5%;
+}
+
+.general-links-section {
+    max-width: 20%;
+    margin-right: 10%;
+    padding-bottom: 5%;
+}
+
+.literature-links-section {
+    margin-left: 10%;
+    margin-right: 10%;
+    max-width: 20%;
+    padding-bottom: 5%;
+}
+
+
+.button-icon {
+    margin-left: 10px;
+}
+
+.button-icon:hover {
+    cursor: pointer;
+}
+
+.info-section {
+    margin-top: 1%;
+    margin-left: 10%;
+    margin-right: 10%;
+
+}
+
+input {
+    display: block;
+}
+
+
+.upload_section {
+    margin-left: 40px;
+    margin-right: 20px;
+}
+
+h2 {
+    margin-top: 50px;
+    color: #673ab7;
+}
+
+.content {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.bug {
+    float: left;
+    width: 300px;
+    display: inline-block;
+    margin: 10px;
+    border-radius: 20px;
+    filter: drop-shadow(3px 2px 5px gray);
+    /*min-height: 300px;*/
+}
+
+.bug_status_0 {
+    background-color: #EF9A9A;
+}
+
+.bug_status_1 {
+    background-color: #A5D6A7;
+}
+
+.bug_status_2 {
+    background-color: #EEEEEE;
+}
+
+.news {
+    width: 96%;
+    margin: 15px;
+    border-radius: 20px;
+    filter: drop-shadow(1px 1px 1px gray);
+    background-color: rgb(241, 240, 255)
+}
+
+.section {
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: white;
+    /*background-color: #d9d7f4de;*/
+}
+.news_edit_input{
+    height: 100%;
+}
+.news_section {
+    float: right;
+    display: inline-block;
+    width: 43%;
+    margin-left: 1%;
+}
+
+.software_section {
+    float: left;
+    display: inline-block;
+    width: 55%;
+    margin-right: 1%;
+}
+
+.links_section {
+    float: left;
+    display: inline-block;
+    margin-bottom: 40px;
+}
