@@ -65,6 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Draw\AbstractResearchDraw.cs" />
+    <Compile Include="Draw\ActivationResearchDraw.cs" />
+    <Compile Include="Draw\BasicResearchDraw.cs" />
+    <Compile Include="Draw\EvolutionResearchDraw.cs" />
     <Compile Include="Draw\HierarchicDraw.cs" />
     <Compile Include="Draw\NonRegularBlockHierarchicDraw.cs" />
     <Compile Include="Draw\RegularBlockHierarchicDraw.cs" />
