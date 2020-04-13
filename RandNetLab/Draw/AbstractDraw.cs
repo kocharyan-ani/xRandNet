@@ -143,7 +143,7 @@ namespace Draw
                     break;
                 }
             }
-            double radius = (activate ? 6 : 5);
+            double radius = (activate ? 7 : 5);
             string color = (activate ? "#ff0000" : "#323336");
             Ellipse v = new Ellipse()
             {

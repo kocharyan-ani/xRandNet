@@ -126,7 +126,8 @@ namespace Manager
                         if (!networks[networkToRun].CheckConnected())
                             continue;
                     }
-                    if (TracingPath != "")
+                    // Throws exception in Activation research
+                    if (/*!VisualMode && */TracingPath != "")
                     {
                         if (!networks[networkToRun].Trace(TracingDirectory, TracingPath + "_" + networkToRun.ToString()))
                             continue;

@@ -1,6 +1,8 @@
 ﻿using Core.Enumerations;
 using RandNetLab;
+using Session;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,22 +16,11 @@ namespace Draw
     {
         MainWindow MWindow = Application.Current.Windows[0] as MainWindow;
 
-        private const int RESEARCH_STEP_DURATION_BY_MILISECONDS = 5000;
+        private const int RESEARCH_STEP_DURATION_BY_MILISECONDS = 50;
 
-        //*tmp
-        private List< List< Tuple< int, bool > > > activationSteps; 
         public ActivationResearchDraw() : base(ModelType.ER) 
         {
-            activationSteps = new List<List<Tuple<int, bool>>>();
-            activationSteps.Add(new List<Tuple<int, bool>>() { new Tuple<int, bool>(0, true) });
-            activationSteps.Add(new List<Tuple<int, bool>>() { new Tuple<int, bool>(0, false),
-                                                               new Tuple<int, bool>(1, true), 
-                                                               new Tuple<int, bool>(DrawObj.InitialVertexCount - 1, true) });
-            activationSteps.Add(new List<Tuple<int, bool>>() { new Tuple<int, bool>(1, false),
-                                                               new Tuple<int, bool>(2, true),
-                                                               new Tuple<int, bool>(DrawObj.InitialVertexCount - 1, false),
-                                                               new Tuple<int, bool>(DrawObj.InitialVertexCount - 2, true) });
-
+            StepCount = LabSessionManager.GetActivationStepCount();
         }
 
     public override void StartResearch() 
@@ -45,16 +36,17 @@ namespace Draw
 
         public override void OnWindowSizeChanged() { }
 
-        private void DrawActivationProcess()
-        { 
-            for(int i = 0; i < activationSteps.Count; ++i)
+        private async void DrawActivationProcess()
+        {
+            for (int i = 0; i < StepCount; ++i)
             {
-                List<Tuple<int, bool>> step = activationSteps[i];
-                foreach (var s in step)
+                BitArray step = LabSessionManager.GetActivationStep(i);
+                for (int j = 0; j < step.Count; ++j)
                 {
-                   DrawObj.ActivateOrDeactivateVertex(s.Item1, s.Item2);
+                    Dispatcher.CurrentDispatcher.Invoke(new Action(() => {DrawObj.ActivateOrDeactivateVertex(j, step[j]); }));
                 }
-                System.Threading.Thread.Sleep(RESEARCH_STEP_DURATION_BY_MILISECONDS);
+                //System.Threading.Thread.Sleep(RESEARCH_STEP_DURATION_BY_MILISECONDS);
+                await Task.Delay(RESEARCH_STEP_DURATION_BY_MILISECONDS);
             }
         }
     }

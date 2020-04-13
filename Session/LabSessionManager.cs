@@ -10,6 +10,7 @@ using Core.Utility;
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
+using System.Collections;
 
 namespace Session
 {
@@ -192,6 +193,7 @@ namespace Session
         public static void SetAnalyzeOptions(AnalyzeOption o)
         {
             //To Do
+            existingResearch.AnalyzeOption = o;
         }
 
         /*public static void Generate(int numberOfVertices, double probability, int stepCount = 0,int edges = 0)
@@ -213,6 +215,18 @@ namespace Session
         {
             Debug.Assert(existingResearch.GenerationSteps != null);
             return existingResearch.GenerationSteps.Count;
+        }
+
+        public static BitArray GetActivationStep(int stepNumber)
+        {
+            Debug.Assert(existingResearch.ActivesInformation != null);
+            return existingResearch.ActivesInformation[stepNumber];
+        }
+
+        public static int GetActivationStepCount()
+        {
+            Debug.Assert(existingResearch.ActivesInformation != null);
+            return existingResearch.ActivesInformation.Count;
         }
     }
 }

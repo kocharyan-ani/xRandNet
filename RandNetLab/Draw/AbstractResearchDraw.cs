@@ -14,6 +14,7 @@ namespace Draw
         MainWindow MWindow = Application.Current.Windows[0] as MainWindow;
 
         public AbstractDraw DrawObj { get; set; }
+        protected int StepCount { get; set; }
 
         public AbstractResearchDraw(ModelType modelType = ModelType.ER)
         {

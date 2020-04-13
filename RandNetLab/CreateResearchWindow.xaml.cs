@@ -118,44 +118,17 @@ namespace RandNetLab
                 {
                     paramName = ((TextBlock)ParametersStackPanelName.Children[i]).Text;
                     paramName = paramName.Substring(0, paramName.Length - 1);
-                    object value = null;
-                    GenerationParameter gp;
-                    ResearchParameter rp;
-                    if (Enum.TryParse(paramName, out gp))
-                    {
-                        GenerationParameterInfo[] info = (GenerationParameterInfo[])gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(GenerationParameterInfo), false);
-                        paramType = info[0].Type;
-                        String paramValue = ((TextBox)ParametersStackPanelValue.Children[i]).Text;
 
-                        value = Convert.ChangeType(paramValue, paramType, CultureInfo.InvariantCulture);
-                        if (paramName.Equals("Probability") && !((double)value >= 0 && (double)value <= 1))
-                        {
-                            MessageBox.Show(paramName + " parameter value must be rational number between 0 and 1.", "Error");
-                            return false;
-                        }
-                        if (paramName.Equals("Vertices") && (int)value > MAX_VERTEX_COUNT)
-                        {
-                            MessageBox.Show("Maximum number of vertices is " + MAX_VERTEX_COUNT);
-                            return false;
-                        }
-                        LabSessionManager.SetGenerationParameterValue(gp, value);
-                    }
-                    else if (Enum.TryParse(paramName, out rp))
+                    bool status = false;
+                    if (Enum.TryParse(paramName, out GenerationParameter gp))
                     {
-                        ResearchParameterInfo[] info = (ResearchParameterInfo[])rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false);
-                        paramType = info[0].Type;
-                        if (paramType == typeof(Boolean))
-                        {
-                            value = (bool)((CheckBox)ParametersStackPanelValue.Children[i]).IsChecked ? true : false;
-                        }
-                        else
-                        {
-                            String paramValue = ((TextBox)ParametersStackPanelValue.Children[i]).Text;
-                            value = Convert.ChangeType(paramValue, paramType, CultureInfo.InvariantCulture);
-                        }
-                        // TODO validate
-                        LabSessionManager.SetResearchParameterValue(rp, value);
+                        status = SetGenerationParameterValues(gp, ParametersStackPanelValue.Children[i], ref paramType);
                     }
+                    else if (Enum.TryParse(paramName, out ResearchParameter rp))
+                    {
+                        status = SetResearchParameterValues(rp, ParametersStackPanelValue.Children[i], ref paramType);
+                    }
+                    if(!status) { return status; }
                 }
             }
             // TODO make validators
@@ -175,6 +148,46 @@ namespace RandNetLab
                 }
                 return false;
             }
+            return true;
+        }
+
+        private bool SetGenerationParameterValues(GenerationParameter gp, UIElement uIValue, ref Type paramType)
+        {
+            GenerationParameterInfo[] info = (GenerationParameterInfo[])gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(GenerationParameterInfo), false);
+            string paramName = info[0].FullName;
+            paramType = info[0].Type; 
+            String paramValue = ((TextBox)uIValue).Text;
+
+            object value = Convert.ChangeType(paramValue, paramType, CultureInfo.InvariantCulture);
+            if (paramName.Equals("Probability") && !((double)value >= 0 && (double)value <= 1))
+            {
+                MessageBox.Show(paramName + " parameter value must be rational number between 0 and 1.", "Error");
+                return false;
+            }
+            if (paramName.Equals("Vertices") && (int)value > MAX_VERTEX_COUNT)
+            {
+                MessageBox.Show("Maximum number of vertices is " + MAX_VERTEX_COUNT);
+                return false;
+            }
+            LabSessionManager.SetGenerationParameterValue(gp, value);
+            return true;
+        }
+        private bool SetResearchParameterValues(ResearchParameter rp, UIElement uIValue, ref Type paramType)
+        {
+            ResearchParameterInfo[] info = (ResearchParameterInfo[])rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false);
+            paramType = info[0].Type;
+            object value = null;
+            if (paramType == typeof(Boolean))
+            {
+                value = (bool)((CheckBox)uIValue).IsChecked ? true : false;
+            }
+            else
+            {
+                String paramValue = ((TextBox)uIValue).Text;
+                value = Convert.ChangeType(paramValue, paramType, CultureInfo.InvariantCulture);
+            }
+            // TODO validate
+            LabSessionManager.SetResearchParameterValue(rp, value);
             return true;
         }
 

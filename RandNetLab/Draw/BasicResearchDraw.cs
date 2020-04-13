@@ -15,7 +15,6 @@ namespace Draw
         MainWindow MWindow = Application.Current.Windows[0] as MainWindow;
 
         private int stepNumber = 0;
-        private int stepCount = 0;
 
         public BasicResearchDraw(ModelType modelType = ModelType.ER) : base(modelType) { }
 
@@ -27,11 +26,11 @@ namespace Draw
                 MWindow.Start.Content = "Stop";
 
                 DrawObj = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), MWindow.mainCanvas);
-                stepCount = LabSessionManager.GetStepCount();
+                StepCount = LabSessionManager.GetStepCount();
 
                 // *tmp
-                stepCount = 3;
-                stepCount = 4;
+                StepCount = 3;
+                StepCount = 4;
 
                 //Initial.IsEnabled = true;
                 //Final.IsEnabled = true;
@@ -76,7 +75,7 @@ namespace Draw
         }
         public void OnFinalButtonClick()
         {
-            stepNumber = stepCount - 1;
+            stepNumber = StepCount - 1;
             DrawObj.StepNumber = stepNumber;
             MWindow.Previous.IsEnabled = true;
             MWindow.Next.IsEnabled = false;
@@ -84,12 +83,12 @@ namespace Draw
         }
         public void OnNextButtonClick()
         {
-            if (stepNumber == stepCount - 1)
+            if (stepNumber == StepCount - 1)
             {
                 MWindow.Next.IsEnabled = false;
                 MWindow.Final.IsEnabled = false;
             }
-            else if (stepNumber == stepCount)
+            else if (stepNumber == StepCount)
             {
                 return;
             }
@@ -100,7 +99,7 @@ namespace Draw
             stepNumber++;
             DrawObj.StepNumber = stepNumber;
             DrawObj.DrawNext(stepNumber);
-            if (stepNumber == stepCount - 1)
+            if (stepNumber == StepCount - 1)
             {
                 MWindow.Next.IsEnabled = false;
                 MWindow.Final.IsEnabled = false;
@@ -130,7 +129,7 @@ namespace Draw
                 {
                     DrawObj.DrawInitial();
                 }
-                else if (stepNumber == stepCount)
+                else if (stepNumber == StepCount)
                 {
                     DrawObj.DrawFinal();
                 }
