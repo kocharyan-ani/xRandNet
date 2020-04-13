@@ -30,6 +30,7 @@ namespace Session
 
         public static void StartResearch()
         {
+            // TODO change Wait()
             existingResearch.StartResearch().Wait();
         }
 

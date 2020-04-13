@@ -44,7 +44,7 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.ColumnSpan="2"  Grid.RowSpan="2" Margin="26,0,1,0"
                                 FocusManager.FocusedElement="{Binding ElementName=ResearchNameTextBox}">
                     <TextBlock Margin="3" VerticalAlignment="Center">Research Name:</TextBlock>
-                    <TextBox Margin="3" Padding="10, 0" Height="20" Width="120" Name="ResearchNameTextBox" HorizontalContentAlignment="Center"></TextBox>
+                    <TextBox Margin="3" Padding="10, 0" Height="20" Width="120" Name="ResearchNameTextBox" HorizontalContentAlignment="Center" Text="DefaultName"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.RowSpan="2" Margin="71,0,0,0">
                     <TextBlock Margin="3" VerticalAlignment="Center">Model Type:</TextBlock>

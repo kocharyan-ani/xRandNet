@@ -61,7 +61,7 @@ namespace Draw
         public override void StopResearch() { }
         public override void SaveResearch() { }
 
-        public override void OnInitialButtonClick()
+        public void OnInitialButtonClick()
         {
             stepNumber = 0;
             DrawObj.StepNumber = stepNumber;
@@ -74,7 +74,7 @@ namespace Draw
             MWindow.Next.IsEnabled = true;
             MWindow.Previous.IsEnabled = false;
         }
-        public override void OnFinalButtonClick()
+        public void OnFinalButtonClick()
         {
             stepNumber = stepCount - 1;
             DrawObj.StepNumber = stepNumber;
@@ -82,7 +82,7 @@ namespace Draw
             MWindow.Next.IsEnabled = false;
             DrawFinal();
         }
-        public override void OnNextButtonClick()
+        public void OnNextButtonClick()
         {
             if (stepNumber == stepCount - 1)
             {
@@ -107,7 +107,7 @@ namespace Draw
             }
             MWindow.TextBoxStepNumber.Text = stepNumber.ToString();
         }
-        public override void OnPreviousButtonClick()
+        public void OnPreviousButtonClick()
         {
             MWindow.Next.IsEnabled = true;
             MWindow.Final.IsEnabled = true;

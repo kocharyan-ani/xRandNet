@@ -72,70 +72,12 @@ namespace RandNetLab
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             researchDraw.StartResearch();
-            //stepNumber = 0;
-            //if (Start.Content.ToString() == "Start")
-            //{
-            //    Start.Content = "Stop";
-                
-            //    draw = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), mainCanvas);
-            //    stepCount = LabSessionManager.GetStepCount();
-
-            //    // *tmp
-            //    stepCount = 3;
-            //    stepCount = 4;
-
-            //    //Initial.IsEnabled = true;
-            //    //Final.IsEnabled = true;
-            //    //Next.IsEnabled = false;
-            //    //Previous.IsEnabled = true;
-            //    //Save.IsEnabled = true;
-
-            //    Initial.IsEnabled = false;
-            //    Final.IsEnabled = true;
-            //    Next.IsEnabled = true;
-            //    Previous.IsEnabled = false;
-            //    Save.IsEnabled = true;
-
-            //    if((bool)Flat.IsChecked)
-            //    {
-            //        if (draw != null)
-            //        {
-            //            HierarchicDraw hierDraw = draw as HierarchicDraw;
-            //            hierDraw.IsFlat = true;
-            //        }
-            //    }
-
-            //    draw.DrawInitial();
-
-            //}
-            //else
-            //{
-            //    Start.Content = "Start";
-
-            //    Initial.IsEnabled = false;
-            //    Final.IsEnabled = false;
-            //    Next.IsEnabled = false;
-            //    Previous.IsEnabled = false;
-            //    Save.IsEnabled = false;
-            //    mainCanvas.Children.Clear();
-
-            //    TextBoxStepNumber.Text = "0";
-            //}
         }
 
         private void Initial_Click(object sender, RoutedEventArgs e)
         {
-            Task.Run(() => { researchDraw.OnInitialButtonClick();  });
-            //stepNumber = 0;
-            //draw.StepNumber = stepNumber;
-            //TextBoxStepNumber.Text = stepNumber.ToString();
-            //mainCanvas.Children.Clear();
-            //draw.DrawInitial();
-
-            //Initial.IsEnabled = false;
-            //Final.IsEnabled = true;
-            //Next.IsEnabled = true;
-            //Previous.IsEnabled = false;
+            Debug.Assert(researchDraw is BasicResearchDraw);
+            ((BasicResearchDraw)researchDraw).OnInitialButtonClick();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -167,55 +109,20 @@ namespace RandNetLab
 
         private void Final_Click(object sender, RoutedEventArgs e)
         {
-            researchDraw.OnFinalButtonClick();
-            //stepNumber = stepCount - 1;
-            //draw.StepNumber = stepNumber;
-            //Previous.IsEnabled = true;
-            //Next.IsEnabled = false;
-            //DrawFinal();
+            Debug.Assert(researchDraw is BasicResearchDraw);
+            ((BasicResearchDraw)researchDraw).OnFinalButtonClick();
         }
 
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            researchDraw.OnNextButtonClick();
-            //if (stepNumber == stepCount - 1)
-            //{
-            //    Next.IsEnabled = false;
-            //    Final.IsEnabled = false;
-            //}
-            //else if (stepNumber == stepCount)
-            //{
-            //    return;
-            //}
-
-            //Previous.IsEnabled = true;
-            //Initial.IsEnabled = true;
-
-            //stepNumber++;
-            //draw.StepNumber = stepNumber;
-            //draw.DrawNext(stepNumber);
-            //if(stepNumber == stepCount - 1)
-            //{
-            //    Next.IsEnabled = false;
-            //    Final.IsEnabled = false;
-            //}
-            //TextBoxStepNumber.Text = stepNumber.ToString();
+            Debug.Assert(researchDraw is BasicResearchDraw);
+            ((BasicResearchDraw)researchDraw).OnNextButtonClick();
         }
 
         private void Previous_Click(object sender, RoutedEventArgs e)
         {
-            researchDraw.OnPreviousButtonClick();
-            //Next.IsEnabled = true;
-            //Final.IsEnabled = true;
-
-            //draw.StepNumber = stepNumber;
-            //draw.DrawPrevious(stepNumber);
-            //stepNumber--;
-            //if (stepNumber == 0)
-            //{
-            //    Previous.IsEnabled = false;
-            //}
-            //TextBoxStepNumber.Text = stepNumber.ToString();
+            Debug.Assert(researchDraw is BasicResearchDraw);
+            ((BasicResearchDraw)researchDraw).OnPreviousButtonClick();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -291,11 +198,26 @@ namespace RandNetLab
                 AddResearchToTable();
                 FillParametersTable();
             }
-            Initial.IsEnabled = false;
-            Final.IsEnabled = false;
-            Next.IsEnabled = false;
-            Previous.IsEnabled = false;
+            if (researchType == ResearchType.Basic)
+            {
+                Initial.Visibility = Visibility.Visible;
+                Initial.IsEnabled = false;
+                Final.Visibility = Visibility.Visible;
+                Final.IsEnabled = false;
+                Next.Visibility = Visibility.Visible;
+                Next.IsEnabled = false;
+                Previous.Visibility = Visibility.Visible;
+                Previous.IsEnabled = false;
+            }
+            else 
+            {
+                Initial.Visibility = Visibility.Collapsed;
+                Final.Visibility = Visibility.Collapsed;
+                Next.Visibility = Visibility.Collapsed;
+                Previous.Visibility = Visibility.Collapsed;
+            }
             Start.Content = "Start";
+
             mainCanvas.Children.Clear();
 
             if (LabSessionManager.GetResearchType() == ResearchType.Basic && 

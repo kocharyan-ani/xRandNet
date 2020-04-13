@@ -9,7 +9,7 @@ using Core.Attributes;
 using Core.Enumerations;
 using Session;
 using System.Linq;
-
+using System.Windows.Media;
 
 namespace RandNetLab
 {
@@ -118,23 +118,44 @@ namespace RandNetLab
                 {
                     paramName = ((TextBlock)ParametersStackPanelName.Children[i]).Text;
                     paramName = paramName.Substring(0, paramName.Length - 1);
-                    GenerationParameter gp = (GenerationParameter)Enum.Parse(typeof(GenerationParameter), paramName);
-                    GenerationParameterInfo[] info = (GenerationParameterInfo[])gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(GenerationParameterInfo), false);
-                    paramType = info[0].Type;
-                    String paramValue = ((TextBox)ParametersStackPanelValue.Children[i]).Text;
+                    object value = null;
+                    GenerationParameter gp;
+                    ResearchParameter rp;
+                    if (Enum.TryParse(paramName, out gp))
+                    {
+                        GenerationParameterInfo[] info = (GenerationParameterInfo[])gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(GenerationParameterInfo), false);
+                        paramType = info[0].Type;
+                        String paramValue = ((TextBox)ParametersStackPanelValue.Children[i]).Text;
 
-                    object value = Convert.ChangeType(paramValue, paramType,CultureInfo.InvariantCulture);
-                    if (paramName.Equals("Probability") && !((double)value >= 0 && (double)value <= 1))
-                    {
-                        MessageBox.Show(paramName + " parameter value must be rational number between 0 and 1.", "Error");
-                        return false;
+                        value = Convert.ChangeType(paramValue, paramType, CultureInfo.InvariantCulture);
+                        if (paramName.Equals("Probability") && !((double)value >= 0 && (double)value <= 1))
+                        {
+                            MessageBox.Show(paramName + " parameter value must be rational number between 0 and 1.", "Error");
+                            return false;
+                        }
+                        if (paramName.Equals("Vertices") && (int)value > MAX_VERTEX_COUNT)
+                        {
+                            MessageBox.Show("Maximum number of vertices is " + MAX_VERTEX_COUNT);
+                            return false;
+                        }
+                        LabSessionManager.SetGenerationParameterValue(gp, value);
                     }
-                    if(paramName.Equals("Vertices") && (int)value > MAX_VERTEX_COUNT)
+                    else if (Enum.TryParse(paramName, out rp))
                     {
-                        MessageBox.Show("Maximum number of vertices is " + MAX_VERTEX_COUNT);
-                        return false;
+                        ResearchParameterInfo[] info = (ResearchParameterInfo[])rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false);
+                        paramType = info[0].Type;
+                        if (paramType == typeof(Boolean))
+                        {
+                            value = (bool)((CheckBox)ParametersStackPanelValue.Children[i]).IsChecked ? true : false;
+                        }
+                        else
+                        {
+                            String paramValue = ((TextBox)ParametersStackPanelValue.Children[i]).Text;
+                            value = Convert.ChangeType(paramValue, paramType, CultureInfo.InvariantCulture);
+                        }
+                        // TODO validate
+                        LabSessionManager.SetResearchParameterValue(rp, value);
                     }
-                    LabSessionManager.SetGenerationParameterValue(gp, value);
                 }
             }
             // TODO make validators
@@ -193,8 +214,41 @@ namespace RandNetLab
         {
             ParametersStackPanelName.Children.Clear();
             ParametersStackPanelValue.Children.Clear();
-            List<GenerationParameter> parameters = LabSessionManager.GetRequiredGenerationParameters(researchType, GetCurrentModelType());
-            foreach (GenerationParameter p in parameters)
+            List<ResearchParameter> researchParameters = LabSessionManager.GetRequiredResearchParameters(researchType);
+            foreach (ResearchParameter p in researchParameters)
+            {
+                TextBlock pName = new TextBlock
+                {
+                    Text = p.ToString() + ":",
+                    Margin = new Thickness(7),
+                    Name = p.ToString() + "Name"
+                };
+                ParametersStackPanelName.Children.Add(pName);
+                if (GetTypeForResearchParameter(p) == typeof(Boolean))
+                {
+                    CheckBox pValue = new CheckBox()
+                    {
+                        Margin = new Thickness(50, 5, 50, 5),
+                        BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFromString("#aaaaaa")
+                };
+                    ParametersStackPanelValue.Children.Add(pValue);
+                }
+                else 
+                { 
+                    TextBox pValue = new TextBox
+                    {
+                        Height = 20,
+                        Width = 100,
+                        Margin = new Thickness(5),
+                        Name = p.ToString(),
+                        Text = GetDefaultValueForResearchParameter(p)
+                    };
+                    ParametersStackPanelValue.Children.Add(pValue);
+                }
+
+            }
+            List<GenerationParameter> generationParameters = LabSessionManager.GetRequiredGenerationParameters(researchType, GetCurrentModelType());
+            foreach (GenerationParameter p in generationParameters)
             {
                 TextBlock pName = new TextBlock
                 {
@@ -245,6 +299,17 @@ namespace RandNetLab
             return gInfo.DefaultValue;
         }
 
+        private string GetDefaultValueForResearchParameter(ResearchParameter g)
+        {
+            ResearchParameterInfo gInfo = (ResearchParameterInfo)(g.GetType().GetField(g.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+            return gInfo.DefaultValue;
+        }
+
+        private Type GetTypeForResearchParameter(ResearchParameter g)
+        {
+            ResearchParameterInfo gInfo = (ResearchParameterInfo)(g.GetType().GetField(g.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+            return gInfo.Type;
+        }
         #endregion
     }
 }

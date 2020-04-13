@@ -92,10 +92,10 @@
                 <ColumnDefinition Width="120"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button Name ="Start" Grid.Column="0" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False">Start</Button>
-            <Button Name ="Initial" Grid.Column="1"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Initial_Click">Initial</Button>
-            <Button Name ="Final" Grid.Column="2"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Final_Click">Final</Button>
-            <Button Name ="Next" Grid.Column="3"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Next_Click">Next</Button>
-            <Button Name ="Previous" Grid.Column="4"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click">Previous</Button>
+            <Button Name ="Initial" Grid.Column="1"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Initial_Click" Visibility="Collapsed">Initial</Button>
+            <Button Name ="Final" Grid.Column="2"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Final_Click" Visibility="Collapsed">Final</Button>
+            <Button Name ="Next" Grid.Column="3"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Next_Click" Visibility="Collapsed">Next</Button>
+            <Button Name ="Previous" Grid.Column="4"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click" Visibility="Collapsed">Previous</Button>
             <Button Name ="Save" Grid.Column="5"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click">Save</Button>
             <CheckBox Name="Flat" Grid.Column="6" Content="Flat" Visibility="Hidden" Margin="50 15" Checked="Flat_Checked" Unchecked="Flat_Unchecked"></CheckBox>
             <Button Name ="Pause" Grid.Column="7" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False">Start</Button>

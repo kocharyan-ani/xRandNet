@@ -24,11 +24,6 @@ namespace Draw
         public abstract void StopResearch();
         public abstract void SaveResearch();
 
-        public abstract void OnInitialButtonClick();
-        public abstract void OnFinalButtonClick();
-        public abstract void OnNextButtonClick();
-        public abstract void OnPreviousButtonClick();
-
         public abstract void OnWindowSizeChanged();
 
     }

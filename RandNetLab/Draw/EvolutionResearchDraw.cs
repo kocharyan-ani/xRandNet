@@ -15,11 +15,6 @@ namespace Draw
         public override void StopResearch() { }
         public override void SaveResearch() { }
 
-        public override void OnInitialButtonClick() { }
-        public override void OnFinalButtonClick() { }
-        public override void OnNextButtonClick() { }
-        public override void OnPreviousButtonClick() { }
-
         public override void OnWindowSizeChanged() { }
     }
 }
