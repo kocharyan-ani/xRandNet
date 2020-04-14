@@ -79,7 +79,7 @@ namespace Draw
             }
         }
 
-        protected abstract void GetNetwork();
+        
 
         protected abstract void AddEdge(EdgesAddedOrRemoved edge);
 

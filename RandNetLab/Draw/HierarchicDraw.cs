@@ -17,11 +17,12 @@ namespace Draw
 {
     public class HierarchicDraw : AbstractDraw
     {
+        public int StepCount { get; }
         protected int BranchingIndex { get; set; }
-        private double Mu { get; set; }
         protected int Level { get; set; }
         private bool isFlat;
-        public bool IsFlat {
+        public bool IsFlat
+        {
             get
             {
                 return isFlat;
@@ -33,48 +34,58 @@ namespace Draw
             }
         }
 
-        private List<List<Cluster>> clustersByLevel;
-
-        //*tmp
+        private List<Point>[] centers;
+        private double[] radiuses;
+        
         private List<List<EdgesAddedOrRemoved>> steps;
         private List<List<int>> branching;
         public HierarchicDraw(Canvas mainCanvas) : base(mainCanvas)
         {
-            clustersByLevel = new List<List<Cluster>>();
-            //*tmp
-            branching = new List<List<int>>();
+            StepCount = LabSessionManager.GetStepCount();
+            branching = LabSessionManager.GetBranches();
+            //branching = new List<List<int>>();
+
             steps = new List<List<EdgesAddedOrRemoved>>();
 
-            steps.Add(null);
+            GetNetwork();
+            //steps.Add(null);
             //branching.Add(new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1 });
             //branching.Add(new List<int>() { 3, 3, 3 });
             //branching.Add(new List<int>() { 3 });
-            List<int> l = new List<int>();
-            for (int i = 0; i < 27; ++i)
-            {
-                l.Add(0);
-            }
-            branching.Add(l);
-            l.Clear();
-            for (int i = 0; i < 9; ++i)
-            {
-                l.Add(3);
-            }
-            branching.Add(l);
-            branching.Add(new List<int>() { 3, 3, 3 });
-            branching.Add(new List<int>() { 3 });
+            //List<int> l = new List<int>();
+            //for (int i = 0; i < 27; ++i)
+            //{
+            //    l.Add(0);
+            //}
+            ////branching.Add(l);
+            //l.Clear();
+            //for (int i = 0; i < 9; ++i)
+            //{
+            //    l.Add(3);
+            //}
+            ////branching.Add(l);
+            //branching.Add(new List<int>() { 3, 3, 3 });
+            //branching.Add(new List<int>() { 3 });
 
 
-            steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 1, true), new EdgesAddedOrRemoved(3, 5, true) });
-            steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 2, true), new EdgesAddedOrRemoved(1, 2, true), new EdgesAddedOrRemoved(3, 4, true), new EdgesAddedOrRemoved(4, 5, true), new EdgesAddedOrRemoved(6, 7, true) });
-            steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 1, true) });
-            //
+            //steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 1, true), new EdgesAddedOrRemoved(3, 5, true) });
+            //steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 2, true), new EdgesAddedOrRemoved(1, 2, true), new EdgesAddedOrRemoved(3, 4, true), new EdgesAddedOrRemoved(4, 5, true), new EdgesAddedOrRemoved(6, 7, true) });
+            //steps.Add(new List<EdgesAddedOrRemoved>() { new EdgesAddedOrRemoved(0, 1, true) });
+            ////
             BranchingIndex = (Int32)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.BranchingIndex];
-            Mu = (Double)LabSessionManager.GetGenerationParameterValues()[GenerationParameter.Mu];
+
             Level = branching.Count;
 
-            BranchingIndex = 3;
-            Level = 3;
+            //BranchingIndex = 3;
+            //Level = 3;
+        }
+
+        protected override void GetNetwork()
+        {
+            for (int i = 0; i <= StepCount; i++)
+            {
+                steps.Add(LabSessionManager.GetStep(i));
+            }
         }
 
         protected void OnFlatChanged()
@@ -112,16 +123,13 @@ namespace Draw
         public override void DrawInitial()
         {
             MainCanvas.Children.Clear();
-            List<Cluster> level0;
-            level0 = (StepNumber == 0) ? DrawVertices() : AddVerticesToCanvas(Vertices, vertexRadius, true) ;
-
-            if (clustersByLevel.Count == 0)
+            if (StepNumber == 0)
             {
-                clustersByLevel.Add(level0);
+                DrawVertices();
             }
             else
             {
-                clustersByLevel[0] = level0;
+                AddVerticesToCanvas(Vertices, vertexRadius, true);
             }
         }
 
@@ -158,6 +166,7 @@ namespace Draw
         // setVertices = true -> called from flat mode
         private void DrawLevel(int level, bool setVertices = false)
         {
+
             Debug.Assert(level >= 0 && level <= Level);
 
             if (level == 0)
@@ -175,17 +184,48 @@ namespace Draw
                 return;
             }
 
-            if(!setVertices) MainCanvas.Children.Clear();
+            if (!setVertices)
+            {
+                radiuses = new double[level - 1];
+                centers = new List<Point>[level];
+                for (int i = 0; i < level; i++)
+                {
+                    centers[i] = new List<Point>();
+                }
+
+                MainCanvas.Children.Clear();
+            }
 
             double maxRadius = Math.Min((MainCanvas.ActualHeight) / 2, (MainCanvas.ActualWidth / 2)) * 0.9;
             double radius = Math.Pow(3, level - 1) * (maxRadius / Math.Pow(3, Level - 1));
+
+            if (level > 1)
+            {
+                radiuses[level - 2] = radius/3;
+
+                for (int i = level - 3; i >= 0; i--)
+                {
+                    radiuses[i] = radiuses[i + 1] / 3;
+                }
+            }
+
             Point center = new Point(MainCanvas.ActualWidth / 2, MainCanvas.ActualHeight / 2);
 
             Point[] clusterCenters = GetVertices(center, branching[level].Count, (int)(maxRadius - radius));
-            if(!setVertices) clustersByLevel.Add(AddVerticesToCanvas(clusterCenters, radius, false));
+            
+            if (!setVertices)
+            {
+                AddVerticesToCanvas(clusterCenters, radius, false);
+            }
+            
             for (int i = 0; i < clusterCenters.Length; ++i)
             {
                 DrawPreviousLevels(radius, clusterCenters[i], level, i, setVertices);
+            }
+
+            for (int i = 0; i < level; i++)
+            {
+                AddEdges(i + 1);
             }
         }
 
@@ -196,26 +236,31 @@ namespace Draw
 
             Point[] nodes = GetVertices(center, branching[level][clusterNumber], (int)(radius / 2));
 
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                centers[level - 1].Add(nodes[i]);
+            }
+
             double r = radius / 3;
             bool fill = false;
             // previous level nodes are vertices
             if (level == 1)
             {
-                r = vertexRadius;  fill = true;
-                if(setVertices)
+                r = vertexRadius; fill = true;
+                if (setVertices)
                 {
                     int begin, end;
-                    getVerticesOfCluster(level, clusterNumber, out begin, out end);
+                    GetVerticesOfCluster(level, clusterNumber, out begin, out end);
                     for (int i = 0; i < nodes.Length; ++i)
                     {
                         Vertices[begin + i] = nodes[i];
                     }
                 }
             }
-            if(!setVertices) AddVerticesToCanvas(nodes, r, fill);
+            if (!setVertices) AddVerticesToCanvas(nodes, r, fill);
 
             int clusterBegin, clusterEnd;
-            getPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
+            GetPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
             for (int i = 0; i < nodes.Length; ++i)
             {
                 DrawPreviousLevels(radius / 3, nodes[i], level - 1, clusterBegin + i, setVertices);
@@ -248,19 +293,22 @@ namespace Draw
         {
             if (level == 0)
             {
-                if (connect) { 
+                if (connect)
+                {
                     AddEdgeFlat(cluster1, cluster2);
-                } else {
+                }
+                else
+                {
                     RemoveEdge(new EdgesAddedOrRemoved(cluster1, cluster2, false));
                 }
                 return;
             }
 
             int innerClusters1Begin, innerClusters1End, innerClusters2Begin, innerClusters2End;
-            getPreviousLevelClustersOfCluster(level, cluster1, out innerClusters1Begin, out innerClusters1End);
-            getPreviousLevelClustersOfCluster(level, cluster2, out innerClusters2Begin, out innerClusters2End);
+            GetPreviousLevelClustersOfCluster(level, cluster1, out innerClusters1Begin, out innerClusters1End);
+            GetPreviousLevelClustersOfCluster(level, cluster2, out innerClusters2Begin, out innerClusters2End);
 
-            for(int i = innerClusters1Begin; i <= innerClusters1End; ++i)
+            for (int i = innerClusters1Begin; i <= innerClusters1End; ++i)
             {
                 for (int j = innerClusters2Begin; j <= innerClusters2End; ++j)
                 {
@@ -282,36 +330,149 @@ namespace Draw
             MainCanvas.Children.Add(edge);
         }
 
+        private void AddEdges(int level)
+        {
+            double radius = 0;
+
+            if (level != 1)
+            {
+                radius = radiuses[level - 2];
+            }
+
+            List<Point> levelCenters = centers[level - 1];
+            for (int i = 0; i < steps[level].Count; i++)
+            {
+                EdgesAddedOrRemoved edge = steps[level][i];
+
+                Line edgeElem;
+
+                if (level == 1)
+                {
+                    edgeElem = new Line
+                    {
+                        Uid = GenerateEdgeUid(edge),
+                        Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#323336"),
+                        X1 = levelCenters[edge.Vertex1].X,
+                        Y1 = levelCenters[edge.Vertex1].Y,
+                        X2 = levelCenters[edge.Vertex2].X,
+                        Y2 = levelCenters[edge.Vertex2].Y
+                    };
+                }
+                else
+                {
+                    Tuple<Point, Point> edgeCoordinates = GetEdgeCoordinates(levelCenters[edge.Vertex1],
+                                                                             levelCenters[edge.Vertex2],
+                                                                             radius);
+                    Point coordinate1 = edgeCoordinates.Item1;
+                    Point coordinate2 = edgeCoordinates.Item2;
+                    edgeElem = new Line
+                    {
+                        Uid = GenerateEdgeUid(edge),
+                        Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#323336"),
+                        X1 = coordinate1.X,
+                        Y1 = coordinate1.Y,
+                        X2 = coordinate2.X,
+                        Y2 = coordinate2.Y
+                    };
+                }
+
+                MainCanvas.Children.Add(edgeElem);
+            }
+        }
+
+        private Tuple<Point, Point> GetEdgeCoordinates(Point circleCenter1, Point circleCenter2, double radius)
+        {
+            double angle = Math.Atan((circleCenter2.Y - circleCenter1.Y) / (circleCenter2.X - circleCenter1.X));
+            Point coordinate1 = new Point();
+            Point coordinate2 = new Point();
+
+            double x1, y1;
+            double x3, y3;
+
+            double x2, y2;
+            double x4, y4;
+
+
+            x1 = circleCenter1.X + radius * Math.Cos(angle);
+            y1 = circleCenter1.Y + radius * Math.Sin(angle);
+            x3 = circleCenter1.X + radius * Math.Cos(angle - Math.PI);
+            y3 = circleCenter1.Y + radius * Math.Sin(angle - Math.PI);
+
+            x2 = circleCenter2.X + radius * Math.Cos(angle);
+            y2 = circleCenter2.Y + radius * Math.Sin(angle);
+            x4 = circleCenter2.X + radius * Math.Cos(angle - Math.PI);
+            y4 = circleCenter2.Y + radius * Math.Sin(angle - Math.PI);
+
+            double distance1 = Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2);
+            double distance2 = Math.Pow(x1 - x4, 2) + Math.Pow(y1 - y4, 2);
+            double distance3 = Math.Pow(x3 - x2, 2) + Math.Pow(y3 - y2, 2);
+            double distance4 = Math.Pow(x3 - x4, 2) + Math.Pow(y3 - y4, 2);
+            double minDistance = Math.Min(Math.Min(Math.Min(distance1, distance2), distance3), distance4);
+
+            if (distance1 == minDistance)
+            {
+                coordinate1.X = x1;
+                coordinate1.Y = y1;
+                coordinate2.X = x2;
+                coordinate2.Y = y2;
+            }
+            else if (distance2 == minDistance)
+            {
+                coordinate1.X = x1;
+                coordinate1.Y = y1;
+                coordinate2.X = x4;
+                coordinate2.Y = y4;
+            }
+            else if (distance3 == minDistance)
+            {
+                coordinate1.X = x3;
+                coordinate1.Y = y3;
+                coordinate2.X = x2;
+                coordinate2.Y = y2;
+            }
+            else
+            {
+                coordinate1.X = x3;
+                coordinate1.Y = y3;
+                coordinate2.X = x4;
+                coordinate2.Y = y4;
+            }
+
+            Tuple<Point, Point> edgeCoordinates = new Tuple<Point, Point>(coordinate1, coordinate2);
+
+            return edgeCoordinates;
+        }
+
         // returns indeces of first and last vertices contained in cluster
-        private void getVerticesOfCluster(int level, int clusterNumber, out int beginIndex, out int endIndex)
+        private void GetVerticesOfCluster(int level, int clusterNumber, out int beginIndex, out int endIndex)
         {
             beginIndex = 0;
-            for(int i = 0; i < clusterNumber; ++i)
+            for (int i = 0; i < clusterNumber; ++i)
             {
-                getCountOfVerticesInCluster(level, i, ref beginIndex);
+                GetCountOfVerticesInCluster(level, i, ref beginIndex);
             }
             endIndex = 0;
-            getCountOfVerticesInCluster(level, clusterNumber, ref endIndex);
+            GetCountOfVerticesInCluster(level, clusterNumber, ref endIndex);
             endIndex += (beginIndex - 1);
         }
 
-        private void getCountOfVerticesInCluster(int level, int clusterNumber, ref int numberOfVertices)
+        private void GetCountOfVerticesInCluster(int level, int clusterNumber, ref int numberOfVertices)
         {
-            if(level == 1)
+            if (level == 1)
             {
                 numberOfVertices += branching[level][clusterNumber];
                 return;
             }
             int clusterBegin, clusterEnd;
-            getPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
-            for(int i = clusterBegin; i <= clusterEnd; ++i)
+            GetPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
+            for (int i = clusterBegin; i <= clusterEnd; ++i)
             {
-                getCountOfVerticesInCluster(level - 1, i, ref numberOfVertices);
+                GetCountOfVerticesInCluster(level - 1, i, ref numberOfVertices);
             }
         }
 
         // returns indeces of first and last clusters contained in cluster
-        private void getPreviousLevelClustersOfCluster(int level, int clusterNumber, out int beginIndex, out int endIndex)
+        private void GetPreviousLevelClustersOfCluster(int level, int clusterNumber, out int beginIndex, out int endIndex)
         {
             beginIndex = 0;
             List<int> levelBranching = branching[level];
@@ -321,5 +482,6 @@ namespace Draw
             }
             endIndex = beginIndex + levelBranching[clusterNumber] - 1;
         }
+
     }
 }

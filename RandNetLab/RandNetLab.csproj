@@ -94,7 +94,6 @@
     <Compile Include="Draw\BADraw.cs" />
     <Compile Include="Draw\ERDraw.cs" />
     <Compile Include="Draw\FactoryDraw.cs" />
-    <Compile Include="Draw\HMNDraw.cs" />
     <Compile Include="Draw\NonHierarchicDraw.cs" />
     <Compile Include="Draw\WSDraw.cs" />
     <Compile Include="MainWindow.xaml.cs">
