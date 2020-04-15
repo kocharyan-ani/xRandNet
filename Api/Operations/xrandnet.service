@@ -1,13 +1,11 @@
 [Unit]
 Description=xRandNet
 After=network.target
-#OnFailure=notifier.service
 [Service]
 Type=simple
-# Another Type option: forking
 User=root
-StandardOutput=/var/log/xrandnet/xrandnet.log
-StandardError=/var/log/xrandnet/xrandnet.log
+StandardOutput=file:/var/log/xrandnet/xrandnet.log
+StandardError=file:/var/log/xrandnet/xrandnet.log
 WorkingDirectory=/opt/xRandNet/automation
 Restart=on-failure
 ExecStart=/opt/xRandNet/automation/api_run.sh
