@@ -1,5 +1,4 @@
 using Api.Database.Context;
-using Api.Database.Repositories.Person;
 using PersonDbEntity = Api.Database.Models.Person;
 
 namespace Api.Database.Repositories {

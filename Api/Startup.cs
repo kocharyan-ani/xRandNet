@@ -41,6 +41,9 @@ namespace Api {
             services.AddTransient<IAppRepository, AppRepository>();
             services.AddTransient<IInfoRepository, InfoRepository>();
             services.AddTransient<ILinkRepository, LinkRepository>();
+            services.AddTransient<IPublicationRepository, PublicationRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<INewsRepository, NewsRepository>();
             services.AddTransient<IInfoRepository, InfoRepository>();
             services.AddTransient<IBugRepository, BugRepository>();
@@ -53,6 +56,9 @@ namespace Api {
             services.AddScoped<NewsService>();
             services.AddScoped<InfoService>();
             services.AddScoped<BugService>();
+            services.AddScoped<PersonService>();
+            services.AddScoped<PublicationService>();
+            services.AddScoped<ProjectService>();
             services.AddScoped<AppService>();
             // Authentication
             services.AddAuthentication(opt => {

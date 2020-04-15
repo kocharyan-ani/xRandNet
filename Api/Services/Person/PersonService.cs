@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Api.Database.Repositories.Person;
+using Api.Database.Repositories;
 using Api.Models.Factories;
 using PersonModel = Api.Models.Person;
 

@@ -12,6 +12,9 @@ namespace Api.Controllers {
         public InfoService InfoService;
         public LinkService LinkService;
         public NewsService NewsService;
+        public ProjectService ProjectService;
+        public PublicationService PublicationService;
+        public PersonService PersonService;
 
         public InfoController(InfoService infoService, LinkService linkService, NewsService newsService) {
             InfoService = infoService;
