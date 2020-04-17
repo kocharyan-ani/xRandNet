@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,43 +22,32 @@ namespace Draw
         public override void StartResearch()
         {
             stepNumber = 0;
-            if (MWindow.Start.Content.ToString() == "Start")
+            Debug.Assert(MWindow.Start.Content.ToString() == "Start");
+            MWindow.Start.Content = "Stop";
+
+            StepCount = LabSessionManager.GetStepCount();
+
+            // *tmp
+            //StepCount = 3;
+            //StepCount = 4;
+
+            MWindow.Initial.IsEnabled = false;
+            MWindow.Final.IsEnabled = true;
+            MWindow.Next.IsEnabled = true;
+            MWindow.Previous.IsEnabled = false;
+            MWindow.Save.IsEnabled = true;
+
+            if ((bool)MWindow.Flat.IsChecked)
             {
-                MWindow.Start.Content = "Stop";
-
-                DrawObj = Draw.FactoryDraw.CreateDraw(LabSessionManager.GetResearchModelType(), MWindow.mainCanvas);
-                StepCount = LabSessionManager.GetStepCount();
-
-                // *tmp
-                StepCount = 3;
-                StepCount = 4;
-
-                //Initial.IsEnabled = true;
-                //Final.IsEnabled = true;
-                //Next.IsEnabled = false;
-                //Previous.IsEnabled = true;
-                //Save.IsEnabled = true;
-
-                MWindow.Initial.IsEnabled = false;
-                MWindow.Final.IsEnabled = true;
-                MWindow.Next.IsEnabled = true;
-                MWindow.Previous.IsEnabled = false;
-                MWindow.Save.IsEnabled = true;
-
-                if ((bool)MWindow.Flat.IsChecked)
+                if (DrawObj != null)
                 {
-                    if (DrawObj != null)
-                    {
-                        HierarchicDraw hierDraw = DrawObj as HierarchicDraw;
-                        hierDraw.IsFlat = true;
-                    }
+                    HierarchicDraw hierDraw = DrawObj as HierarchicDraw;
+                    hierDraw.IsFlat = true;
                 }
-
-                DrawObj.DrawInitial();
-
             }
+
+            DrawObj.DrawInitial();
         }
-        public override void StopResearch() { }
         public override void SaveResearch() { }
 
         public void OnInitialButtonClick()

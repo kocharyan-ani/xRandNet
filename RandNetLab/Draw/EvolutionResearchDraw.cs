@@ -12,7 +12,6 @@ namespace Draw
         public EvolutionResearchDraw() : base(ModelType.ER) { }
 
         public override void StartResearch() { }
-        public override void StopResearch() { }
         public override void SaveResearch() { }
 
         public override void OnWindowSizeChanged() { }

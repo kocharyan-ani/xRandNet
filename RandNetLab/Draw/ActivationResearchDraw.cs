@@ -31,7 +31,6 @@ namespace Draw
             DrawActivationProcess();
             MWindow.Start.Content = "Start";
         }
-        public override void StopResearch() { }
         public override void SaveResearch() { }
 
         public override void OnWindowSizeChanged() { }

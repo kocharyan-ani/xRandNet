@@ -66,12 +66,11 @@ namespace RandNetLab
             {
                 LabSessionManager.CreateResearch(researchType);
                 SetGeneralValues();
-                if (!SetParameterValues())
+                if (!SetParameterValues() || !SetAnalyzeOptionsValues())
                 {
                     return;
                 }
-                SetAnalyzeOptionsValues();
-
+                
                 LabSessionManager.StartResearch();
 
                 DialogResult = true;
@@ -154,17 +153,17 @@ namespace RandNetLab
         private bool SetGenerationParameterValues(GenerationParameter gp, UIElement uIValue, ref Type paramType)
         {
             GenerationParameterInfo[] info = (GenerationParameterInfo[])gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(GenerationParameterInfo), false);
-            string paramName = info[0].FullName;
+            string paramName = gp.ToString();
             paramType = info[0].Type; 
             String paramValue = ((TextBox)uIValue).Text;
-
+            
             object value = Convert.ChangeType(paramValue, paramType, CultureInfo.InvariantCulture);
-            if (paramName.Equals("Probability") && !((double)value >= 0 && (double)value <= 1))
+            if (gp == GenerationParameter.Probability && !((double)value >= 0 && (double)value <= 1))
             {
                 MessageBox.Show(paramName + " parameter value must be rational number between 0 and 1.", "Error");
                 return false;
             }
-            if (paramName.Equals("Vertices") && (int)value > MAX_VERTEX_COUNT)
+            if (gp == GenerationParameter.Vertices && (int)value > MAX_VERTEX_COUNT)
             {
                 MessageBox.Show("Maximum number of vertices is " + MAX_VERTEX_COUNT);
                 return false;
@@ -176,7 +175,8 @@ namespace RandNetLab
         {
             ResearchParameterInfo[] info = (ResearchParameterInfo[])rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false);
             paramType = info[0].Type;
-            object value = null;
+            string paramName = rp.ToString();
+            object value;
             if (paramType == typeof(Boolean))
             {
                 value = (bool)((CheckBox)uIValue).IsChecked ? true : false;
@@ -187,13 +187,19 @@ namespace RandNetLab
                 value = Convert.ChangeType(paramValue, paramType, CultureInfo.InvariantCulture);
             }
             // TODO validate
+            if (paramType == typeof(double) && !((double)value >= 0 && (double)value <= 1))
+            {
+                MessageBox.Show(paramName + " parameter value must be rational number between 0 and 1.", "Error");
+                return false;
+            }
             LabSessionManager.SetResearchParameterValue(rp, value);
             return true;
         }
 
-        private void SetAnalyzeOptionsValues()
+        private bool SetAnalyzeOptionsValues()
         {
             AnalyzeOption opts = AnalyzeOption.None;
+            int numOfSelectedItems = 0;
             foreach (Control c in AnalyzeOptionsStackPanel.Children)
             {
                 Debug.Assert(c is CheckBox);
@@ -201,9 +207,19 @@ namespace RandNetLab
                 // TODO maybe better content and text
                 AnalyzeOption current = (AnalyzeOption)Enum.Parse(typeof(AnalyzeOption), cc.Content.ToString());
                 if (cc.IsChecked.GetValueOrDefault())
+                {
                     opts |= current;
+                    numOfSelectedItems++;
+                }
+            }
+            if ((researchType == ResearchType.Activation || researchType == ResearchType.Evolution)
+                && numOfSelectedItems != 1)
+            {
+                MessageBox.Show("Exactly one item form Analyze Options must be selected.");
+                return false;
             }
             LabSessionManager.SetAnalyzeOptions(opts);
+            return true;
         }        
 
         private void InitializeEditResearchDialog()

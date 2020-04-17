@@ -22,7 +22,19 @@ namespace Draw
         }
 
         public abstract void StartResearch();
-        public abstract void StopResearch();
+        public void StopResearch()
+        {
+            MWindow.Start.Content = "Start";
+
+            MWindow.Initial.IsEnabled = false;
+            MWindow.Final.IsEnabled = false;
+            MWindow.Next.IsEnabled = false;
+            MWindow.Previous.IsEnabled = false;
+            MWindow.Save.IsEnabled = false;
+            MWindow.mainCanvas.Children.Clear();
+
+            MWindow.TextBoxStepNumber.Text = "0";
+        }
         public abstract void SaveResearch();
 
         public abstract void OnWindowSizeChanged();

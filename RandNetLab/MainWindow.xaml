@@ -82,26 +82,22 @@
         <!--Buttons-->
         <Grid Name ="Buttons" Grid.Column="1" Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="150*"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Name ="Start" Grid.Column="0" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False">Start</Button>
-            <Button Name ="Initial" Grid.Column="1"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Initial_Click" Visibility="Collapsed">Initial</Button>
-            <Button Name ="Final" Grid.Column="2"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Final_Click" Visibility="Collapsed">Final</Button>
-            <Button Name ="Next" Grid.Column="3"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Next_Click" Visibility="Collapsed">Next</Button>
-            <Button Name ="Previous" Grid.Column="4"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click" Visibility="Collapsed">Previous</Button>
-            <Button Name ="Save" Grid.Column="5"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click">Save</Button>
-            <CheckBox Name="Flat" Grid.Column="6" Content="Flat" Visibility="Hidden" Margin="50 15" Checked="Flat_Checked" Unchecked="Flat_Unchecked"></CheckBox>
-            <Button Name ="Pause" Grid.Column="7" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False">Start</Button>
-            <TextBlock Grid.Column="6" HorizontalAlignment="Right" Text="Step Number" Height="23" Width="75"/>
-            <TextBox Name="TextBoxStepNumber" Grid.Column="7" HorizontalAlignment="Center" Height="23" Width="75"></TextBox>
-            
+            <StackPanel Name="ButtonsStackPanel" Orientation="Horizontal" Grid.Column="0">
+                <Button Name ="Start" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False" Visibility="Collapsed">Start</Button>
+                <Button Name ="Initial" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Initial_Click" Visibility="Collapsed">Initial</Button>
+                <Button Name ="Final" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Final_Click" Visibility="Collapsed">Final</Button>
+                <Button Name ="Next" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Next_Click" Visibility="Collapsed">Next</Button>
+                <Button Name ="Previous" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click" Visibility="Collapsed">Previous</Button>
+                <Button Name ="Save" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click" Visibility="Collapsed">Save</Button>
+                <CheckBox Name="Flat" Content="Flat" Visibility="Hidden" Margin="50 15" Checked="Flat_Checked" Unchecked="Flat_Unchecked"></CheckBox>
+            </StackPanel>
+            <StackPanel Name="StepNumberStackPanel" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20, 10">
+                <TextBlock HorizontalAlignment="Center" Text="Step Number" Height="23" Width="75"/>
+                <TextBox Name="TextBoxStepNumber"  HorizontalAlignment="Center" TextAlignment="Center" Height="23" Width="30"></TextBox>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

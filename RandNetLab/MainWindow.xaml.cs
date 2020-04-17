@@ -71,7 +71,14 @@ namespace RandNetLab
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            researchDraw.StartResearch();
+            if (Start.Content.ToString() == "Start")
+            {
+                researchDraw.StartResearch();
+            }
+            else 
+            {
+                researchDraw.StopResearch();
+            }
         }
 
         private void Initial_Click(object sender, RoutedEventArgs e)
@@ -190,14 +197,16 @@ namespace RandNetLab
                 Owner = this
             };
             createResearchWnd.ShowDialog();
-            if (createResearchWnd.DialogResult.HasValue && createResearchWnd.DialogResult.Value)
-            {
-                researchDraw = FactoryReserchDraw.CreateResearchDraw(researchType, LabSessionManager.GetResearchModelType());
+            if (!(createResearchWnd.DialogResult.HasValue && createResearchWnd.DialogResult.Value)) { return; }
 
-                Start.IsEnabled = true;
-                AddResearchToTable();
-                FillParametersTable();
-            }
+            researchDraw = FactoryReserchDraw.CreateResearchDraw(researchType, LabSessionManager.GetResearchModelType());
+
+            Start.Visibility = Visibility.Visible;
+            Start.IsEnabled = true;
+            Save.Visibility = Visibility.Visible;
+            Save.IsEnabled = true;
+            AddResearchToTable();
+            FillParametersTable();
             if (researchType == ResearchType.Basic)
             {
                 Initial.Visibility = Visibility.Visible;
