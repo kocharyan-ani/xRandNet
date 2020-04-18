@@ -12,5 +12,13 @@ export enum ParameterEnum {
     InitialActivationProbability = "InitialActivationProbability",
     DeactivationSpeed = "DeactivationSpeed",
     ActivationSpeed = "ActivationSpeed",
-    ActivationStepCount = "ActivationStepCount"
+    ActivationStepCount = "ActivationStepCount",
+    FitnessDensityFunction = "FitnessDensityFunction",
+    BranchingIndex = "BranchingIndex",
+    Mu = "Mu",
+    Level = "Level",
+    ZeroLevelNodesCount = "ZeroLevelNodesCount",
+    Alpha = "Alpha",
+    BlocksCount = "BlocksCount",
+    MakeConnected = "MakeConnected"
 }

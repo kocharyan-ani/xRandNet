@@ -14,15 +14,15 @@ export class ModelTypeService {
         switch (research) {
             case ResearchEnum.BASIC:
                 return [
-                    ModelTypeEnum.ER,
                     ModelTypeEnum.BA,
                     ModelTypeEnum.BB,
-                    ModelTypeEnum.WS,
-                    ModelTypeEnum.RegularHierarchic,
-                    ModelTypeEnum.NonRegularHierarchic,
-                    ModelTypeEnum.HMN,
                     ModelTypeEnum.ConnectedRegularHierarchic,
-                    ModelTypeEnum.ConnectedNonRegularHierarchic
+                    ModelTypeEnum.ConnectedNonRegularHierarchic,
+                    ModelTypeEnum.ER,
+                    ModelTypeEnum.HMN,
+                    ModelTypeEnum.NonRegularHierarchic,
+                    ModelTypeEnum.RegularHierarchic,
+                    ModelTypeEnum.WS
                 ];
             case ResearchEnum.EVOLUTION:
                 return [
@@ -35,12 +35,12 @@ export class ModelTypeService {
                 ];
             case ResearchEnum.COLLECTION:
                 return [
-                    ModelTypeEnum.ER,
                     ModelTypeEnum.BA,
-                    ModelTypeEnum.WS,
-                    ModelTypeEnum.RegularHierarchic,
+                    ModelTypeEnum.ER,
+                    ModelTypeEnum.HMN,
                     ModelTypeEnum.NonRegularHierarchic,
-                    ModelTypeEnum.HMN
+                    ModelTypeEnum.RegularHierarchic,
+                    ModelTypeEnum.WS
                 ];
             case ResearchEnum.STRUCTURAL:
                 return [
@@ -48,7 +48,7 @@ export class ModelTypeService {
                 ];
             case ResearchEnum.ACTIVATION:
                 return [
-                    ModelTypeEnum.BB,
+                    ModelTypeEnum.BA,
                     ModelTypeEnum.ER,
                     ModelTypeEnum.HMN,
                     ModelTypeEnum.WS

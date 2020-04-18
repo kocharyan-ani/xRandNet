@@ -29,7 +29,8 @@ export class CreateResearchComponent implements OnInit, OnDestroy {
     public storageTypes = [ /*StorageTypeEnum.EXCEL,*/ StorageTypeEnum.TEXT, StorageTypeEnum.XML];
     public analyzeOptions: AnalyzeOptionEnum[];
     public parameters: Parameter[];
-    private typeSubscription: Subscription;
+    private researchTypeSubscription: Subscription;
+    private modelTypeSubscription: Subscription;
 
     constructor(
         private location: Location,
@@ -43,11 +44,13 @@ export class CreateResearchComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.setGeneralForm();
-        this.setTypeSubscription()
+        this.setTypeSubscription();
+        this.setModelTypeSubscription()
     }
 
     ngOnDestroy() {
-        this.typeSubscription.unsubscribe()
+        this.researchTypeSubscription.unsubscribe();
+        this.modelTypeSubscription.unsubscribe()
     }
 
     private setGeneralForm() {
@@ -84,27 +87,36 @@ export class CreateResearchComponent implements OnInit, OnDestroy {
     }
 
     private setTypeSubscription() {
-        this.setResearchType(ResearchEnum.BASIC);
-        this.typeSubscription = this.generalForm.get('research').valueChanges.subscribe(value => {
-            this.setResearchType(value);
+        const initialResearch = ResearchEnum.BASIC;
+        this.modelTypes = this.modelTypeService.get(initialResearch);
+        this.setResearchType(initialResearch, this.modelTypes[0]);
+        this.researchTypeSubscription = this.generalForm.get('research').valueChanges.subscribe(value => {
+            this.modelTypes = this.modelTypeService.get(value);
+            this.setResearchType(value, this.modelTypes[0]);
         })
     }
 
-    private setResearchType(research: ResearchEnum) {
-        this.modelTypes = this.modelTypeService.get(research);
+    private setModelTypeSubscription() {
+        this.modelTypeSubscription = this.generalForm.get('model').valueChanges.subscribe(model => {
+            const value = this.generalForm.value;
+            this.setResearchType(value.research, model);
+        })
+    }
+
+    private setResearchType(research: ResearchEnum, model: ModelTypeEnum) {
         this.generationTypes = this.generationTypeService.get(research);
         this.analyzeOptions = this.analyzeOptionsService.get(research);
-        this.parameters = this.parameterService.get(research);
+        this.parameters = this.parameterService.get(research, model);
 
-        this.setInitialFormValue(research);
+        this.setInitialFormValue(research, model);
         this.generateForm();
     }
 
-    private setInitialFormValue(research: ResearchEnum) {
+    private setInitialFormValue(research: ResearchEnum, model: ModelTypeEnum) {
         this.generalForm.reset({
             research: research,
             name: `${research} Research`,
-            model: this.modelTypes[0],
+            model: model,
             storage: this.storageTypes[0],
             generation: this.generationTypes[0],
             count: 1,
