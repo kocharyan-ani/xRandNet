@@ -26,7 +26,7 @@ export class CreateResearchComponent implements OnInit, OnDestroy {
     private generalForm: FormGroup;
     public modelTypes: ModelTypeEnum[];
     public generationTypes: GenerationTypeEnum[];
-    public storageTypes = [StorageTypeEnum.EXCEL, StorageTypeEnum.TEXT, StorageTypeEnum.XML]
+    public storageTypes = [ /*StorageTypeEnum.EXCEL,*/ StorageTypeEnum.TEXT, StorageTypeEnum.XML];
     public analyzeOptions: AnalyzeOptionEnum[];
     public parameters: Parameter[];
     private typeSubscription: Subscription;
