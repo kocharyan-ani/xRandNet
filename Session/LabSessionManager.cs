@@ -265,12 +265,26 @@ namespace Session
         public static int GetMaximumActiveNodesCount()
         {
             int maxCount = 0;
-            for(int i = 0; i < GetActivationStepCount(); ++i)
+            for (int i = 0; i < GetActivationStepCount(); ++i)
             {
                 int activesCount = GetActiveNodesCountbyStep(i);
-                if(activesCount > maxCount)
+                if (activesCount > maxCount)
                 {
                     maxCount = activesCount;
+                }
+            }
+            return maxCount;
+        }
+
+        public static int GetMaximumTrianglesCount()
+        {
+            int maxCount = 0;
+            List<int> trianglesCount = GetTrianglesCount();
+            for (int i = 0; i < trianglesCount.Count; ++i)
+            {
+                if (trianglesCount[i] > maxCount)
+                {
+                    maxCount = trianglesCount[i];
                 }
             }
             return maxCount;
@@ -281,6 +295,17 @@ namespace Session
             Debug.Assert(existingResearch.Branches != null);
             return existingResearch.Branches;
         }
+
+        public static List<List<EdgesAddedOrRemoved>> GetEvolutionInformation()
+        {
+            return existingResearch.EvolutionInformation;
+        }
+        public static List<int> GetTrianglesCount()
+        {
+            return new List<int>() { 5, 6, 4 };
+        }
+
+
 
     }
 }

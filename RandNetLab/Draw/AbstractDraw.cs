@@ -113,7 +113,7 @@ namespace Draw
             }
         }
 
-        protected string GenerateEdgeUid(EdgesAddedOrRemoved edge)
+        public string GenerateEdgeUid(EdgesAddedOrRemoved edge)
         {
             return edge.Vertex1 < edge.Vertex2 ? "v" + edge.Vertex1.ToString() + "v" + edge.Vertex2.ToString() :
                                                  "v" + edge.Vertex2.ToString() + "v" + edge.Vertex1.ToString();
@@ -156,6 +156,9 @@ namespace Draw
             Canvas.SetLeft(v, left);
             Canvas.SetTop(v, top);
         }
+
+        
+
     }
 }
 
