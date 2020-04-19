@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Draw
 {
@@ -14,11 +16,14 @@ namespace Draw
         MainWindow MWindow = Application.Current.Windows[0] as MainWindow;
 
         public AbstractDraw DrawObj { get; set; }
-        protected int StepCount { get; set; }
+        public int StepCount { get; set; }
 
         public AbstractResearchDraw(ModelType modelType = ModelType.ER)
         {
             DrawObj = FactoryDraw.CreateDraw(modelType, MWindow.mainCanvas);
+            //Binding b = new Binding("StepNumber");
+            //b.Source = DrawObj;
+            //MWindow.TextBoxStepNumber.SetBinding(TextBox.TextProperty, b);
         }
 
         public abstract void StartResearch();
@@ -39,5 +44,6 @@ namespace Draw
 
         public abstract void OnWindowSizeChanged();
 
+        public abstract void SetStatisticsParameters();
     }
 }

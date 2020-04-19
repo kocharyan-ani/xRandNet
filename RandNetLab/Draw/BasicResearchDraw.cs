@@ -148,5 +148,11 @@ namespace Draw
             MWindow.Final.IsEnabled = false;
 
         }
+
+        public override void SetStatisticsParameters() 
+        {
+            MWindow.listViewResearch.ColumnDefinitions[0].Width = new GridLength(4, GridUnitType.Star);
+            MWindow.listViewResearch.ColumnDefinitions[1].Width = new GridLength(0, GridUnitType.Star);
+        }
     }
 }
