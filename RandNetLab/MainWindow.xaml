@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:ChartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:local="clr-namespace:RandNetLab"
         mc:Ignorable="d"
         Title="xRandNetLab" Height="755" Width="1280" SizeChanged="Window_SizeChanged" Background="#F0F0F0" Icon="Icons/lab.ico" WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600">
@@ -54,8 +56,12 @@
                 <ColumnDefinition Width="200"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1"  BorderThickness="1" BorderBrush="Black" Grid.ColumnSpan="2">
-                <Grid  Name ="ListViewResearch" Grid.Column="0" Background="#ABABAB">
-                    <Canvas Name="mainCanvas" Grid.Row="1" Visibility="Visible" Background="#ABABAB">
+                <Grid  Name ="listViewResearch" Grid.Column="0" Background="#ABABAB">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="0*"/>
+                    </Grid.ColumnDefinitions>
+                    <Canvas Name="mainCanvas" Grid.Row="1" Grid.Column="0" Visibility="Visible" Background="#ABABAB">
                         <Canvas.ContextMenu>
                             <ContextMenu Name="CreateEditResearchContextCanvas"  Background="WhiteSmoke">
                                 <MenuItem Name ="CreateResearchContextMenuCanvas" Header="Create Research">
@@ -66,6 +72,26 @@
                             </ContextMenu>
                         </Canvas.ContextMenu>
                     </Canvas>
+                    <ChartingToolkit:Chart Name="StatisticCanvas" Grid.Row="1" Grid.Column="1" Background="#BCBCBC" Height="250" VerticalAlignment="Top">
+                        <ChartingToolkit:Chart.Axes >
+                            <ChartingToolkit:LinearAxis Orientation="X" Minimum="0" Maximum="{Binding XAxisMaximum}"/>
+                            <ChartingToolkit:LinearAxis Orientation="Y" Minimum="0" Maximum="{Binding YAxisMaximum}"/>
+                        </ChartingToolkit:Chart.Axes>
+                        <ChartingToolkit:Chart.Series>
+                            <ChartingToolkit:LineSeries IndependentValueBinding="{Binding Path=Key}"
+                                            DependentValueBinding="{Binding Path=Value}"
+                                            ItemsSource="{Binding ChartData, Mode=TwoWay}">
+                                <ChartingToolkit:LineSeries.DataPointStyle>
+                                    <Style TargetType="{x:Type ChartingToolkit:LineDataPoint}">
+                                        <Setter Property="Height" Value="0"/>
+                                        <Setter Property="Width" Value="0" />
+                                        <Setter Property="BorderBrush" Value="DarkBlue"/>
+                                        <Setter Property="Background" Value="DarkBlue"/>
+                                    </Style>
+                                </ChartingToolkit:LineSeries.DataPointStyle>
+                            </ChartingToolkit:LineSeries>
+                        </ChartingToolkit:Chart.Series>
+                    </ChartingToolkit:Chart>
                 </Grid>
             </Border>
             <GroupBox   Grid.Column="4" Name="Parameters" BorderThickness="0">
@@ -96,7 +122,7 @@
             </StackPanel>
             <StackPanel Name="StepNumberStackPanel" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20, 10">
                 <TextBlock HorizontalAlignment="Center" Text="Step Number" Height="23" Width="75"/>
-                <TextBox Name="TextBoxStepNumber"  HorizontalAlignment="Center" TextAlignment="Center" Height="23" Width="30"></TextBox>
+                <TextBox Name="TextBoxStepNumber"  HorizontalAlignment="Center" TextAlignment="Center" Height="23" Width="30" Text="{Binding ElementName=MainWindow1, Path=researchDraw.DrawObj.StepNumber}"></TextBox>
             </StackPanel>
         </Grid>
     </Grid>

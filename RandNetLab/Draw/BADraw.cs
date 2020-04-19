@@ -151,8 +151,8 @@ namespace Draw
             Ellipse vertex = new Ellipse
             {
                 Uid = vertexUid,
-                Width = 5,
-                Height = 5,
+                Width = 2 * vertexRadius,
+                Height = 2 * vertexRadius,
                 Fill = Brushes.Red
 
             };

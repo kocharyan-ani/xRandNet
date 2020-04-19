@@ -9,6 +9,14 @@ using System;
 using System.Windows.Controls;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Collections;
+using System.Windows.Threading;
+using System.Windows.Media;
+using System.Windows.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace RandNetLab
 {
@@ -21,12 +29,52 @@ namespace RandNetLab
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private int stepNumber = 0;
         private int stepCount = 0;
  //       private AbstractDraw draw;
         private AbstractResearchDraw researchDraw;
+
+        private ObservableCollection<KeyValuePair<int, int>> chartData;
+        public ObservableCollection<KeyValuePair<int, int>> ChartData
+        { 
+            get { return chartData; }
+            set
+            {
+                chartData = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int xAxisMaximum;
+        public int XAxisMaximum
+        {
+            get { return xAxisMaximum; }
+            set 
+            { 
+                xAxisMaximum = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private int yAxisMaximum;
+        public int YAxisMaximum
+        {
+            get { return yAxisMaximum; }
+            set
+            {
+                yAxisMaximum = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged([CallerMemberName] string caller = null)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(caller));
+        }
 
         private System.Windows.Forms.FolderBrowserDialog locationDlg = new System.Windows.Forms.FolderBrowserDialog();
 
@@ -34,6 +82,7 @@ namespace RandNetLab
         {
             InitializeComponent();
             TextBoxStepNumber.Text = "0";
+            this.DataContext = this;
         }
 
         #region Event Handlers
@@ -93,25 +142,6 @@ namespace RandNetLab
             {
                 researchDraw.OnWindowSizeChanged();
             }
-            //if (draw != null)
-            //{
-            //    if (stepNumber == 1)
-            //    {
-            //        draw.DrawInitial();
-            //    }
-            //    else if (stepNumber == stepCount)
-            //    {
-            //        draw.DrawFinal();
-            //    }
-            //    else
-            //    {
-            //        draw.DrawInitial();
-            //        for (int i = 0; i <= stepNumber; ++i)
-            //        {
-            //            draw.DrawNext(i);
-            //        }
-            //    }
-            //}
         }
 
         private void Final_Click(object sender, RoutedEventArgs e)
@@ -177,19 +207,6 @@ namespace RandNetLab
 
         #region Utility
 
-        //private void DrawFinal()
-        //{
-        //    stepNumber = LabSessionManager.GetStepCount() - 1;
-        //    mainCanvas.Children.Clear();
-        //    draw.DrawFinal();
-        //    TextBoxStepNumber.Text = stepNumber.ToString();
-
-        //    Next.IsEnabled = false;
-        //    Previous.IsEnabled = true;
-        //    Initial.IsEnabled = true;
-        //    Final.IsEnabled = false;
-        //}
-
         private void ShowCreateResearchDialog(ResearchType researchType)
         {
             CreateResearchWindow createResearchWnd = new CreateResearchWindow(researchType)
@@ -207,6 +224,7 @@ namespace RandNetLab
             Save.IsEnabled = true;
             AddResearchToTable();
             FillParametersTable();
+            researchDraw.SetStatisticsParameters();
             if (researchType == ResearchType.Basic)
             {
                 Initial.Visibility = Visibility.Visible;
@@ -319,6 +337,7 @@ namespace RandNetLab
                 }
             }
         }
+
         #endregion
     }
 }
