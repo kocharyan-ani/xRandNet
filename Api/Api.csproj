@@ -22,4 +22,16 @@
         <ProjectReference Include="..\Session\Session.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\20200417164159_Migration_2020-04-17_20:41:57.cs" />
+      <Compile Remove="Migrations\20200417164159_Migration_2020-04-17_20:41:57.Designer.cs" />
+      <Compile Remove="Migrations\20200417134024_Migration_2020-04-17_17:40:21.cs" />
+      <Compile Remove="Migrations\20200417134024_Migration_2020-04-17_17:40:21.Designer.cs" />
+      <Compile Remove="Migrations\20200417133934_Migration_2020-04-17_17:39:31.cs" />
+      <Compile Remove="Migrations\20200417133934_Migration_2020-04-17_17:39:31.Designer.cs" />
+      <Compile Remove="Migrations\20200417133845_Migration_2020-04-17_17:38:42.cs" />
+      <Compile Remove="Migrations\20200417133845_Migration_2020-04-17_17:38:42.Designer.cs" />
+      <Compile Remove="Migrations\20200417133733_Migration_2020-04-17_17:37:30.Designer.cs" />
+    </ItemGroup>
+
 </Project>

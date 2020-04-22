@@ -9,23 +9,27 @@ namespace Api.Controllers {
     [Route("api/data")]
     [ApiController]
     public class InfoController : Controller {
-        public InfoService InfoService;
-        public LinkService LinkService;
-        public NewsService NewsService;
-        public ProjectService ProjectService;
-        public PublicationService PublicationService;
-        public PersonService PersonService;
+        private readonly InfoService _infoService;
+        private readonly LinkService _linkService;
+        private readonly NewsService _newsService;
+        private readonly ProjectService _projectService;
+        private readonly PublicationService _publicationService;
+        private readonly PersonService _personService;
 
-        public InfoController(InfoService infoService, LinkService linkService, NewsService newsService) {
-            InfoService = infoService;
-            LinkService = linkService;
-            NewsService = newsService;
+        public InfoController(InfoService infoService, LinkService linkService, NewsService newsService,
+            ProjectService projectService, PublicationService publicationService, PersonService personService) {
+            _infoService = infoService;
+            _linkService = linkService;
+            _newsService = newsService;
+            _publicationService = publicationService;
+            _personService = personService;
+            _projectService = projectService;
         }
 
         [HttpGet]
         [Route("info")]
         public ActionResult<string> GetInfoAboutUs() {
-            var info = InfoService.Get();
+            var info = _infoService.Get();
             if (info == null) {
                 return NotFound();
             }
@@ -37,14 +41,14 @@ namespace Api.Controllers {
         // [Authorize(Roles = "Admin")]
         [Route("info")]
         public ActionResult<string> EditInfoAboutUs([FromBody] Info info) {
-           InfoService.Update(info);
-           return Ok(info);
+            _infoService.Update(info);
+            return Ok(info);
         }
 
         [HttpGet]
         [Route("links")]
         public ActionResult<string> GetLinksByType([FromQuery] int type) {
-            var links = LinkService.List().Where(link => link.Type == type);
+            var links = _linkService.List().Where(link => link.Type == type);
             return Ok(links);
         }
 
@@ -56,7 +60,7 @@ namespace Api.Controllers {
                 return BadRequest("Link id should be specified");
             }
 
-            LinkService.Delete(id);
+            _linkService.Delete(id);
             return Ok();
         }
 
@@ -64,7 +68,7 @@ namespace Api.Controllers {
         [Route("links")]
         [Authorize(Roles = "Admin")]
         public ActionResult<string> AddLink([FromBody] Link link) {
-            LinkService.Add(link);
+            _linkService.Add(link);
             return Ok(link);
         }
 
@@ -72,14 +76,14 @@ namespace Api.Controllers {
         [Route("links")]
         [Authorize(Roles = "Admin")]
         public ActionResult<string> EditLink([FromBody] Link link) {
-            LinkService.Update(link);
+            _linkService.Update(link);
             return Ok(link);
         }
 
         [HttpGet]
         [Route("news")]
-        public ActionResult<string> Get() {
-            var news = NewsService.List();
+        public ActionResult<string> GetNews() {
+            var news = _newsService.List();
             return Ok(news);
         }
 
@@ -87,8 +91,8 @@ namespace Api.Controllers {
         [Route("news")]
         [Authorize(Roles = "Admin")]
         public ActionResult<News> AddNews([FromBody] News news) {
-            news.DatePosted =  DateTime.Now;
-            NewsService.Add(news);
+            news.DatePosted = DateTime.Now;
+            _newsService.Add(news);
             return Ok(news);
         }
 
@@ -96,8 +100,8 @@ namespace Api.Controllers {
         [Route("news")]
         [Authorize(Roles = "Admin")]
         public ActionResult<News> UpdateNews([FromBody] News news) {
-            news.DatePosted =  DateTime.Now;
-            NewsService.Update(news);
+            news.DatePosted = DateTime.Now;
+            _newsService.Update(news);
             return Ok(news);
         }
 
@@ -105,7 +109,38 @@ namespace Api.Controllers {
         [Route("news")]
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteNews([FromBody] News news) {
-            NewsService.Delete(news.Id);
+            _newsService.Delete(news.Id);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("people")]
+        public ActionResult<string> GetPeople() {
+            var news = _personService.List();
+            return Ok(news);
+        }
+
+        [HttpPut]
+        [Route("people")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<News> AddPerson([FromBody] Person person) {
+            _personService.Add(person);
+            return Ok(person);
+        }
+
+        [HttpPost]
+        [Route("people")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<News> UpdatePerson([FromBody] Person person) {
+            _personService.Update(person);
+            return Ok(person);
+        }
+
+        [HttpDelete]
+        [Route("people")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeletePerson([FromBody] Person person) {
+            _personService.Delete(person.Id);
             return Ok();
         }
     }

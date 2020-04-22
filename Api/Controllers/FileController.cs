@@ -11,16 +11,16 @@ namespace Api.Controllers {
     [Route("api/files")]
     [ApiController]
     public class FileController : Controller {
-        public IUserManualFileRepository UserManualFileRepository;
+        private readonly IUserManualFileRepository _userManualFileRepository;
 
         public FileController(IUserManualFileRepository userManualFileRepository) {
-            UserManualFileRepository = userManualFileRepository;
+            _userManualFileRepository = userManualFileRepository;
         }
 
         [HttpGet]
         [Route("userManual")]
         public ActionResult<byte[]> DownloadUserManual() {
-            var files = UserManualFileRepository.List();
+            var files = _userManualFileRepository.List();
             var manualFiles = files as File[] ?? files.ToArray();
             if (manualFiles.Length == 0) return NotFound();
             return File(manualFiles[0].Data, manualFiles[0].MimeType, manualFiles[0].Name);
@@ -29,19 +29,19 @@ namespace Api.Controllers {
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("userManual")]
-        [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)] 
-        [DisableRequestSizeLimit] 
+        [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)]
+        [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         public ActionResult UploadUserManual() {
             var formFile = (FormFile) Request.Form.Files[0];
             var stream = formFile.OpenReadStream();
-            byte[] data = null;
+            byte[] data;
             using (var memoryStream = new MemoryStream()) {
                 stream.CopyTo(memoryStream);
                 data = memoryStream.ToArray();
             }
 
-            var file = UserManualFileRepository.List().FirstOrDefault();
+            var file = _userManualFileRepository.List().FirstOrDefault();
             if (file == null) {
                 file = new ManualFile();
             }
@@ -49,7 +49,7 @@ namespace Api.Controllers {
             file.Name = formFile.FileName;
             file.MimeType = formFile.ContentType;
             file.Data = data;
-            UserManualFileRepository.Update(file);
+            _userManualFileRepository.Update(file);
             return Ok();
         }
     }

@@ -13,6 +13,7 @@ import {BugDetailsDialog} from "../bug-details-dialog/bug-details-dialog";
 import {News} from "../../../common/models/news";
 import {MatDialog} from "@angular/material/dialog";
 import {JSONP_HOME} from "@angular/http/src/backends/browser_jsonp";
+import {Person} from "../../../common/models/person";
 
 @Component({
     selector: 'app-admin-page',
@@ -21,9 +22,18 @@ import {JSONP_HOME} from "@angular/http/src/backends/browser_jsonp";
 })
 export class AdminPageComponent implements OnInit {
 
+    showHomeSection: boolean = true;
+    showSoftwareSection: boolean = false;
+    showLinksSection: boolean = false;
+    showPeopleSection: boolean = false;
+    showNewsSection: boolean = false;
+    showPublicationsSection: boolean = false;
+    showProjectsSection: boolean = false;
+
     bugs: Array<Bug> = new Array<Bug>();
     aboutInfo: AboutInfo = new AboutInfo();
     news: Array<News> = new Array<News>();
+    people: Array<Person> = new Array<Person>();
 
     generalLinks: Array<Link> = Array<Link>();
     generalLinksBackup: Array<Link> = Array<Link>();
@@ -37,6 +47,7 @@ export class AdminPageComponent implements OnInit {
     newGeneralLink: Link = new Link();
     newLiteratureLink: Link = new Link();
     newPost: News = new News();
+    newPerson: Person = new Person();
 
     softwareVersions: Array<string> = new Array<string>();
     selectedVersion: string = null;
@@ -47,6 +58,64 @@ export class AdminPageComponent implements OnInit {
                 public dialog: MatDialog,
                 public uploadService: UploadService) {
 
+    }
+
+    ngOnInit(): void {
+        this.titleService.setTitle('Admin');
+        this.httpClient.get(environment.apiUrl + '/api/data/news')
+            .subscribe((data: Array<News>) => {
+                data.forEach((news) => {
+                    let post = new News(news.title, news.datePosted, news.content, news.id);
+                    post.editable = false;
+                    this.news.push(post)
+                })
+            });
+        this.httpClient.get(environment.apiUrl + '/api/data/people')
+            .subscribe((data: Array<Person>) => {
+                data.forEach((p) => {
+                    let person = new Person(p.id, p.firstName, p.lastName, p.facebookUrl,
+                        p.imageUrl, p.email, p.linkedInUrl, p.description);
+                    person.editable = false;
+                    this.people.push(person)
+                })
+            });
+        this.httpClient.get(environment.apiUrl + '/api/app/versions')
+            .subscribe((data: Array<object>) => {
+                for (let obj of data) {
+                    this.softwareVersions.push(obj["version"]);
+                }
+                this.softwareVersions.sort((a, b) =>
+                    a.localeCompare(b)
+                ).reverse();
+                this.selectedVersion = this.softwareVersions[0];
+                this.onVersionChanged();
+            });
+        this.httpClient.get(environment.apiUrl + '/api/data/info')
+            .subscribe((aboutInfo: AboutInfo) => {
+                if (aboutInfo != null) {
+                    this.aboutInfo = new AboutInfo(aboutInfo.id, aboutInfo.content);
+                } else {
+                    this.aboutInfo = new AboutInfo()
+                }
+            });
+        let params = new HttpParams().set('type', LinkType.GENERAL.toString());
+        this.httpClient.get(environment.apiUrl + '/api/data/links', {params})
+            .subscribe((links: Array<Link>) => {
+                if (links != null && links.length != 0) {
+                    links.forEach(link => {
+                        this.generalLinks.push(new Link(link.id, link.name, link.url, link.type))
+                    });
+                }
+            });
+        params = new HttpParams().set('type', LinkType.LITERATURE.toString());
+        this.httpClient.get(environment.apiUrl + '/api/data/links', {params})
+            .subscribe((links: Array<Link>) => {
+                if (links != null && links.length != 0) {
+                    links.forEach(link => {
+                        this.literatureLinks.push(new Link(link.id, link.name, link.url, link.type))
+                    });
+                }
+            });
     }
 
     editInfo() {
@@ -240,55 +309,6 @@ export class AdminPageComponent implements OnInit {
             });
     }
 
-    ngOnInit(): void {
-        this.titleService.setTitle('Admin');
-        this.httpClient.get(environment.apiUrl + '/api/data/news')
-            .subscribe((data: Array<News>) => {
-                data.forEach((news) => {
-                    let post = new News(news.title, news.datePosted, news.content, news.id);
-                    post.editable = false;
-                    this.news.push(post)
-                })
-            });
-        this.httpClient.get(environment.apiUrl + '/api/app/versions')
-            .subscribe((data: Array<object>) => {
-                for (let obj of data) {
-                    this.softwareVersions.push(obj["version"]);
-                }
-                this.softwareVersions.sort((a, b) =>
-                    a.localeCompare(b)
-                ).reverse();
-                this.selectedVersion = this.softwareVersions[0];
-                this.onVersionChanged();
-            });
-        this.httpClient.get(environment.apiUrl + '/api/data/info')
-            .subscribe((aboutInfo: AboutInfo) => {
-                if (aboutInfo != null) {
-                    this.aboutInfo = new AboutInfo(aboutInfo.id, aboutInfo.content);
-                } else {
-                    this.aboutInfo = new AboutInfo()
-                }
-            });
-        let params = new HttpParams().set('type', LinkType.GENERAL.toString());
-        this.httpClient.get(environment.apiUrl + '/api/data/links', {params})
-            .subscribe((links: Array<Link>) => {
-                if (links != null && links.length != 0) {
-                    links.forEach(link => {
-                        this.generalLinks.push(new Link(link.id, link.name, link.url, link.type))
-                    });
-                }
-            });
-        params = new HttpParams().set('type', LinkType.LITERATURE.toString());
-        this.httpClient.get(environment.apiUrl + '/api/data/links', {params})
-            .subscribe((links: Array<Link>) => {
-                if (links != null && links.length != 0) {
-                    links.forEach(link => {
-                        this.literatureLinks.push(new Link(link.id, link.name, link.url, link.type))
-                    });
-                }
-            });
-    }
-
     toBugStatusString(statusValue: number): string {
         if (statusValue == 0) {
             return "OPEN";
@@ -316,7 +336,6 @@ export class AdminPageComponent implements OnInit {
         });
     }
 
-
     deleteNews(news: News) {
         const options = {
             headers: new HttpHeaders({
@@ -330,5 +349,92 @@ export class AdminPageComponent implements OnInit {
                 this.news.splice(index, 1);
             }
         })
+    }
+
+    editPerson(person) {
+        person.editable = true
+    }
+
+    savePerson(person) {
+        this.httpClient.post(environment.apiUrl + '/api/data/people', person.toJson()).toPromise().then(() => {
+            person.editable = false
+        })
+    }
+
+    deletePerson(person) {
+        console.log("aaaa")
+        const options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: person.toJson()
+        };
+        this.httpClient.delete(environment.apiUrl + '/api/data/people', options).toPromise().then(() => {
+            const index: number = this.people.indexOf(person);
+            if (index !== -1) {
+                this.people.splice(index, 1);
+            }
+        })
+    }
+
+    addPerson(person) {
+        this.httpClient.put(environment.apiUrl + "/api/data/people", person.toJson()).toPromise().then((newPerson: Person) => {
+            this.people.push(new Person(newPerson.id, newPerson.firstName, newPerson.lastName,
+                newPerson.facebookUrl, newPerson.imageUrl, newPerson.email, newPerson.linkedInUrl,
+                newPerson.description));
+            this.newPerson = new Person()
+        });
+    }
+
+    getImageUrl(person) {
+        if (person.imageUrl == null || person.imageUrl == '') {
+            return 'https://shorturl.at/kqRS6'
+        }
+        return person.imageUrl
+    }
+
+    showHome() {
+        this.reset()
+        this.showHomeSection = true;
+    }
+
+    showSoftware() {
+        this.reset()
+        this.showSoftwareSection = true;
+    }
+
+    showNews() {
+        this.reset()
+        this.showNewsSection = true;
+    }
+
+    showPeople() {
+        this.reset()
+        this.showPeopleSection = true;
+    }
+
+    showLinks() {
+        this.reset()
+        this.showLinksSection = true;
+    }
+
+    showPublications() {
+        this.reset()
+        this.showPublicationsSection = true;
+    }
+
+    showProjects() {
+        this.reset()
+        this.showProjectsSection = true;
+    }
+
+    reset() {
+        this.showHomeSection = false;
+        this.showLinksSection = false;
+        this.showNewsSection = false;
+        this.showPeopleSection = false;
+        this.showSoftwareSection = false;
+        this.showProjectsSection = false;
+        this.showPublicationsSection = false;
     }
 }

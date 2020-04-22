@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Title} from "@angular/platform-browser";
-import {Link} from "../../common/models/link";
+import {Link, LinkType} from "../../common/models/link";
 import {Person} from "../../common/models/person";
-
+import {environment} from "../../../environments/environment";
 
 @Component({
     selector: "info-page",
@@ -22,19 +22,25 @@ export class InfoComponent implements OnInit {
 
     ngOnInit(): void {
         this.titleService.setTitle('Info');
-        // this.httpClient.get(apiUrl + '/api/public/people/all')
-        //     .subscribe((people: Array<Person>) => {
-        //         if (people != null && people.length != 0) {
-        //             this.people = people;
-        //         }
-        //     });
-        // const params = new HttpParams().set('type', LinkType.LITERATURE.toString());
-        // this.httpClient.get(apiUrl + '/api/data/links', {params})
-        //     .subscribe((links: Array<Link>) => {
-        //         if (links != null && links.length != 0) {
-        //             this.literatureLinks = links;
-        //         }
-        //     });
+        this.httpClient.get(environment.apiUrl + '/api/data/people')
+            .subscribe((people: Array<Person>) => {
+                if (people != null && people.length != 0) {
+                    this.people = people;
+                }
+            });
+        const params = new HttpParams().set('type', LinkType.LITERATURE.toString());
+        this.httpClient.get(environment.apiUrl + '/api/data/links', {params})
+            .subscribe((links: Array<Link>) => {
+                if (links != null && links.length != 0) {
+                    this.literatureLinks = links;
+                }
+            });
     }
 
+    getImageUrl(person) {
+        if (person.imageUrl == null || person.imageUrl == '') {
+            return 'https://shorturl.at/kqRS6'
+        }
+        return person.imageUrl
+    }
 }

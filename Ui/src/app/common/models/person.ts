@@ -3,11 +3,23 @@ export class Person {
     private _id: number;
     private _firstName: string;
     private _lastName: string;
-    private _fbLink: string;
-    private _imageLink: string;
-    private _emailAddress: string;
-    private _linkedInLink: string;
-    private _info: string;
+    private _facebookUrl: string;
+    private _imageUrl: string;
+    private _email: string;
+    private _linkedInUrl: string;
+    private _description: string;
+    private _editable: boolean;
+
+    constructor(id?: number, firstName?: string, lastName?: string, facebookUrl?: string, imageUrl?: string, email?: string, linkedInUrl?: string, description?: string) {
+        this._id = id;
+        this._firstName = firstName;
+        this._lastName = lastName;
+        this._facebookUrl = facebookUrl;
+        this._imageUrl = imageUrl;
+        this._email = email;
+        this._linkedInUrl = linkedInUrl;
+        this._description = description;
+    }
 
     get id(): number {
         return this._id;
@@ -33,44 +45,56 @@ export class Person {
         this._lastName = value;
     }
 
-    get info(): string {
-        return this._info;
+    get description(): string {
+        return this._description;
+    }
+
+    set description(value: string) {
+        this._description = value;
     }
 
     set info(value: string) {
-        this._info = value;
+        this._description = value;
     }
 
-    get fbLink(): string {
-        return this._fbLink;
+    get facebookUrl(): string {
+        return this._facebookUrl;
     }
 
-    set fbLink(value: string) {
-        this._fbLink = value;
+    set facebookUrl(value: string) {
+        this._facebookUrl = value;
     }
 
-    get imageLink(): string {
-        return this._imageLink;
+    get imageUrl(): string {
+        return this._imageUrl;
     }
 
-    set imageLink(value: string) {
-        this._imageLink = value;
+    set imageUrl(value: string) {
+        this._imageUrl = value;
     }
 
-    get emailAddress(): string {
-        return this._emailAddress;
+    get email(): string {
+        return this._email;
     }
 
-    set emailAddress(value: string) {
-        this._emailAddress = value;
+    set email(value: string) {
+        this._email = value;
     }
 
-    get linkedInLink(): string {
-        return this._linkedInLink;
+    get linkedInUrl(): string {
+        return this._linkedInUrl;
     }
 
-    set linkedInLink(value: string) {
-        this._linkedInLink = value;
+    set linkedInUrl(value: string) {
+        this._linkedInUrl = value;
+    }
+
+    get editable(): boolean {
+        return this._editable;
+    }
+
+    set editable(value: boolean) {
+        this._editable = value;
     }
 
     toJson() {
@@ -78,11 +102,12 @@ export class Person {
             id: this._id,
             firstName: this._firstName,
             lastName: this._lastName,
-            info: this._info,
-            fbLink: this._fbLink,
-            imageLink: this._imageLink,
-            linkedInLink: this._linkedInLink,
-            emailAddress: this._emailAddress,
+            description: this._description,
+            facebookUrl: this._facebookUrl,
+            imageURL: this._imageUrl,
+            linkedInURL: this._linkedInUrl,
+            email: this._email,
         }
     }
+
 }

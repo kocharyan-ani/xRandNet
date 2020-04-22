@@ -16,7 +16,7 @@ dotnet build 2>&1 > /dev/null
 #build project with mono
 msbuild
 
-dotnet ef migrations add Migration_`date +%F_%T` --no-build 
+#dotnet ef migrations add Migration_`date +%F_%T` --no-build 
 
 msbuild
 

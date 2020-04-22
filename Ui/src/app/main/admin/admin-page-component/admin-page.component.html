@@ -1,6 +1,33 @@
 <div class="content">
 
-    <mat-card class="section">
+    <button mat-raised-button color="primary" class="routing-button" (click)="showHome()" [disabled]="showHomeSection">
+        Home
+    </button>
+    <button mat-raised-button color="primary" class="routing-button" (click)="showSoftware()"
+            [disabled]="showSoftwareSection">
+        Software/Manual
+    </button>
+    <button mat-raised-button color="primary" class="routing-button" (click)="showNews()" [disabled]="showNewsSection">
+        News
+    </button>
+    <button mat-raised-button color="primary" class="routing-button" (click)="showPeople()"
+            [disabled]="showPeopleSection">
+        People
+    </button>
+    <button mat-raised-button color="primary" class="routing-button" (click)="showLinks()"
+            [disabled]="showLinksSection">
+        Links
+    </button>
+    <button mat-raised-button color="primary" class="routing-button" (click)="showPublications()"
+            [disabled]="showPublicationsSection">
+        Publications
+    </button>
+    <button mat-raised-button color="primary" class="routing-button" (click)="showProjects()"
+            [disabled]="showProjectsSection">
+        Projects
+    </button>
+
+    <mat-card *ngIf="showHomeSection" class="section home_section">
         <h2 [align]="'center'">Home</h2>
         <mat-form-field>
             <textarea class="info_text" matInput [(ngModel)]="aboutInfo.content" placeholder="About us"></textarea>
@@ -11,24 +38,24 @@
         </button>
     </mat-card>
 
-    <mat-card class="section software_section">
+    <mat-card *ngIf="showSoftwareSection" class="section software_section">
         <h2 [align]="'center'">Software</h2>
-        <button color="primary" class="softwareButton" mat-raised-button (click)="openSoftwareUploadPage()"
+        <button style="width:200px;margin: 10px auto;" color="primary" class="softwareButton" mat-raised-button (click)="openSoftwareUploadPage()"
                 [matTooltip]="'Upload new version of software'">
-            Upload
+            Upload app
         </button>
-        <button color="primary" class="userManualButton" mat-raised-button (click)="openUserManualFileUploadPage()"
+        <button style="width:200px;margin: 10px auto;" color="primary" class="userManualButton" mat-raised-button (click)="openUserManualFileUploadPage()"
                 [matTooltip]="'Upload new user manual document'">
             Upload manual
         </button>
-        <mat-form-field style="width: 100px;text-align: center">
+        <mat-form-field  style="width: 200px;text-align: center;margin: 10px auto">
             <mat-label>Select the version</mat-label>
             <mat-select [(ngModel)]="selectedVersion" (ngModelChange)="onVersionChanged()">
                 <mat-option style="text-align: center" *ngFor="let version of softwareVersions"
                             [value]="version">{{version}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-list>
+        <mat-list style="margin: 0 auto;">
             <h3 mat-subheader>Bugs</h3>
             <mat-card *ngFor="let bug of bugs" [ngClass]="'bug_status_'+ bug.status" class="bug"
                       style="background-color: #e91e63{{bug.status}}">
@@ -37,7 +64,8 @@
                         <mat-icon>bug_report</mat-icon>
                     </div>
                     <mat-card-title class="title">{{bug.summary}}</mat-card-title>
-                    <mat-card-subtitle>ID: {{bug.id }}, Status: {{toBugStatusString(bug.status)}}</mat-card-subtitle>
+                    <mat-card-subtitle>ID: {{bug.id }},
+                        Status: {{toBugStatusString(bug.status)}}</mat-card-subtitle>
                     <mat-card-subtitle>Report Date: {{bug.reportDate | date:'dd/MM/yyyy'}} </mat-card-subtitle>
                     <mat-card-subtitle>Version: {{bug.version }} </mat-card-subtitle>
                     <mat-card-subtitle>Reporter: {{bug.reporter}} </mat-card-subtitle>
@@ -69,8 +97,27 @@
         </mat-list>
     </mat-card>
 
-    <mat-card class="section news_section">
+    <mat-card *ngIf="showNewsSection" class="section news_section">
         <h2 [align]="'center'">News</h2>
+        <mat-card class="news">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>announcement</mat-icon>
+                </div>
+                <mat-card-title class="title">
+                    <input placeholder="Title" matInput [(ngModel)]="newPost.title"/>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <textarea placeholder="Content" class="new_post_textarea" matInput
+                          [(ngModel)]="newPost.content"></textarea>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button [disabled]="newPost.content == null || newPost.title == null" color="primary" mat-button
+                        (click)="addNews(newPost)">Add
+                </button>
+            </mat-card-actions>
+        </mat-card>
         <mat-card class="news" *ngFor="let n of news">
             <mat-card-header>
                 <div mat-card-avatar>
@@ -93,28 +140,82 @@
                 <button color="primary" mat-button (click)="deleteNews(n)">Delete</button>
             </mat-card-actions>
         </mat-card>
-        <mat-card class="news">
+    </mat-card>
+
+    <mat-card *ngIf="showPeopleSection" class="section  people_section">
+        <h2 [align]="'center'">People</h2>
+        <mat-card class="person">
             <mat-card-header>
                 <div mat-card-avatar>
-                    <mat-icon>announcement</mat-icon>
+                    <img *ngIf="!(newPerson.imageUrl== '' || newPerson.imageUrl == null)" src="{{newPerson.imageUrl}}"
+                         class="person-image">
+                    <mat-icon *ngIf="newPerson.imageUrl == null || newPerson.imageUrl == ''">people</mat-icon>
                 </div>
                 <mat-card-title class="title">
-                    <input placeholder="Title" matInput [(ngModel)]="newPost.title"/>
+                    <input placeholder="First name" matInput [(ngModel)]="newPerson.firstName"/>
+                    <input placeholder="Last name" matInput [(ngModel)]="newPerson.lastName"/>
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <textarea placeholder="Content" class="new_post_textarea" matInput
-                          [(ngModel)]="newPost.content"></textarea>
+                <textarea placeholder="Description" class="new_person_description_textarea" matInput
+                          [(ngModel)]="newPerson.description"></textarea>
+                <input placeholder="Email address" matInput [(ngModel)]="newPerson.email"/>
+                <input placeholder="Facebook URL" matInput [(ngModel)]="newPerson.facebookUrl"/>
+                <input placeholder="LinkedIn URL" matInput [(ngModel)]="newPerson.linkedInUrl"/>
+                <input placeholder="Image URL" matInput [(ngModel)]="newPerson.imageUrl"/>
+
             </mat-card-content>
             <mat-card-actions class="action-buttons">
-                <button [disabled]="newPost.content == null || newPost.title == null" color="primary" mat-button
-                        (click)="addNews(newPost)">Add
+                <button [disabled]="newPerson.firstName == null || newPerson.lastName == null || newPerson.description == null"
+                        color="primary" mat-button
+                        (click)="addPerson(newPerson)">Add
                 </button>
+            </mat-card-actions>
+        </mat-card>
+        <mat-card class="person" *ngFor="let person of people">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <img src="{{getImageUrl(person)}}" class="person-image">
+                </div>
+                <mat-card-title *ngIf="!person.editable"
+                                class="title">{{person.firstName + " " + person.lastName}}</mat-card-title>
+                <mat-card-title *ngIf="person.editable" class="title">
+                    <input matInput [(ngModel)]="person.firstName"/>
+                    <input matInput [(ngModel)]="person.lastName"/>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    <p *ngIf="!person.editable">{{person.description}}</p>
+                </mat-card-subtitle>
+
+            </mat-card-header>
+            <mat-card-content>
+                <p *ngIf="!person.editable">Email: {{person.email}}</p>
+                <p *ngIf="!person.editable">Facebook URL: {{person.facebookUrl}}</p>
+                <p *ngIf="!person.editable">LinkedIn URL: {{person.linkedInUrl}}</p>
+                <p *ngIf="!person.editable">Image URL: {{person.imageUrl}}</p>
+                <div *ngIf="person.editable">
+                    Description :
+                    <textarea class="new_person_description_textarea" matInput
+                              [(ngModel)]="person.description"></textarea>
+                    Email :
+                    <input placeholder="Email address" matInput [(ngModel)]="person.email"/>
+                    Facebook URL :
+                    <input placeholder="Facebook URL" matInput [(ngModel)]="person.facebookUrl"/>
+                    LinkedIn URL :
+                    <input placeholder="LinkedIn URL" matInput [(ngModel)]="person.linkedInUrl"/>
+                    Image URL :
+                    <input placeholder="Image URL" matInput [(ngModel)]="person.imageUrl"/>
+                </div>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button *ngIf="!person.editable" color="primary" mat-button (click)="editPerson(person)">Edit</button>
+                <button *ngIf="person.editable" color="primary" mat-button (click)="savePerson(person)">Save</button>
+                <button color="primary" mat-button (click)="deletePerson(person)">Delete</button>
             </mat-card-actions>
         </mat-card>
     </mat-card>
 
-    <mat-card class="section links_section">
+    <mat-card *ngIf="showLinksSection" class="section links_section">
         <h2 [align]="'center'">Links</h2>
         <mat-list>
             <h3 mat-subheader>Literature Links</h3>
@@ -126,11 +227,13 @@
                 <span *ngIf="!editMode" mat-line> {{link.url}} </span>
                 <span mat-line><input *ngIf="editMode" matInput type="text" placeholder="URL"
                                       [(ngModel)]="link.url"></span>
-                <button mat-button color="primary" *ngIf="!editMode" (click)="editMode = true; editLiteratureLink(link)"
+                <button mat-button color="primary" *ngIf="!editMode"
+                        (click)="editMode = true; editLiteratureLink(link)"
                         [matTooltip]="'Edit'">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-button color="primary" *ngIf="editMode" (click)="editMode = false; saveLiteratureLink(link)"
+                <button mat-button color="primary" *ngIf="editMode"
+                        (click)="editMode = false; saveLiteratureLink(link)"
                         [matTooltip]="'Save'">
                     <mat-icon>save</mat-icon>
                 </button>
@@ -154,7 +257,8 @@
                 <mat-icon color="primary" mat-list-icon>link</mat-icon>
                 <span mat-line><input matInput type="text" placeholder="Name"
                                       [(ngModel)]="newLiteratureLink.name"/></span>
-                <span mat-line><input matInput type="text" placeholder="URL" [(ngModel)]="newLiteratureLink.url"></span>
+                <span mat-line><input matInput type="text" placeholder="URL"
+                                      [(ngModel)]="newLiteratureLink.url"></span>
                 <button mat-button color="primary"
                         (click)="addNewLiteratureLink(newLiteratureLink);addLiteratureLink=false"
                         [matTooltip]="'Save'">
@@ -199,8 +303,10 @@
             </button>
             <mat-list-item *ngIf="addGeneralLink">
                 <mat-icon color="primary" mat-list-icon>link</mat-icon>
-                <span mat-line><input matInput type="text" placeholder="Name" [(ngModel)]="newGeneralLink.name"/></span>
-                <span mat-line><input matInput type="text" placeholder="URL" [(ngModel)]="newGeneralLink.url"></span>
+                <span mat-line><input matInput type="text" placeholder="Name"
+                                      [(ngModel)]="newGeneralLink.name"/></span>
+                <span mat-line><input matInput type="text" placeholder="URL"
+                                      [(ngModel)]="newGeneralLink.url"></span>
                 <button [matTooltip]="'Save'" mat-button color="primary"
                         (click)="addNewGeneralLink(newGeneralLink);addGeneralLink=false">
                     <mat-icon>save</mat-icon>
@@ -211,5 +317,10 @@
             </mat-list-item>
         </mat-list>
     </mat-card>
-
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 </div>

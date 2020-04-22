@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Api.Models;
 using Api.Services;
 using Api.Services.Bug;
@@ -9,27 +8,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using Api.Database;
-using Api.Database.Repositories;
-using Api.Models.Factories;
-using File = Api.Models.File;
 
 namespace Api.Controllers {
     [Route("api/app")]
     [ApiController]
     public class AppController : Controller {
-        private AppService AppService { get; }
-        private BugService BugService { get; }
+        private readonly AppService _appService;
+        private readonly BugService _bugService;
 
         public AppController(AppService appService, BugService bugService) {
-            AppService = appService;
-            BugService = bugService;
+            _appService = appService;
+            _bugService = bugService;
         }
 
         [HttpGet]
         [Route("versions")]
         public ActionResult<IEnumerable<App>> GetVersions() {
-            var apps = AppService.List();
+            var apps = _appService.List();
             return Ok(apps);
         }
 
@@ -37,7 +32,7 @@ namespace Api.Controllers {
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult DeleteBug(Bug bug) {
-            BugService.Delete(bug.Id);
+            _bugService.Delete(bug.Id);
             return Ok();
         }
 
@@ -45,7 +40,7 @@ namespace Api.Controllers {
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult<List<Bug>> GetBugs([FromQuery] string version) {
-            var bugs = BugService.List(version);
+            var bugs = _bugService.List(version);
             return Ok(bugs);
         }
 
@@ -54,7 +49,7 @@ namespace Api.Controllers {
         [Route("bugs")]
         public ActionResult<Bug> ReportBug(Bug bug) {
             bug.ReportDate = DateTime.Now;
-            BugService.Add(bug);
+            _bugService.Add(bug);
             return Ok(bug);
         }
 
@@ -62,13 +57,13 @@ namespace Api.Controllers {
         [Authorize(Roles = "Admin")]
         [Route("bugs")]
         public ActionResult<Bug> EditBug(Bug bug) {
-            BugService.Update(bug);
+            _bugService.Update(bug);
             return Ok();
         }
 
         [HttpGet]
         public ActionResult<byte[]> DownloadApp(string version) {
-            var app = AppService.Get(version);
+            var app = _appService.Get(version);
             if (app?.File == null) return NotFound();
 
             return File(app.File.Data, app.File.MimeType, app.File.Name);
@@ -92,7 +87,7 @@ namespace Api.Controllers {
 
             var file = new AppFile() {Name = formFile.FileName, MimeType = formFile.ContentType, Data = data};
             var app = new App(jObject["version"].ToString(), file, jObject["releaseNotes"].ToString(), DateTime.Now);
-            AppService.Add(app);
+            _appService.Add(app);
             return Ok();
         }
     }

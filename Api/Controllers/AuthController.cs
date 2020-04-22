@@ -1,25 +1,20 @@
-using System;
-using System.Linq;
 using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Api.Database;
-using Api.Database.Models;
 
 namespace Api.Controllers {
     [Route("api/auth")]
     [ApiController]
     public class AuthController : Controller {
-        private AuthService AuthService { get; }
+        private readonly AuthService _authService;
 
         public AuthController(AuthService authService) {
-            AuthService = authService;
+            _authService = authService;
         }
 
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody] SignInCredentials signInCredentials) {
-            var user = AuthService.Authenticate(signInCredentials);
+            var user = _authService.Authenticate(signInCredentials);
             if (user == null) {
                 return BadRequest(new {message = "Username or password is incorrect"});
             }
@@ -30,12 +25,13 @@ namespace Api.Controllers {
 
         [HttpPost, Route("register")]
         public IActionResult Register([FromBody] SignUpCredentials signUpCredentials) {
-            var user = AuthService.Register(signUpCredentials);
+            var user = _authService.Register(signUpCredentials);
             if (user == null) {
                 return BadRequest(new {
                     message = $"User with username '{signUpCredentials.Username}' already exists"
                 });
             }
+
             user.Password = null;
             return Ok(user);
         }
