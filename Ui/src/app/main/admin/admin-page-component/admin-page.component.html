@@ -1,5 +1,5 @@
 <div class="content">
-
+<div class="navigation">
     <button mat-raised-button color="primary" class="routing-button" (click)="showHome()" [disabled]="showHomeSection">
         Home
     </button>
@@ -26,6 +26,7 @@
             [disabled]="showProjectsSection">
         Projects
     </button>
+</div>
 
     <mat-card *ngIf="showHomeSection" class="section home_section">
         <h2 [align]="'center'">Home</h2>

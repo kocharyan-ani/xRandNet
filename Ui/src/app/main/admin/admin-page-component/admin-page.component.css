@@ -195,3 +195,8 @@ h2 {
     background-color: rgb(241, 240, 255);
     display: inline-block;
 }
+
+.navigation{
+    margin: 40px auto;
+    text-align: center;
+}
