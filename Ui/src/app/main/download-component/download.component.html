@@ -15,8 +15,8 @@
             (click)="download(selectedSoftware)">
         <mat-icon>save_alt</mat-icon>
     </button>
-    <h2>System requirements</h2>
     <div *ngIf="selectedSoftware">
+        <h2>System requirements</h2>
         <p>Windows 10, 8.1, 7, Vista and XP. Including both 32-bit and 64-bit versions.</p>
     </div>
     <h2 *ngIf="selectedSoftware">Release Notes ({{selectedSoftware.releaseDate}})</h2>

@@ -27,6 +27,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSelectModule} from "@angular/material/select";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import {MatSelectModule} from "@angular/material/select";
         HttpModule.forRoot(),
         MatSelectModule,
         MatCardModule,
+        MatProgressSpinnerModule,
     ],
     entryComponents: [
         SoftwareUploadDialog,

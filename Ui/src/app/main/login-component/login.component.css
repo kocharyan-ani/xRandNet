@@ -1,4 +1,23 @@
 h2 {
-    margin-top: 50px;
+    text-align: center;
     color: #673ab7;
+    margin-bottom: 20px;
+}
+
+.username_input {
+    display: block;
+}
+
+.password_input {
+    display: block;
+}
+
+mat-card {
+    margin: 100px auto;
+    width: 20%;
+    padding: 50px;
+}
+
+.mat-card-header-text {
+    margin: 16px auto !important;
 }
