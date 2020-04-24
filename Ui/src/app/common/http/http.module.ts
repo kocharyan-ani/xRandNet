@@ -10,6 +10,7 @@ import {ErrorHandlerInterceptor} from './interceptors/error-handler.interceptor'
 import {TransformerInterceptor} from './interceptors/transformer.interceptor';
 import {NotificationModule} from "../notification/notification.module";
 import {JwtInterceptor} from "./interceptors/jwt-interceptor";
+import {AuthErrorInterceptor} from "./interceptors/auth-error-interceptor";
 
 @NgModule({
     imports: [
@@ -30,7 +31,7 @@ export class HttpModule {
                 HttpOptionsService,
                 HandlerService,
                 {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-                // {provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptor, multi: true},
+                {provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptor, multi: true},
                 {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true},
                 {provide: HTTP_INTERCEPTORS, useClass: TransformerInterceptor, multi: true}
             ]

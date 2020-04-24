@@ -139,7 +139,7 @@ export class AdminPageComponent implements OnInit {
             hasBackdrop: true,
             autoFocus: true,
             disableClose: true,
-            width: '600px',
+            width: '800px',
             height: '700px',
             data: bug
         });

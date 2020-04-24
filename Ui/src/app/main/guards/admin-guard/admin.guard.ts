@@ -18,11 +18,14 @@ export class AdminGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.authenticationService.currentUserValue;
-        if (currentUser && currentUser.token && this.jwtHelperService.decodeToken(currentUser.token).role == Role.ADMIN) {
+        if (currentUser && currentUser.token
+            && !this.jwtHelperService.isTokenExpired(currentUser.token)
+            && this.jwtHelperService.decodeToken(currentUser.token).role == Role.ADMIN) {
             return true;
-        } else {
-            this.router.navigate(['/home']);
-            return false;
         }
+        this.authenticationService.logout()
+        this.router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
+        return false;
+
     }
 }

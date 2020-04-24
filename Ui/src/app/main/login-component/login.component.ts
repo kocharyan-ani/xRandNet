@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem("currentUser", JSON.stringify(user));
             this.authenticationService.currentUserSubject.next(user);
             this.invalidLogin = false;
-            this.router.navigate(["/"]);
+            this.router.navigateByUrl(this.returnUrl);
         }, err => {
             this.invalidLogin = true;
         });
