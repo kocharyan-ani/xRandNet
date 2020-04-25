@@ -8,4 +8,4 @@ StandardOutput=file:/var/log/xrandnet/xrandnet.log
 StandardError=file:/var/log/xrandnet/xrandnet.log
 WorkingDirectory=/opt/xRandNet/automation
 Restart=on-failure
-ExecStart=/opt/xRandNet/automation/api_run.sh
+ExecStart=/usr/bin/dotnet /opt/xRandNet/api/xRandNetAPI.dll

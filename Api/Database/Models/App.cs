@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace Api.Database.Models {
     public partial class App {
         public int Id { get; set; }
