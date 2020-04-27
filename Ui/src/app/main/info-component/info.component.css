@@ -14,6 +14,18 @@ h2 {
     display: flow-root;
 }
 
+.publications {
+    margin-left: 250px;
+    margin-right: 250px;
+    display: flow-root;
+}
+
+.projects {
+    margin-left: 250px;
+    margin-right: 250px;
+    display: flow-root;
+}
+
 .bio {
     width: 250px;
     text-align: center;
@@ -43,4 +55,24 @@ h2 {
 
 .person-name {
     font-weight: bold;
+}
+
+.publication {
+    display: inline-block;
+    margin-top: 30px;
+    margin-right: 50px;
+    margin-left: 50px;
+    float: left;
+    min-width: 300px;
+    border-radius: 20px;
+}
+
+.project {
+    display: inline-block;
+    margin-top: 30px;
+    margin-right: 50px;
+    margin-left: 50px;
+    float: left;
+    width: 400px;
+    border-radius: 20px;
 }

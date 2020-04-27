@@ -1,23 +1,18 @@
 <div>
     <h2 [align]="'center'">People</h2>
     <div class="text-center people">
-
         <div *ngFor="let person of people" class="person">
-            <!-- Image -->
             <div>
                 <img src="{{getImageUrl(person) }}"
                      class="person-image ">
             </div>
             <div>
-                <!-- Facebook -->
                 <a href="{{person.facebookUrl}}" target="_blank">
                     <img src="assets/img/facebook.svg" class="social-icon">
                 </a>
-                <!-- Email -->
                 <a href="mailto:{{person.email}}" class="" target="_blank">
                     <img src="assets/img/email-icon.svg" class="social-icon">
                 </a>
-                <!-- LinkedIn -->
                 <a href="{{person.linkedInUrl}}" class="" target="_blank">
                     <img src="assets/img/linkedin.svg" class="social-icon">
                 </a>
@@ -27,8 +22,6 @@
                 <p>{{person.description}}</p>
             </div>
         </div>
-
-
     </div>
 </div>
 
@@ -36,18 +29,55 @@
 <div>
     <h2 [align]="'center'">Publications</h2>
     <div class="text-center publications">
+        <mat-card *ngFor="let publication of publications" class="publication">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>book</mat-icon>
+                </div>
+                <mat-card-title>
+                    <p>{{publication.title}}</p>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-icon>people</mat-icon>
+                <p>{{publication.authors}}</p>
+                <mat-icon>description</mat-icon>
+                <p>{{publication.journal}}</p>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-button [matTooltip]="'Download'" color="primary" (click)="downloadPublication(publication)">
+                    <mat-icon>save_alt</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
     </div>
 </div>
 
 <div>
     <h2 [align]="'center'">Projects</h2>
-    <div class="text-center publications">
+    <div class="text-center projects">
+        <mat-card *ngFor="let project of projects" class="project">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>insert_drive_file</mat-icon>
+                </div>
+                <mat-card-title>
+                    <p>{{project.name}}</p>
+                </mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>{{project.description}}</p>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+            </mat-card-actions>
+        </mat-card>
     </div>
 </div>
 
 <div>
     <h2 [align]="'center'">Literature</h2>
-    <div class="literature text-center">
+    <div class="text-center literature">
         <div *ngFor="let link of literatureLinks">
             <a target="_blank" href="{{link.url}}">{{ link.name}}</a>
         </div>

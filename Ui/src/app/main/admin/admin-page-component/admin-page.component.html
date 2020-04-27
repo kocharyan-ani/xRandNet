@@ -328,7 +328,7 @@
         <mat-card class="news">
             <mat-card-header>
                 <div mat-card-avatar>
-                    <mat-icon>receipt</mat-icon>
+                    <mat-icon>insert_drive_file</mat-icon>
                 </div>
                 <mat-card-title class="title">
                     <input placeholder="Name" matInput [(ngModel)]="newProject.name"/>
@@ -346,7 +346,7 @@
         <mat-card class="news" *ngFor="let project of projects">
             <mat-card-header>
                 <div mat-card-avatar>
-                    <mat-icon>receipt</mat-icon>
+                    <mat-icon>insert_drive_file</mat-icon>
                 </div>
                 <mat-card-title *ngIf="!project.editable" class="title">{{project.name}}</mat-card-title>
                 <mat-card-title *ngIf="project.editable" class="title">
