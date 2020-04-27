@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {Title} from '@angular/platform-browser';
 import {Bug} from "../../../common/models/bug";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse} from "@angular/common/http";
 import {AboutInfo} from "../../../common/models/about-info";
 import {environment} from "../../../../environments/environment";
 import {Link, LinkType} from "../../../common/models/link";
@@ -14,6 +14,9 @@ import {News} from "../../../common/models/news";
 import {MatDialog} from "@angular/material/dialog";
 import {JSONP_HOME} from "@angular/http/src/backends/browser_jsonp";
 import {Person} from "../../../common/models/person";
+import {Publication} from "../../../common/models/publication";
+import {Project} from "../../../common/models/project";
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'app-admin-page',
@@ -21,6 +24,8 @@ import {Person} from "../../../common/models/person";
     styleUrls: ['./admin-page.component.css']
 })
 export class AdminPageComponent implements OnInit {
+
+    @ViewChild('file', {static: false}) file;
 
     showHomeSection: boolean = true;
     showSoftwareSection: boolean = false;
@@ -34,7 +39,15 @@ export class AdminPageComponent implements OnInit {
     aboutInfo: AboutInfo = new AboutInfo();
     news: Array<News> = new Array<News>();
     people: Array<Person> = new Array<Person>();
+    projects: Array<Project> = new Array<Project>();
+    publications: Array<Publication> = new Array<Publication>();
 
+    newGeneralLink: Link = new Link();
+    newLiteratureLink: Link = new Link();
+    newPost: News = new News();
+    newPerson: Person = new Person();
+    newPublication: Publication = new Publication();
+    newProject: Project = new Project();
     generalLinks: Array<Link> = Array<Link>();
     generalLinksBackup: Array<Link> = Array<Link>();
 
@@ -43,11 +56,6 @@ export class AdminPageComponent implements OnInit {
 
     addGeneralLink: boolean = false;
     addLiteratureLink: boolean = false;
-
-    newGeneralLink: Link = new Link();
-    newLiteratureLink: Link = new Link();
-    newPost: News = new News();
-    newPerson: Person = new Person();
 
     softwareVersions: Array<string> = new Array<string>();
     selectedVersion: string = null;
@@ -77,6 +85,22 @@ export class AdminPageComponent implements OnInit {
                         p.imageUrl, p.email, p.linkedInUrl, p.description);
                     person.editable = false;
                     this.people.push(person)
+                })
+            });
+        this.httpClient.get(environment.apiUrl + '/api/data/publications')
+            .subscribe((data: Array<Publication>) => {
+                data.forEach((p) => {
+                    let publication = new Publication(p.id, p.title, p.authors, p.journal)
+                    publication.editable = false;
+                    this.publications.push(publication)
+                })
+            });
+        this.httpClient.get(environment.apiUrl + '/api/data/projects')
+            .subscribe((data: Array<Project>) => {
+                data.forEach((p) => {
+                    let project = new Project(p.id, p.name, p.description);
+                    project.editable = false;
+                    this.projects.push(project)
                 })
             });
         this.httpClient.get(environment.apiUrl + '/api/app/versions')
@@ -362,7 +386,6 @@ export class AdminPageComponent implements OnInit {
     }
 
     deletePerson(person) {
-        console.log("aaaa")
         const options = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -436,5 +459,79 @@ export class AdminPageComponent implements OnInit {
         this.showSoftwareSection = false;
         this.showProjectsSection = false;
         this.showPublicationsSection = false;
+    }
+
+    addPublicationFile() {
+        this.file.nativeElement.click();
+    }
+
+    onPublicationFileAdded(publication) {
+        const files: { [key: string]: File } = this.file.nativeElement.files;
+        for (let key in files) {
+            if (!isNaN(parseInt(key))) {
+                publication.file = files[key];
+            }
+        }
+    }
+
+    addPublication(publication) {
+        const formData: FormData = new FormData();
+        formData.append('file', publication.file, publication.file.name);
+        formData.append('publication', JSON.stringify(publication.toJson()));
+        let req = new HttpRequest('PUT', environment.apiUrl + '/api/data/publications', formData, {
+            reportProgress: true
+        });
+        this.httpClient.request(req).subscribe((event) => {
+            let publication:Publication = event['body']
+            if (publication !== undefined)
+                this.publications.push(new Publication(publication.id, publication.title, publication.authors,
+                    publication.journal));
+            this.newPublication = new Publication()
+        });
+    }
+
+    downloadPublication(publication) {
+        window.location.href = environment.apiUrl + "/api/data/publications?publicationId=" + publication.id;
+    }
+
+    editPublication(publication) {
+        publication.editable = true
+    }
+
+    savePublication(publication) {
+        this.httpClient.post(environment.apiUrl + '/api/data/publications', publication.toJson()).toPromise().then(() => {
+            publication.editable = false
+        })
+    }
+
+    deletePublication(publication) {
+        const options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: publication.toJson()
+        };
+        this.httpClient.delete(environment.apiUrl + '/api/data/publications', options).toPromise().then(() => {
+            const index: number = this.publications.indexOf(publication);
+            if (index !== -1) {
+                this.publications.splice(index, 1);
+            }
+        })
+    }
+
+    addProject(project) {
+
+    }
+
+    editProject(project) {
+        project.editable = true
+    }
+
+    saveProject(project) {
+
+    }
+
+    deleteProject(project) {
+
     }
 }

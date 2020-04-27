@@ -1,32 +1,34 @@
 <div class="content">
-<div class="navigation">
-    <button mat-raised-button color="primary" class="routing-button" (click)="showHome()" [disabled]="showHomeSection">
-        Home
-    </button>
-    <button mat-raised-button color="primary" class="routing-button" (click)="showSoftware()"
-            [disabled]="showSoftwareSection">
-        Software/Manual
-    </button>
-    <button mat-raised-button color="primary" class="routing-button" (click)="showNews()" [disabled]="showNewsSection">
-        News
-    </button>
-    <button mat-raised-button color="primary" class="routing-button" (click)="showPeople()"
-            [disabled]="showPeopleSection">
-        People
-    </button>
-    <button mat-raised-button color="primary" class="routing-button" (click)="showLinks()"
-            [disabled]="showLinksSection">
-        Links
-    </button>
-    <button mat-raised-button color="primary" class="routing-button" (click)="showPublications()"
-            [disabled]="showPublicationsSection">
-        Publications
-    </button>
-    <button mat-raised-button color="primary" class="routing-button" (click)="showProjects()"
-            [disabled]="showProjectsSection">
-        Projects
-    </button>
-</div>
+    <div class="navigation">
+        <button mat-raised-button color="primary" class="routing-button" (click)="showHome()"
+                [disabled]="showHomeSection">
+            Home
+        </button>
+        <button mat-raised-button color="primary" class="routing-button" (click)="showSoftware()"
+                [disabled]="showSoftwareSection">
+            Software/Manual
+        </button>
+        <button mat-raised-button color="primary" class="routing-button" (click)="showNews()"
+                [disabled]="showNewsSection">
+            News
+        </button>
+        <button mat-raised-button color="primary" class="routing-button" (click)="showPeople()"
+                [disabled]="showPeopleSection">
+            People
+        </button>
+        <button mat-raised-button color="primary" class="routing-button" (click)="showLinks()"
+                [disabled]="showLinksSection">
+            Links
+        </button>
+        <button mat-raised-button color="primary" class="routing-button" (click)="showProjects()"
+                [disabled]="showProjectsSection">
+            Projects
+        </button>
+        <button mat-raised-button color="primary" class="routing-button" (click)="showPublications()"
+                [disabled]="showPublicationsSection">
+            Publications
+        </button>
+    </div>
 
     <mat-card *ngIf="showHomeSection" class="section home_section">
         <h2 [align]="'center'">Home</h2>
@@ -41,15 +43,17 @@
 
     <mat-card *ngIf="showSoftwareSection" class="section software_section">
         <h2 [align]="'center'">Software</h2>
-        <button style="width:200px;margin: 10px auto;" color="primary" class="softwareButton" mat-raised-button (click)="openSoftwareUploadPage()"
+        <button style="width:200px;margin: 10px auto;" color="primary" class="softwareButton" mat-raised-button
+                (click)="openSoftwareUploadPage()"
                 [matTooltip]="'Upload new version of software'">
             Upload app
         </button>
-        <button style="width:200px;margin: 10px auto;" color="primary" class="userManualButton" mat-raised-button (click)="openUserManualFileUploadPage()"
+        <button style="width:200px;margin: 10px auto;" color="primary" class="userManualButton" mat-raised-button
+                (click)="openUserManualFileUploadPage()"
                 [matTooltip]="'Upload new user manual document'">
             Upload manual
         </button>
-        <mat-form-field  style="width: 200px;text-align: center;margin: 10px auto">
+        <mat-form-field style="width: 200px;text-align: center;margin: 10px auto">
             <mat-label>Select the version</mat-label>
             <mat-select [(ngModel)]="selectedVersion" (ngModelChange)="onVersionChanged()">
                 <mat-option style="text-align: center" *ngFor="let version of softwareVersions"
@@ -318,10 +322,79 @@
             </mat-list-item>
         </mat-list>
     </mat-card>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+
+    <mat-card *ngIf="showProjectsSection" class="section projects_section">
+        <h2 [align]="'center'">Projects</h2>
+        <mat-list>
+
+        </mat-list>
+    </mat-card>
+
+    <mat-card *ngIf="showPublicationsSection" class="section publications_section">
+        <h2 [align]="'center'">Publications</h2>
+        <mat-card class="news">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>book</mat-icon>
+                </div>
+                <mat-card-title class="title">
+                    <input placeholder="Title" matInput [(ngModel)]="newPublication.title"/>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <input placeholder="Authors" matInput [(ngModel)]="newPublication.authors"/>
+                <input placeholder="Journal" matInput [(ngModel)]="newPublication.journal"/>
+                <p *ngIf="!newPublication.editable && newPublication.file !==undefined">File
+                    : {{newPublication.file.name}}</p>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button [disabled]="newPublication.title == null || newPublication.authors == null || newPublication.file == null "
+                        color="primary" mat-button
+                        (click)="addPublication(newPublication)">Add
+                </button>
+
+                <button mat-button color="primary" (click)="addPublicationFile()">
+                    <mat-icon class="button-icon">attach_file</mat-icon>
+                </button>
+                <input type="file" #file style="display: none" (change)="onPublicationFileAdded(newPublication)"/>
+            </mat-card-actions>
+        </mat-card>
+        <mat-card class="news" *ngFor="let publication of publications">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>book</mat-icon>
+                </div>
+                <mat-card-title *ngIf="!publication.editable" class="title">{{publication.title}}</mat-card-title>
+                <mat-card-title *ngIf="publication.editable" class="title">
+                    <input matInput [(ngModel)]="publication.title"/>
+                </mat-card-title>
+                <mat-card-subtitle>Authors: {{publication.authors}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngIf="publication.editable">
+                    Journal :
+                    <input placeholder="Journal" matInput [(ngModel)]="publication.journal"/>
+                </div>
+                <p *ngIf="!publication.editable">Journal : {{publication.journal}}</p>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button *ngIf="!publication.editable" color="primary" mat-button (click)="editPublication(publication)">
+                    Edit
+                </button>
+                <button *ngIf="publication.editable" color="primary" mat-button (click)="savePublication(publication)">
+                    Save
+                </button>
+                <button color="primary" mat-button (click)="deletePublication(publication)">Delete</button>
+                <button mat-button [matTooltip]="'Download'" color="primary" (click)="downloadPublication(publication)">
+                    <mat-icon>save_alt</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-card>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 </div>

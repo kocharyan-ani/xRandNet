@@ -1,9 +1,12 @@
 using System;
+using System.IO;
 using System.Linq;
 using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace Api.Controllers {
     [Route("api/data")]
@@ -31,7 +34,7 @@ namespace Api.Controllers {
         public ActionResult<string> GetInfoAboutUs() {
             var info = _infoService.Get();
             if (info == null) {
-                return NotFound();
+                return  Ok("");
             }
 
             return Ok(info);
@@ -137,10 +140,96 @@ namespace Api.Controllers {
         }
 
         [HttpDelete]
-        [Route("people")]
+        [Route("projects")]
         [Authorize(Roles = "Admin")]
         public ActionResult DeletePerson([FromBody] Person person) {
             _personService.Delete(person.Id);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("projects")]
+        public ActionResult<string> GetProjects() {
+            var projects = _projectService.List();
+            return Ok(projects);
+        }
+
+        [HttpPut]
+        [Route("projects")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<News> AddProject([FromBody] Project project) {
+            _projectService.Add(project);
+            return Ok(project);
+        }
+
+        [HttpPost]
+        [Route("projects")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<News> UpdateProject([FromBody] Project project) {
+            _projectService.Update(project);
+            return Ok(project);
+        }
+
+        [HttpDelete]
+        [Route("projects")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeleteProject([FromBody] Project project) {
+            _projectService.Delete(project.Id);
+            return Ok();
+        }
+
+        
+        [HttpGet]
+        [Route("publications")]
+        public ActionResult<byte[]> DownloadPublication(string publicationId) {
+            if (publicationId==null || Int32.Parse(publicationId) == 0) {
+                var publications = _publicationService.List();
+                return Ok(publications);
+            }
+            var publication = _publicationService.Get(Int32.Parse(publicationId));
+            if (publication?.File == null) return NotFound();
+        
+            return File(publication.File.Data, publication.File.MimeType, publication.File.Name);
+        }
+
+        [HttpPut]
+        [Route("publications")]
+        [Authorize(Roles = "Admin")]
+        [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)]
+        [DisableRequestSizeLimit]
+        [Consumes("multipart/form-data")]
+        public ActionResult UploadApp() {
+            var formFile = (FormFile) Request.Form.Files[0];
+            var softwareInfo = Request.Form["publication"];
+            var jObject = JObject.Parse(softwareInfo);
+            var stream = formFile.OpenReadStream();
+            byte[] data;
+            using (var memoryStream = new MemoryStream()) {
+                stream.CopyTo(memoryStream);
+                data = memoryStream.ToArray();
+            }
+
+            var file = new Models.PublicationFile(formFile.FileName, formFile.ContentType, data);
+            var publication =
+                new Publication(jObject["title"].ToString(), jObject["authors"].ToString(),
+                    jObject["journal"].ToString(), file);
+            _publicationService.Add(publication);
+            return Ok(publication);
+        }
+
+        [HttpPost]
+        [Route("publications")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<News> UpdatePublication([FromBody] Publication publication) {
+            _publicationService.Update(publication);
+            return Ok(publication);
+        }
+
+        [HttpDelete]
+        [Route("publications")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeletePublication([FromBody] Publication publication) {
+            _publicationService.Delete(publication.Id);
             return Ok();
         }
     }

@@ -48,6 +48,7 @@ namespace Api {
             services.AddTransient<IInfoRepository, InfoRepository>();
             services.AddTransient<IBugRepository, BugRepository>();
             services.AddTransient<IAppFileRepository, AppFileRepository>();
+            services.AddTransient<IPublicationFileRepository, PublicationFileRepository>();
             services.AddTransient<IUserManualFileRepository, UserManualFileRepository>();
             // Services
             services.AddScoped<UserService>();

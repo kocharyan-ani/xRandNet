@@ -6,13 +6,13 @@ namespace Api.Models.Factories {
         public static PublicationDbEntity Create(PublicationModel model) {
             if (model == default) return default;
             return new PublicationDbEntity(model.Id, model.Title, model.Authors, model.Journal,
-                FileFactory.Create(model.File));
+                (Database.Models.PublicationFile)  FileFactory.Create(model.File));
         }
 
         public static PublicationModel Create(PublicationDbEntity entity) {
             if (entity == default) return default;
             return new PublicationModel(entity.Id, entity.Title, entity.Authors, entity.Journal,
-                FileFactory.Create(entity.File));
+                (Api.Models.PublicationFile)FileFactory.Create(entity.File));
         }
     }
 }

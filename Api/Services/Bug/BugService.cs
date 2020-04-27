@@ -50,6 +50,9 @@ namespace Api.Services.Bug {
         public IEnumerable<BugModel> List(string version) {
             var bugs = new List<BugModel>();
             var appDbEntity = _appRepository.Get(version);
+            if (appDbEntity == null) {
+                return bugs;
+            }
             foreach (var bugDbEntity in _bugRepository.List(appDbEntity.Id)) {
                 bugDbEntity.App = appDbEntity;
                 bugs.Add(BugFactory.Create(bugDbEntity));

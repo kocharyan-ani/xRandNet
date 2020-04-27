@@ -211,7 +211,7 @@ namespace Api.Migrations
                     b.Property<string>("Authors")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("FileId")
+                    b.Property<int>("FileId")
                         .HasColumnType("int");
 
                     b.Property<string>("Journal")
@@ -292,7 +292,9 @@ namespace Api.Migrations
                 {
                     b.HasOne("Api.Database.Models.File", "File")
                         .WithMany()
-                        .HasForeignKey("FileId");
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
