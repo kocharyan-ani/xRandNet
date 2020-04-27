@@ -482,7 +482,7 @@ export class AdminPageComponent implements OnInit {
             reportProgress: true
         });
         this.httpClient.request(req).subscribe((event) => {
-            let publication:Publication = event['body']
+            let publication: Publication = event['body']
             if (publication !== undefined)
                 this.publications.push(new Publication(publication.id, publication.title, publication.authors,
                     publication.journal));
@@ -520,7 +520,10 @@ export class AdminPageComponent implements OnInit {
     }
 
     addProject(project) {
-
+        this.httpClient.put(environment.apiUrl + "/api/data/projects", project.toJson()).toPromise().then((newProj: Project) => {
+            this.projects.push(new Project(newProj.id, newProj.name, newProj.description));
+            this.newProject = new Project()
+        });
     }
 
     editProject(project) {
@@ -528,10 +531,23 @@ export class AdminPageComponent implements OnInit {
     }
 
     saveProject(project) {
-
+        this.httpClient.post(environment.apiUrl + '/api/data/projects', project.toJson()).toPromise().then(() => {
+            project.editable = false
+        })
     }
 
     deleteProject(project) {
-
+        const options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: project.toJson()
+        };
+        this.httpClient.delete(environment.apiUrl + '/api/data/projects', options).toPromise().then(() => {
+            const index: number = this.projects.indexOf(project);
+            if (index !== -1) {
+                this.projects.splice(index, 1);
+            }
+        })
     }
 }

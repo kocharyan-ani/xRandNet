@@ -41,7 +41,7 @@ namespace Api.Controllers {
         }
 
         [HttpPost]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [Route("info")]
         public ActionResult<string> EditInfoAboutUs([FromBody] Info info) {
             _infoService.Update(info);
@@ -140,7 +140,7 @@ namespace Api.Controllers {
         }
 
         [HttpDelete]
-        [Route("projects")]
+        [Route("people")]
         [Authorize(Roles = "Admin")]
         public ActionResult DeletePerson([FromBody] Person person) {
             _personService.Delete(person.Id);

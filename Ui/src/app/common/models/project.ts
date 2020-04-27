@@ -44,4 +44,12 @@ export class Project {
         this._description = value;
     }
 
+    toJson(){
+        return {
+            id: this._id,
+            name: this._name,
+            description: this._description
+        }
+    }
+
 }

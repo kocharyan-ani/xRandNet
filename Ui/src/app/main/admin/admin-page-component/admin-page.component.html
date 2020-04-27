@@ -325,9 +325,51 @@
 
     <mat-card *ngIf="showProjectsSection" class="section projects_section">
         <h2 [align]="'center'">Projects</h2>
-        <mat-list>
-
-        </mat-list>
+        <mat-card class="news">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>receipt</mat-icon>
+                </div>
+                <mat-card-title class="title">
+                    <input placeholder="Name" matInput [(ngModel)]="newProject.name"/>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <input placeholder="Description" matInput [(ngModel)]="newProject.description"/>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button [disabled]="newProject.name == null || newProject.description == null "
+                        color="primary" mat-button (click)="addProject(newProject)">Add
+                </button>
+            </mat-card-actions>
+        </mat-card>
+        <mat-card class="news" *ngFor="let project of projects">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>receipt</mat-icon>
+                </div>
+                <mat-card-title *ngIf="!project.editable" class="title">{{project.name}}</mat-card-title>
+                <mat-card-title *ngIf="project.editable" class="title">
+                    <input matInput [(ngModel)]="project.name"/>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngIf="project.editable">
+                    Description :
+                    <input placeholder="Journal" matInput [(ngModel)]="project.description"/>
+                </div>
+                <p *ngIf="!project.editable">Description : {{project.description}}</p>
+            </mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button *ngIf="!project.editable" color="primary" mat-button (click)="editProject(project)">
+                    Edit
+                </button>
+                <button *ngIf="project.editable" color="primary" mat-button (click)="saveProject(project)">
+                    Save
+                </button>
+                <button color="primary" mat-button (click)="deleteProject(project)">Delete</button>
+            </mat-card-actions>
+        </mat-card>
     </mat-card>
 
     <mat-card *ngIf="showPublicationsSection" class="section publications_section">
