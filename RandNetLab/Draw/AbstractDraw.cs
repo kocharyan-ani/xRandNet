@@ -19,8 +19,8 @@ namespace Draw
         public Int32 InitialVertexCount { get; set; }
         public int StepNumber { get; set; }
 
-        protected const double vertexRadius = 2.5;
-        protected const double ActiveVertexRadius = 4;
+        protected const double VERTEX_RADIUS = 2.5;
+        protected const double ACTIVE_VERTEX_RADIUS = 4;
 
 
         public AbstractDraw(Canvas mainCanvas)
@@ -65,7 +65,7 @@ namespace Draw
 
             Vertices = GetVertices(center, (int)InitialVertexCount, (int)radius);
 
-            return AddVerticesToCanvas(Vertices, vertexRadius, true);
+            return AddVerticesToCanvas(Vertices, VERTEX_RADIUS, true);
         }
 
         protected List<Ellipse> AddVerticesToCanvas(Point[] vertices, double radius, bool fill)
@@ -143,7 +143,7 @@ namespace Draw
                     break;
                 }
             }
-            double diameter = (activate ? 2 * ActiveVertexRadius : 2 * vertexRadius);
+            double diameter = (activate ? 2 * ACTIVE_VERTEX_RADIUS : 2 * VERTEX_RADIUS);
             string color = (activate ? "#ff0000" : "#323336");
             Ellipse v = new Ellipse()
             {

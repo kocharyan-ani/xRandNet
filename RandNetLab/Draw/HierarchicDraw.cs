@@ -129,7 +129,7 @@ namespace Draw
             }
             else
             {
-                AddVerticesToCanvas(Vertices, vertexRadius, true);
+                AddVerticesToCanvas(Vertices, VERTEX_RADIUS, true);
             }
         }
 
@@ -246,7 +246,7 @@ namespace Draw
             // previous level nodes are vertices
             if (level == 1)
             {
-                r = vertexRadius; fill = true;
+                r = VERTEX_RADIUS; fill = true;
                 if (setVertices)
                 {
                     int begin, end;
