@@ -31,8 +31,7 @@ namespace RandNetLab
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private int stepNumber = 0;
-        private int stepCount = 0;
+       
  //       private AbstractDraw draw;
         private AbstractResearchDraw researchDraw;
 
@@ -123,10 +122,12 @@ namespace RandNetLab
             if (Start.Content.ToString() == "Start")
             {
                 researchDraw.StartResearch();
+                Flat.IsEnabled = true;
             }
             else 
             {
                 researchDraw.StopResearch();
+                Flat.IsEnabled = false;
             }
         }
 
@@ -138,7 +139,7 @@ namespace RandNetLab
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (researchDraw != null)
+            if (researchDraw != null && Start.Content.ToString() == "Stop")
             {
                 researchDraw.OnWindowSizeChanged();
             }
@@ -235,6 +236,7 @@ namespace RandNetLab
                 Next.IsEnabled = false;
                 Previous.Visibility = Visibility.Visible;
                 Previous.IsEnabled = false;
+                Grid.SetColumn(Save, 5);
             }
             else 
             {
@@ -243,6 +245,7 @@ namespace RandNetLab
                 Next.Visibility = Visibility.Collapsed;
                 Previous.Visibility = Visibility.Collapsed;
                 ChartData = null;
+                Grid.SetColumn(Save, 1);
             }
             Start.Content = "Start";
 
@@ -252,6 +255,7 @@ namespace RandNetLab
                 (LabSessionManager.GetResearchModelType() == ModelType.RegularHierarchic || LabSessionManager.GetResearchModelType() == ModelType.NonRegularHierarchic))
             {
                 Flat.Visibility = System.Windows.Visibility.Visible;
+                Flat.IsEnabled = false;
             }
             else
             {
