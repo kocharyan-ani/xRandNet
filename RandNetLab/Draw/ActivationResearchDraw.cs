@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -18,8 +19,6 @@ namespace Draw
     public class ActivationResearchDraw : AbstractResearchDraw
     {
         MainWindow MWindow = Application.Current.Windows[0] as MainWindow;
-
-        private const int RESEARCH_STEP_DURATION_BY_MILISECONDS = 1000;
 
         private ObservableCollection<KeyValuePair<int, int>> activesCount;
 
@@ -38,8 +37,12 @@ namespace Draw
             MWindow.mainCanvas.Children.Clear();
             MWindow.ChartData = null;
             activesCount.Clear();
-            DrawObj.DrawFinal();
-            MWindow.TextBoxStepNumber.Text = "0";
+            ResearchStepNumber = 0;
+            UpdateStepNumber();
+            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                DrawObj.DrawFinal();
+            }));
             DrawActivationProcess();
             MWindow.Start.IsEnabled = true;
             //MWindow.Start.Content = "Start";
@@ -50,25 +53,19 @@ namespace Draw
 
         private void DrawActivationProcess()
         {
-            for (int i = 0; i < StepCount; ++i)
+            for (; ResearchStepNumber < StepCount; ++ResearchStepNumber)
             {
-                BitArray step = LabSessionManager.GetActivationStep(i);
                 Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                 {
-                    activesCount.Add(new KeyValuePair<int, int>(i, LabSessionManager.GetActiveNodesCountbyStep(i)));
-                    MWindow.ChartData = activesCount;
-
-                    List<bool> list = new List<bool>();
-                    foreach (var e in step)
-                    {
-                        list.Add((bool)e);
-                    }
-                    for (int j = 0; j < step.Count; ++j)
-                    {
-                        DrawObj.ActivateOrDeactivateVertex(j, step[j]);
-                    }
+                    //List<bool> list = new List<bool>();
+                    //foreach (var e in step)
+                    //{
+                    //    list.Add((bool)e);
+                    //}
+                    UpdateStepNumber();
+                    DrawAcivationStep();
+                    UpdateChart();
                 }));
-                MWindow.TextBoxStepNumber.Text = i.ToString();
                 System.Threading.Thread.Sleep(RESEARCH_STEP_DURATION_BY_MILISECONDS);
             }
         }
@@ -80,6 +77,21 @@ namespace Draw
             MWindow.StatisticCanvas.Title = "Activation process";
             ((LineSeries)MWindow.StatisticCanvas.Series[0]).Title = "ANC";
             MWindow.ChartData = null;
+        }
+
+        private void DrawAcivationStep()
+        {
+            BitArray step = LabSessionManager.GetActivationStep(ResearchStepNumber);
+            for (int j = 0; j < step.Count; ++j)
+            {
+                DrawObj.ActivateOrDeactivateVertex(j, step[j]);
+            }
+        }
+
+        private void UpdateChart()
+        {
+            activesCount.Add(new KeyValuePair<int, int>(ResearchStepNumber, LabSessionManager.GetActiveNodesCountbyStep(ResearchStepNumber)));
+            MWindow.ChartData = activesCount;
         }
     }
 }

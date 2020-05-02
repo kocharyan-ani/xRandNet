@@ -302,7 +302,7 @@ namespace Session
         }
         public static List<int> GetTrianglesCount()
         {
-            return new List<int>() { 5, 6, 4 };
+            return new List<int>() { 4, 5, 5, 7, 8 };
         }
 
 

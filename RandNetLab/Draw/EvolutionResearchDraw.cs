@@ -22,7 +22,8 @@ namespace Draw
         public EvolutionResearchDraw() : base(ModelType.ER)
         {
             edgesAddedRemoved = LabSessionManager.GetEvolutionInformation();
-            StepCount = edgesAddedRemoved.Count;
+            StepCount = edgesAddedRemoved == null ? 0 : edgesAddedRemoved.Count;
+            trianglesCount = LabSessionManager.GetTrianglesCount();
             MWindow.XAxisMaximum = StepCount + 1;
             MWindow.YAxisMaximum = LabSessionManager.GetMaximumTrianglesCount() + 1;
         }
@@ -30,22 +31,24 @@ namespace Draw
         private List<List<EdgesAddedOrRemoved>> edgesAddedRemoved;
         private ObservableCollection<KeyValuePair<int, int>> trianglesCountCollection;
         private List<int> trianglesCount;
-        private const int RESEARCH_STEP_DURATION_BY_MILISECONDS = 1000;
         private List<EdgesAddedOrRemoved> edgesToRemove;
         private List<EdgesAddedOrRemoved> edgesToChangeColor;
         public override void StartResearch()
         {
             //MWindow.Start.Content = "Stop";
             trianglesCountCollection = new ObservableCollection<KeyValuePair<int, int>>();
-            trianglesCount = LabSessionManager.GetTrianglesCount();
             edgesToRemove = new List<EdgesAddedOrRemoved>();
             edgesToChangeColor = new List<EdgesAddedOrRemoved>();
            
             MWindow.Start.IsEnabled = false;
             MWindow.mainCanvas.Children.Clear();
             MWindow.ChartData = null;
-            DrawObj.DrawFinal();
+            ResearchStepNumber = 0;
             MWindow.TextBoxStepNumber.Text = "0";
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {   
+                DrawObj.DrawFinal();
+            }));
             DrawEvolutionProcess();
             MWindow.Start.IsEnabled = true;
             //MWindow.Start.Content = "Start";
@@ -57,18 +60,24 @@ namespace Draw
 
         private void DrawEvolutionProcess()
         {
-            for (int i = 0; i < StepCount; ++i)
+            for (; ResearchStepNumber < StepCount; ++ResearchStepNumber)
             {
-                Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                int n = ResearchStepNumber;
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                 {
-                    trianglesCountCollection.Add(new KeyValuePair<int, int>(i, trianglesCount[i]));
-                    MWindow.ChartData = trianglesCountCollection;
-
-                    AddOrRemoveEdges(edgesAddedRemoved[i]);
+                    UpdateStepNumber();
+                    ProcessCurrentStep(edgesAddedRemoved[ResearchStepNumber]);
+                    UpdateChart();
+                    System.Threading.Thread.Sleep(RESEARCH_STEP_DURATION_BY_MILISECONDS);
                 }));
-                MWindow.TextBoxStepNumber.Text = i.ToString();
-                System.Threading.Thread.Sleep(RESEARCH_STEP_DURATION_BY_MILISECONDS);
+
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    ProcessPreviousStep();
+                    System.Threading.Thread.Sleep(RESEARCH_STEP_DURATION_BY_MILISECONDS);
+                }));
             }
+
         }
 
         public override void SetStatisticsParameters()
@@ -78,7 +87,14 @@ namespace Draw
             MWindow.StatisticCanvas.Title = "Evolution process";
             ((LineSeries)MWindow.StatisticCanvas.Series[0]).Title = "";
         }
-        public void AddOrRemoveEdges(List<EdgesAddedOrRemoved> edges)
+  
+        private void ProcessPreviousStep()
+        {
+            RemoveEdges();
+            FixAddedEdes();
+        }
+
+        private void RemoveEdges()
         {
             for (int i = 0; i < edgesToRemove.Count; i++)
             {
@@ -92,7 +108,11 @@ namespace Draw
                     }
                 }
             }
+            edgesToRemove.Clear();
+        }
 
+        private void FixAddedEdes()
+        {
             for (int i = 0; i < edgesToChangeColor.Count; i++)
             {
                 string edgeUid = DrawObj.GenerateEdgeUid(edgesToChangeColor[i]);
@@ -102,50 +122,67 @@ namespace Draw
                     {
                         Line line = (Line)MWindow.mainCanvas.Children[j];
                         line.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#323336");
+                        line.StrokeThickness = 1;
                         break;
                     }
                 }
             }
-
-            edgesToRemove.Clear();
             edgesToChangeColor.Clear();
+        }
+
+        private void ProcessCurrentStep(List<EdgesAddedOrRemoved> edges)
+        {
             for (int i = 0; i < edges.Count; i++)
             {
-                string edgeUid = DrawObj.GenerateEdgeUid(edges[i]);
-
                 if (edges[i].Added)
                 {
-                    edgesToChangeColor.Add(edges[i]);
-                    AddEdge(edges[i]);    
+                    AddEdge(edges[i]);
                 }
                 else
                 {
-                    edgesToRemove.Add(edges[i]);
-
-                    for (int j = 0; j < MWindow.mainCanvas.Children.Count; j++)
-                    {
-                        if (MWindow.mainCanvas.Children[j].Uid == edgeUid)
-                        {
-                            Line line = (Line)MWindow.mainCanvas.Children[j];
-                            line.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#ff0000");
-                            break;
-                        }
-                    }
+                    PrepareEdgeToRemove(edges[i]);
                 }
             }
         }
+
         private void AddEdge(EdgesAddedOrRemoved edge)
         {
+            edgesToChangeColor.Add(edge);
+
             Line edgeElem = new Line
             {
                 Uid = DrawObj.GenerateEdgeUid(edge),
-                Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#008000"),
+                Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#00FF00"),
+                StrokeThickness = 2,
                 X1 = DrawObj.Vertices[edge.Vertex1].X,
                 Y1 = DrawObj.Vertices[edge.Vertex1].Y,
                 X2 = DrawObj.Vertices[edge.Vertex2].X,
                 Y2 = DrawObj.Vertices[edge.Vertex2].Y
             };
             MWindow.mainCanvas.Children.Add(edgeElem);
+        }
+
+        private void PrepareEdgeToRemove(EdgesAddedOrRemoved edge)
+        {
+            edgesToRemove.Add(edge);
+
+            string edgeUid = DrawObj.GenerateEdgeUid(edge);
+            for (int j = 0; j < MWindow.mainCanvas.Children.Count; j++)
+            {
+                if (MWindow.mainCanvas.Children[j].Uid == edgeUid)
+                {
+                    Line line = (Line)MWindow.mainCanvas.Children[j];
+                    line.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#ff0000");
+                    line.StrokeThickness = 2;
+                    break;
+                }
+            }
+        }
+
+        private void UpdateChart()
+        {
+            trianglesCountCollection.Add(new KeyValuePair<int, int>(ResearchStepNumber, trianglesCount[ResearchStepNumber]));
+            MWindow.ChartData = trianglesCountCollection;
         }
     }
 }

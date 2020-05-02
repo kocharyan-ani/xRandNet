@@ -15,12 +15,16 @@ namespace Draw
     {
         MainWindow MWindow = Application.Current.Windows[0] as MainWindow;
 
+        protected const int RESEARCH_STEP_DURATION_BY_MILISECONDS = 2000;
+
         public AbstractDraw DrawObj { get; set; }
         public int StepCount { get; set; }
+        protected int ResearchStepNumber { get; set; }
 
         public AbstractResearchDraw(ModelType modelType = ModelType.ER)
         {
             DrawObj = FactoryDraw.CreateDraw(modelType, MWindow.mainCanvas);
+            ResearchStepNumber = 0;
             //Binding b = new Binding("StepNumber");
             //b.Source = DrawObj;
             //MWindow.TextBoxStepNumber.SetBinding(TextBox.TextProperty, b);
@@ -45,5 +49,10 @@ namespace Draw
         public abstract void OnWindowSizeChanged();
 
         public abstract void SetStatisticsParameters();
+
+        protected void UpdateStepNumber()
+        {
+            MWindow.TextBoxStepNumber.Text = ResearchStepNumber.ToString();
+        }
     }
 }

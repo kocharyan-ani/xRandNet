@@ -17,7 +17,10 @@ namespace Draw
 
         private int stepNumber = 0;
 
-        public BasicResearchDraw(ModelType modelType = ModelType.ER) : base(modelType) { }
+        public BasicResearchDraw(ModelType modelType = ModelType.ER) : base(modelType) 
+        {        
+            StepCount = LabSessionManager.GetStepCount();
+        }
 
         public override void StartResearch()
         {
@@ -25,7 +28,6 @@ namespace Draw
             Debug.Assert(MWindow.Start.Content.ToString() == "Start");
             MWindow.Start.Content = "Stop";
 
-            StepCount = LabSessionManager.GetStepCount();
 
             // *tmp
             //StepCount = 3;
@@ -115,6 +117,7 @@ namespace Draw
         {
             if (DrawObj != null)
             {
+                if (stepNumber < 1) { return; }
                 if (stepNumber == 1)
                 {
                     DrawObj.DrawInitial();

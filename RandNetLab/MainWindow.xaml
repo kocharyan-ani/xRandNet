@@ -53,7 +53,7 @@
                 <ColumnDefinition Width="23*"></ColumnDefinition>
                 <ColumnDefinition Width="120*"/>
                 <ColumnDefinition Width="10"></ColumnDefinition>
-                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="220"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1"  BorderThickness="1" BorderBrush="Black" Grid.ColumnSpan="2">
                 <Grid  Name ="listViewResearch" Grid.Column="0" Background="#ABABAB">
@@ -98,8 +98,8 @@
                 <Border Grid.Column="4" BorderThickness="0.7" BorderBrush="Black">
                     <DataGrid  Name="ParametersGrid" Background="#ABABAB" HeadersVisibility="Column" ColumnWidth="*" IsReadOnly="True" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" BorderThickness="0">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                            <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="4*" />
+                            <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}" Width="1*" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>

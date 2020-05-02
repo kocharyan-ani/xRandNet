@@ -242,6 +242,7 @@ namespace RandNetLab
                 Final.Visibility = Visibility.Collapsed;
                 Next.Visibility = Visibility.Collapsed;
                 Previous.Visibility = Visibility.Collapsed;
+                ChartData = null;
             }
             Start.Content = "Start";
 
@@ -302,13 +303,22 @@ namespace RandNetLab
             researchInfoTable.Rows.Add("Size", StatSessionManager.GetResearchNetworkSize(r[0]));
             researchInfoTable.Rows.Add("Edges", st.EdgesCountAvg);*/
 
-            List<ModelParameterStruct> parametersList = new List<ModelParameterStruct>();
+            Dictionary<ResearchParameter, object> researchParamValues = LabSessionManager.GetResearchParameterValues();
 
-            Dictionary<GenerationParameter, object> keyValues = LabSessionManager.GetGenerationParameterValues();
-
-            foreach (GenerationParameter key in keyValues.Keys)
+            foreach (ResearchParameter key in researchParamValues.Keys)
             {
-                object value = keyValues[key];
+                object value = researchParamValues[key];
+                if (value != null)
+                {
+                    ParametersGrid.Items.Add(new ModelParameterStruct { Name = key.ToString(), Value = value.ToString() });
+                }
+            }
+
+            Dictionary<GenerationParameter, object> genParamValues = LabSessionManager.GetGenerationParameterValues();
+
+            foreach (GenerationParameter key in genParamValues.Keys)
+            {
+                object value = genParamValues[key];
                 if (value != null)
                 {
                     ParametersGrid.Items.Add(new ModelParameterStruct { Name = key.ToString(), Value = value.ToString() });
