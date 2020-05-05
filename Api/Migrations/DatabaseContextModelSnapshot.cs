@@ -270,6 +270,13 @@ namespace Api.Migrations
                     b.HasDiscriminator().HasValue("ManualFile");
                 });
 
+            modelBuilder.Entity("Api.Database.Models.PublicationFile", b =>
+                {
+                    b.HasBaseType("Api.Database.Models.File");
+
+                    b.HasDiscriminator().HasValue("PublicationFile");
+                });
+
             modelBuilder.Entity("Api.Database.Models.App", b =>
                 {
                     b.HasOne("Api.Database.Models.AppFile", "File")
@@ -290,7 +297,7 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Database.Models.Publication", b =>
                 {
-                    b.HasOne("Api.Database.Models.File", "File")
+                    b.HasOne("Api.Database.Models.PublicationFile", "File")
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
