@@ -1,3 +1,5 @@
-<button mat-raised-button color="primary" class="create-button" (click)="createResearch()">Add</button>
 <app-research-listing (select)="selectResearch($event)"></app-research-listing>
-<button mat-raised-button color="primary" class="start-button" (click)="startResearch()">Start</button>
+<div class="button-container">
+    <button mat-raised-button color="primary" (click)="createResearch()">Add</button>
+    <button mat-raised-button color="primary" (click)="startResearch()">Start</button>
+</div>

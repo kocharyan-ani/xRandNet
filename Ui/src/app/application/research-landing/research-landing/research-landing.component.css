@@ -1,9 +1,5 @@
-.create-button {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.start-button {
-    margin-top: 20px;
-    float: right;
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
 }
