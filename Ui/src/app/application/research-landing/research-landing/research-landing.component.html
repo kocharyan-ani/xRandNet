@@ -1,5 +1,5 @@
 <app-research-listing (select)="selectResearch($event)"></app-research-listing>
 <div class="button-container">
     <button mat-raised-button color="primary" (click)="createResearch()">Add</button>
-    <button mat-raised-button color="primary" (click)="startResearch()">Start</button>
+    <button mat-raised-button color="primary" [disabled]="!selectedResearch" (click)="startResearch()">Start</button>
 </div>
