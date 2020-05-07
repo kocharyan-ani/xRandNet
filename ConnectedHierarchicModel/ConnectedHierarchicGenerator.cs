@@ -59,17 +59,17 @@ namespace ConnectedHierarchicModel
                         int connectionsCount = 0;
                         Int32 x = subtreeConnection / nodeDataLength;
                         Int32 d = subtreeConnection % nodeDataLength;
-                        Double D = Math.Pow(1 - 2 * nodeDataLength, 2) - 8 * (d + 1);
+                        Double D = Math.Pow(1 - 2 * branchingIndex, 2) - 8 * (d + 1);
                         Double firstSubtreeIndex = 0;
                         if (D >= 0)
                         {
-                            firstSubtreeIndex = nodeDataLength - 0.5 - Math.Sqrt(D) / 2;
+                            firstSubtreeIndex = branchingIndex - 0.5 - Math.Sqrt(D) / 2;
                             if (firstSubtreeIndex == Math.Floor(firstSubtreeIndex))
                                 --firstSubtreeIndex;
                             else
                                 firstSubtreeIndex = Math.Floor(firstSubtreeIndex);
                         }
-                        Double secondSubtreeIndex = firstSubtreeIndex + d + 1 - firstSubtreeIndex * nodeDataLength
+                        Double secondSubtreeIndex = firstSubtreeIndex + d + 1 - firstSubtreeIndex * branchingIndex
                             + (firstSubtreeIndex + 1)*firstSubtreeIndex/2 + x * branchingIndex;
                         firstSubtreeIndex += x * branchingIndex;
                         for (int firstNode = 0; firstNode < nodesInSubtree; firstNode++)
