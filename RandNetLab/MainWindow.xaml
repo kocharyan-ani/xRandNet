@@ -72,6 +72,7 @@
                             </ContextMenu>
                         </Canvas.ContextMenu>
                     </Canvas>
+                    <!--Chart-->
                     <ChartingToolkit:Chart Name="StatisticCanvas" Grid.Row="1" Grid.Column="1" Background="#BCBCBC" Height="250" VerticalAlignment="Top">
                         <ChartingToolkit:Chart.Axes >
                             <ChartingToolkit:LinearAxis Orientation="X" Minimum="0" Maximum="{Binding XAxisMaximum}"/>
@@ -85,8 +86,8 @@
                                     <Style TargetType="{x:Type ChartingToolkit:LineDataPoint}">
                                         <Setter Property="Height" Value="0"/>
                                         <Setter Property="Width" Value="0" />
-                                        <Setter Property="BorderBrush" Value="DarkBlue"/>
-                                        <Setter Property="Background" Value="DarkBlue"/>
+                                        <Setter Property="BorderBrush" Value="#1f304d"/>
+                                        <Setter Property="Background" Value="#1f304d"/>
                                     </Style>
                                 </ChartingToolkit:LineSeries.DataPointStyle>
                             </ChartingToolkit:LineSeries>

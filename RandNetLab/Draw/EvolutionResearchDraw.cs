@@ -152,7 +152,7 @@ namespace Draw
             Line edgeElem = new Line
             {
                 Uid = DrawObj.GenerateEdgeUid(edge),
-                Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#00FF00"),
+                Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("#006600"),
                 StrokeThickness = 2,
                 X1 = DrawObj.Vertices[edge.Vertex1].X,
                 Y1 = DrawObj.Vertices[edge.Vertex1].Y,
