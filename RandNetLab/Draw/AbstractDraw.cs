@@ -20,6 +20,7 @@ namespace Draw
         public int StepNumber { get; set; }
 
         protected const double vertexRadius = 2.5;
+        protected const double ActiveVertexRadius = 4;
 
 
         public AbstractDraw(Canvas mainCanvas)
@@ -112,7 +113,7 @@ namespace Draw
             }
         }
 
-        protected string GenerateEdgeUid(EdgesAddedOrRemoved edge)
+        public string GenerateEdgeUid(EdgesAddedOrRemoved edge)
         {
             return edge.Vertex1 < edge.Vertex2 ? "v" + edge.Vertex1.ToString() + "v" + edge.Vertex2.ToString() :
                                                  "v" + edge.Vertex2.ToString() + "v" + edge.Vertex1.ToString();
@@ -142,19 +143,22 @@ namespace Draw
                     break;
                 }
             }
-            double radius = (activate ? 7 : 5);
+            double diameter = (activate ? 2 * ActiveVertexRadius : 2 * vertexRadius);
             string color = (activate ? "#ff0000" : "#323336");
             Ellipse v = new Ellipse()
             {
                 Uid = vertexID,
-                Width = radius,
-                Height = radius,
+                Width = diameter,
+                Height = diameter,
                 Fill = (SolidColorBrush)new BrushConverter().ConvertFromString(color)
             };
             MainCanvas.Children.Add(v);
             Canvas.SetLeft(v, left);
             Canvas.SetTop(v, top);
         }
+
+        
+
     }
 }
 

@@ -17,15 +17,22 @@ namespace Draw
 
         private int stepNumber = 0;
 
-        public BasicResearchDraw(ModelType modelType = ModelType.ER) : base(modelType) { }
+        public BasicResearchDraw(ModelType modelType = ModelType.ER) : base(modelType) 
+        {        
+            StepCount = LabSessionManager.GetStepCount();
+        }
 
         public override void StartResearch()
         {
             stepNumber = 0;
+            if (DrawObj != null)
+            {
+                DrawObj.StepNumber = stepNumber;
+            }
+            
             Debug.Assert(MWindow.Start.Content.ToString() == "Start");
             MWindow.Start.Content = "Stop";
 
-            StepCount = LabSessionManager.GetStepCount();
 
             // *tmp
             //StepCount = 3;
@@ -73,15 +80,6 @@ namespace Draw
         }
         public void OnNextButtonClick()
         {
-            if (stepNumber == StepCount - 1)
-            {
-                MWindow.Next.IsEnabled = false;
-                MWindow.Final.IsEnabled = false;
-            }
-            else if (stepNumber == StepCount)
-            {
-                return;
-            }
 
             MWindow.Previous.IsEnabled = true;
             MWindow.Initial.IsEnabled = true;
@@ -100,13 +98,14 @@ namespace Draw
         {
             MWindow.Next.IsEnabled = true;
             MWindow.Final.IsEnabled = true;
-
-            DrawObj.StepNumber = stepNumber;
+            DrawObj.StepNumber = stepNumber - 1;
             DrawObj.DrawPrevious(stepNumber);
             stepNumber--;
+            
             if (stepNumber == 0)
             {
                 MWindow.Previous.IsEnabled = false;
+                MWindow.Initial.IsEnabled = false;
             }
             MWindow.TextBoxStepNumber.Text = stepNumber.ToString();
         }
@@ -115,11 +114,11 @@ namespace Draw
         {
             if (DrawObj != null)
             {
-                if (stepNumber == 1)
+                if (stepNumber == 0 && StepCount != 0 )
                 {
                     DrawObj.DrawInitial();
                 }
-                else if (stepNumber == StepCount)
+                else if (stepNumber == StepCount - 1 && StepCount != 0)
                 {
                     DrawObj.DrawFinal();
                 }
@@ -147,6 +146,12 @@ namespace Draw
             MWindow.Initial.IsEnabled = true;
             MWindow.Final.IsEnabled = false;
 
+        }
+
+        public override void SetStatisticsParameters() 
+        {
+            MWindow.listViewResearch.ColumnDefinitions[0].Width = new GridLength(4, GridUnitType.Star);
+            MWindow.listViewResearch.ColumnDefinitions[1].Width = new GridLength(0, GridUnitType.Star);
         }
     }
 }

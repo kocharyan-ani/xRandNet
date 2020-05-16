@@ -77,7 +77,7 @@ namespace Draw
             Level = branching.Count;
 
             //BranchingIndex = 3;
-            //Level = 3;
+            //Level = 2;
         }
 
         protected override void GetNetwork()
@@ -103,7 +103,7 @@ namespace Draw
                 }
                 else
                 {
-                    DrawNext(StepNumber);
+                    DrawLevel(StepNumber);
                 }
             }
         }
@@ -199,7 +199,7 @@ namespace Draw
             double maxRadius = Math.Min((MainCanvas.ActualHeight) / 2, (MainCanvas.ActualWidth / 2)) * 0.9;
             double radius = Math.Pow(3, level - 1) * (maxRadius / Math.Pow(3, Level - 1));
 
-            if (level > 1)
+            if (level > 1 && !setVertices)
             {
                 radiuses[level - 2] = radius/3;
 
@@ -223,9 +223,12 @@ namespace Draw
                 DrawPreviousLevels(radius, clusterCenters[i], level, i, setVertices);
             }
 
-            for (int i = 0; i < level; i++)
+            if (!setVertices)
             {
-                AddEdges(i + 1);
+                for (int i = 0; i < level; i++)
+                {
+                    AddEdges(i + 1);
+                }
             }
         }
 
@@ -236,11 +239,13 @@ namespace Draw
 
             Point[] nodes = GetVertices(center, branching[level][clusterNumber], (int)(radius / 2));
 
-            for (int i = 0; i < nodes.Length; i++)
+            if (!setVertices)
             {
-                centers[level - 1].Add(nodes[i]);
+                for (int i = 0; i < nodes.Length; i++)
+                {
+                    centers[level - 1].Add(nodes[i]);
+                }
             }
-
             double r = radius / 3;
             bool fill = false;
             // previous level nodes are vertices
@@ -257,8 +262,10 @@ namespace Draw
                     }
                 }
             }
-            if (!setVertices) AddVerticesToCanvas(nodes, r, fill);
-
+            if (!setVertices)
+            {
+                AddVerticesToCanvas(nodes, r, fill);
+            }
             int clusterBegin, clusterEnd;
             GetPreviousLevelClustersOfCluster(level, clusterNumber, out clusterBegin, out clusterEnd);
             for (int i = 0; i < nodes.Length; ++i)

@@ -127,7 +127,7 @@ namespace Manager
                             continue;
                     }
                     // Throws exception in Activation research
-                    if (/*!VisualMode && */TracingPath != "")
+                    if (!VisualMode && TracingPath != "")
                     {
                         if (!networks[networkToRun].Trace(TracingDirectory, TracingPath + "_" + networkToRun.ToString()))
                             continue;

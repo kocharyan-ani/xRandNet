@@ -217,16 +217,77 @@ namespace Session
             return existingResearch.GenerationSteps.Count;
         }
 
+        private static List<BitArray> GetActivationSteps()
+        {
+            List<BitArray> act = new List<BitArray>(){
+            new BitArray(BitConverter.GetBytes(0)),
+            new BitArray(BitConverter.GetBytes(1)),
+            new BitArray(BitConverter.GetBytes(2)),
+            new BitArray(BitConverter.GetBytes(3)),
+            new BitArray(BitConverter.GetBytes(4)),
+            new BitArray(BitConverter.GetBytes(5)),
+            new BitArray(BitConverter.GetBytes(6)),
+            new BitArray(BitConverter.GetBytes(7)),
+            new BitArray(BitConverter.GetBytes(8)),
+            new BitArray(BitConverter.GetBytes(9)),
+            new BitArray(BitConverter.GetBytes(10)),
+            new BitArray(BitConverter.GetBytes(11)),
+            new BitArray(BitConverter.GetBytes(12)),
+            new BitArray(BitConverter.GetBytes(13)),
+            new BitArray(BitConverter.GetBytes(14)) };
+            return act;
+        }
+
         public static BitArray GetActivationStep(int stepNumber)
         {
-            Debug.Assert(existingResearch.ActivesInformation != null);
-            return existingResearch.ActivesInformation[stepNumber];
+            //Debug.Assert(existingResearch.ActivesInformation != null);
+            //return existingResearch.ActivesInformation[stepNumber];
+            return GetActivationSteps()[stepNumber];
         }
 
         public static int GetActivationStepCount()
         {
-            Debug.Assert(existingResearch.ActivesInformation != null);
-            return existingResearch.ActivesInformation.Count;
+            //Debug.Assert(existingResearch.ActivesInformation != null);
+            //return existingResearch.ActivesInformation.Count;
+            return GetActivationSteps().Count();
+        }
+        public static int GetActiveNodesCountbyStep(int stepNumber)
+        {
+            BitArray step = GetActivationStep(stepNumber);
+            int activesCount = 0;
+            foreach (var e in step)
+            {
+                if ((bool)e) activesCount++;
+            }
+            return activesCount;
+        }
+
+        public static int GetMaximumActiveNodesCount()
+        {
+            int maxCount = 0;
+            for (int i = 0; i < GetActivationStepCount(); ++i)
+            {
+                int activesCount = GetActiveNodesCountbyStep(i);
+                if (activesCount > maxCount)
+                {
+                    maxCount = activesCount;
+                }
+            }
+            return maxCount;
+        }
+
+        public static int GetMaximumTrianglesCount()
+        {
+            int maxCount = 0;
+            List<int> trianglesCount = GetTrianglesCount();
+            for (int i = 0; i < trianglesCount.Count; ++i)
+            {
+                if (trianglesCount[i] > maxCount)
+                {
+                    maxCount = trianglesCount[i];
+                }
+            }
+            return maxCount;
         }
 
         public static List<List<int>> GetBranches()
@@ -234,5 +295,17 @@ namespace Session
             Debug.Assert(existingResearch.Branches != null);
             return existingResearch.Branches;
         }
+
+        public static List<List<EdgesAddedOrRemoved>> GetEvolutionInformation()
+        {
+            return existingResearch.EvolutionInformation;
+        }
+        public static List<int> GetTrianglesCount()
+        {
+            return new List<int>() { 4, 5, 5, 7, 8 };
+        }
+
+
+
     }
 }
