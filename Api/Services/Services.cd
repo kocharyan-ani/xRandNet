@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Api.Services.AppService" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAgAABAAAAAACAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\App\AppService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Api.Services.AuthService">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAIAAAAAAAAAgAIAAAABAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Services\Auth\AuthService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Api.Services.InfoService" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAIAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Info\InfoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Api.Services.LinkService" BaseTypeListCollapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAQAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Link\LinkService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Api.Services.NewsService" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAgAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\News\NewsService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Api.Services.PersonService" BaseTypeListCollapsed="true">
+    <Position X="4" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAACAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Person\PersonService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Api.Services.ProjectService" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAgAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Project\ProjectService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Api.Services.PublicationService" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAEBAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Publication\PublicationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Api.Services.UserService" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAgAAAAAABAAAAAAAAAAAEAAAAAAAAAAAEAAAI=</HashCode>
+      <FileName>Services\User\UserService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Api.Services.Bug.BugService" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAgAABAAAAAAAAAAAEAAgAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Bug\BugService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Api.Services.IAppService">
+    <Position X="4" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\App\IAppService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Api.Services.IInfoService">
+    <Position X="7.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Info\IInfoService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Api.Services.ILinkService">
+    <Position X="9.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Link\ILinkService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Api.Services.INewsService">
+    <Position X="11" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\News\INewsService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Api.Services.IPersonService">
+    <Position X="12.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Person\IPersonService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Api.Services.IProjectService">
+    <Position X="4" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Project\IProjectService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Api.Services.IPublicationService">
+    <Position X="5.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Publication\IPublicationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Api.Services.IUserService">
+    <Position X="7.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\User\IUserService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Api.Services.Bug.IBugService">
+    <Position X="5.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Services\Bug\IBugService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

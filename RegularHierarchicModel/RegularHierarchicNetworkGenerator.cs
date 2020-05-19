@@ -104,6 +104,7 @@ namespace RegularHierarchicModel
                     if (rand.NextDouble() <= (1 / Math.Pow(branchingIndex, currentLevel * mu)))
                     {
                         treeMatrix[maxLevel - currentLevel][i][j] = true;
+
                     }
                     else
                     {
