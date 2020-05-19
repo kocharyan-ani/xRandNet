@@ -9,6 +9,14 @@ using System;
 using System.Windows.Controls;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Collections;
+using System.Windows.Threading;
+using System.Windows.Media;
+using System.Windows.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace RandNetLab
 {
@@ -21,12 +29,51 @@ namespace RandNetLab
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private int stepNumber = 0;
-        private int stepCount = 0;
+       
  //       private AbstractDraw draw;
         private AbstractResearchDraw researchDraw;
+
+        private ObservableCollection<KeyValuePair<int, int>> chartData;
+        public ObservableCollection<KeyValuePair<int, int>> ChartData
+        { 
+            get { return chartData; }
+            set
+            {
+                chartData = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int xAxisMaximum;
+        public int XAxisMaximum
+        {
+            get { return xAxisMaximum; }
+            set 
+            { 
+                xAxisMaximum = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private int yAxisMaximum;
+        public int YAxisMaximum
+        {
+            get { return yAxisMaximum; }
+            set
+            {
+                yAxisMaximum = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged([CallerMemberName] string caller = null)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(caller));
+        }
 
         private System.Windows.Forms.FolderBrowserDialog locationDlg = new System.Windows.Forms.FolderBrowserDialog();
 
@@ -34,6 +81,7 @@ namespace RandNetLab
         {
             InitializeComponent();
             TextBoxStepNumber.Text = "0";
+            this.DataContext = this;
         }
 
         #region Event Handlers
@@ -74,10 +122,12 @@ namespace RandNetLab
             if (Start.Content.ToString() == "Start")
             {
                 researchDraw.StartResearch();
+                Flat.IsEnabled = true;
             }
             else 
             {
                 researchDraw.StopResearch();
+                Flat.IsEnabled = false;
             }
         }
 
@@ -89,29 +139,10 @@ namespace RandNetLab
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (researchDraw != null)
+            if (researchDraw != null && Start.Content.ToString() == "Stop")
             {
                 researchDraw.OnWindowSizeChanged();
             }
-            //if (draw != null)
-            //{
-            //    if (stepNumber == 1)
-            //    {
-            //        draw.DrawInitial();
-            //    }
-            //    else if (stepNumber == stepCount)
-            //    {
-            //        draw.DrawFinal();
-            //    }
-            //    else
-            //    {
-            //        draw.DrawInitial();
-            //        for (int i = 0; i <= stepNumber; ++i)
-            //        {
-            //            draw.DrawNext(i);
-            //        }
-            //    }
-            //}
         }
 
         private void Final_Click(object sender, RoutedEventArgs e)
@@ -177,19 +208,6 @@ namespace RandNetLab
 
         #region Utility
 
-        //private void DrawFinal()
-        //{
-        //    stepNumber = LabSessionManager.GetStepCount() - 1;
-        //    mainCanvas.Children.Clear();
-        //    draw.DrawFinal();
-        //    TextBoxStepNumber.Text = stepNumber.ToString();
-
-        //    Next.IsEnabled = false;
-        //    Previous.IsEnabled = true;
-        //    Initial.IsEnabled = true;
-        //    Final.IsEnabled = false;
-        //}
-
         private void ShowCreateResearchDialog(ResearchType researchType)
         {
             CreateResearchWindow createResearchWnd = new CreateResearchWindow(researchType)
@@ -207,6 +225,7 @@ namespace RandNetLab
             Save.IsEnabled = true;
             AddResearchToTable();
             FillParametersTable();
+            researchDraw.SetStatisticsParameters();
             if (researchType == ResearchType.Basic)
             {
                 Initial.Visibility = Visibility.Visible;
@@ -217,6 +236,7 @@ namespace RandNetLab
                 Next.IsEnabled = false;
                 Previous.Visibility = Visibility.Visible;
                 Previous.IsEnabled = false;
+                Grid.SetColumn(Save, 5);
             }
             else 
             {
@@ -224,6 +244,8 @@ namespace RandNetLab
                 Final.Visibility = Visibility.Collapsed;
                 Next.Visibility = Visibility.Collapsed;
                 Previous.Visibility = Visibility.Collapsed;
+                ChartData = null;
+                Grid.SetColumn(Save, 1);
             }
             Start.Content = "Start";
 
@@ -233,6 +255,7 @@ namespace RandNetLab
                 (LabSessionManager.GetResearchModelType() == ModelType.RegularHierarchic || LabSessionManager.GetResearchModelType() == ModelType.NonRegularHierarchic))
             {
                 Flat.Visibility = System.Windows.Visibility.Visible;
+                Flat.IsEnabled = false;
             }
             else
             {
@@ -284,13 +307,22 @@ namespace RandNetLab
             researchInfoTable.Rows.Add("Size", StatSessionManager.GetResearchNetworkSize(r[0]));
             researchInfoTable.Rows.Add("Edges", st.EdgesCountAvg);*/
 
-            List<ModelParameterStruct> parametersList = new List<ModelParameterStruct>();
+            Dictionary<ResearchParameter, object> researchParamValues = LabSessionManager.GetResearchParameterValues();
 
-            Dictionary<GenerationParameter, object> keyValues = LabSessionManager.GetGenerationParameterValues();
-
-            foreach (GenerationParameter key in keyValues.Keys)
+            foreach (ResearchParameter key in researchParamValues.Keys)
             {
-                object value = keyValues[key];
+                object value = researchParamValues[key];
+                if (value != null)
+                {
+                    ParametersGrid.Items.Add(new ModelParameterStruct { Name = key.ToString(), Value = value.ToString() });
+                }
+            }
+
+            Dictionary<GenerationParameter, object> genParamValues = LabSessionManager.GetGenerationParameterValues();
+
+            foreach (GenerationParameter key in genParamValues.Keys)
+            {
+                object value = genParamValues[key];
                 if (value != null)
                 {
                     ParametersGrid.Items.Add(new ModelParameterStruct { Name = key.ToString(), Value = value.ToString() });
@@ -319,6 +351,7 @@ namespace RandNetLab
                 }
             }
         }
+
         #endregion
     }
 }

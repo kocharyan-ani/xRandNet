@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:ChartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:local="clr-namespace:RandNetLab"
         mc:Ignorable="d"
         Title="xRandNetLab" Height="755" Width="1280" SizeChanged="Window_SizeChanged" Background="#F0F0F0" Icon="Icons/lab.ico" WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600">
@@ -51,11 +53,15 @@
                 <ColumnDefinition Width="23*"></ColumnDefinition>
                 <ColumnDefinition Width="120*"/>
                 <ColumnDefinition Width="10"></ColumnDefinition>
-                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="220"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1"  BorderThickness="1" BorderBrush="Black" Grid.ColumnSpan="2">
-                <Grid  Name ="ListViewResearch" Grid.Column="0" Background="#ABABAB">
-                    <Canvas Name="mainCanvas" Grid.Row="1" Visibility="Visible" Background="#ABABAB">
+                <Grid  Name ="listViewResearch" Grid.Column="0" Background="#ABABAB">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="0*"/>
+                    </Grid.ColumnDefinitions>
+                    <Canvas Name="mainCanvas" Grid.Row="1" Grid.Column="0" Visibility="Visible" Background="#ABABAB">
                         <Canvas.ContextMenu>
                             <ContextMenu Name="CreateEditResearchContextCanvas"  Background="WhiteSmoke">
                                 <MenuItem Name ="CreateResearchContextMenuCanvas" Header="Create Research">
@@ -66,38 +72,62 @@
                             </ContextMenu>
                         </Canvas.ContextMenu>
                     </Canvas>
+                    <!--Chart-->
+                    <ChartingToolkit:Chart Name="StatisticCanvas" Grid.Row="1" Grid.Column="1" Background="#BCBCBC" Height="250" VerticalAlignment="Top">
+                        <ChartingToolkit:Chart.Axes >
+                            <ChartingToolkit:LinearAxis Orientation="X" Minimum="0" Maximum="{Binding XAxisMaximum}"/>
+                            <ChartingToolkit:LinearAxis Orientation="Y" Minimum="0" Maximum="{Binding YAxisMaximum}"/>
+                        </ChartingToolkit:Chart.Axes>
+                        <ChartingToolkit:Chart.Series>
+                            <ChartingToolkit:LineSeries IndependentValueBinding="{Binding Path=Key}"
+                                            DependentValueBinding="{Binding Path=Value}"
+                                            ItemsSource="{Binding ChartData, Mode=TwoWay}">
+                                <ChartingToolkit:LineSeries.DataPointStyle>
+                                    <Style TargetType="{x:Type ChartingToolkit:LineDataPoint}">
+                                        <Setter Property="Height" Value="0"/>
+                                        <Setter Property="Width" Value="0" />
+                                        <Setter Property="BorderBrush" Value="#1f304d"/>
+                                        <Setter Property="Background" Value="#1f304d"/>
+                                    </Style>
+                                </ChartingToolkit:LineSeries.DataPointStyle>
+                            </ChartingToolkit:LineSeries>
+                        </ChartingToolkit:Chart.Series>
+                    </ChartingToolkit:Chart>
                 </Grid>
             </Border>
             <GroupBox   Grid.Column="4" Name="Parameters" BorderThickness="0">
                 <Border Grid.Column="4" BorderThickness="0.7" BorderBrush="Black">
                     <DataGrid  Name="ParametersGrid" Background="#ABABAB" HeadersVisibility="Column" ColumnWidth="*" IsReadOnly="True" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" BorderThickness="0">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                            <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="4*" />
+                            <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}" Width="1*" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
             </GroupBox>
         </Grid>
-        <!--Buttons-->
+
         <Grid Name ="Buttons" Grid.Column="1" Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.8*"/>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="150*"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Name="ButtonsStackPanel" Orientation="Horizontal" Grid.Column="0">
-                <Button Name ="Start" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False" Visibility="Collapsed">Start</Button>
-                <Button Name ="Initial" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Initial_Click" Visibility="Collapsed">Initial</Button>
-                <Button Name ="Final" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Final_Click" Visibility="Collapsed">Final</Button>
-                <Button Name ="Next" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Next_Click" Visibility="Collapsed">Next</Button>
-                <Button Name ="Previous" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click" Visibility="Collapsed">Previous</Button>
-                <Button Name ="Save" Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click" Visibility="Collapsed">Save</Button>
-                <CheckBox Name="Flat" Content="Flat" Visibility="Hidden" Margin="50 15" Checked="Flat_Checked" Unchecked="Flat_Unchecked"></CheckBox>
-            </StackPanel>
-            <StackPanel Name="StepNumberStackPanel" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20, 10">
-                <TextBlock HorizontalAlignment="Center" Text="Step Number" Height="23" Width="75"/>
-                <TextBox Name="TextBoxStepNumber"  HorizontalAlignment="Center" TextAlignment="Center" Height="23" Width="30"></TextBox>
-            </StackPanel>
+            <Button Name ="Start" Grid.Column="0" Style="{StaticResource ButtonStyle}" Click="Start_Click" IsEnabled="False" Visibility="Hidden">Start</Button>
+            <Button Name ="Initial" Grid.Column="1"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Initial_Click" Visibility="Hidden">Initial</Button>
+            <Button Name ="Final" Grid.Column="2"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Final_Click" Visibility="Hidden">Final</Button>
+            <Button Name ="Next" Grid.Column="3"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Next_Click" Visibility="Hidden">Next</Button>
+            <Button Name ="Previous" Grid.Column="4"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Previous_Click" Visibility="Hidden">Previous</Button>
+            <Button Name ="Save" Grid.Column="5"  Style="{StaticResource ButtonStyle}" IsEnabled="False" Click="Save_Click" Visibility="Hidden" >Save</Button>
+            <CheckBox Name="Flat" Grid.Column="6" Content="Flat" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="Flat_Checked" Unchecked="Flat_Unchecked"></CheckBox>
+            <TextBlock Grid.Column="7" HorizontalAlignment="Right" Text="Step Number" Height="23" Width="75"/>
+            <TextBox Name="TextBoxStepNumber" Grid.Column="8" HorizontalAlignment="Center" Height="23" Width="75"></TextBox>
         </Grid>
     </Grid>
 </Window>
