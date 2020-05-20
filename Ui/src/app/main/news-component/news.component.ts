@@ -21,6 +21,9 @@ export class NewsComponent implements OnInit {
         this.titleService.setTitle("News");
         this.httpClient.get(environment.apiUrl + '/api/data/news')
             .subscribe((data: Array<News>) => {
+                data.sort((a, b) => {
+                    return b.id - a.id
+                })
                 this.announcements = data;
             });
     }

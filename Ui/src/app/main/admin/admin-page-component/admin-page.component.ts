@@ -72,6 +72,9 @@ export class AdminPageComponent implements OnInit {
         this.titleService.setTitle('Admin');
         this.httpClient.get(environment.apiUrl + '/api/data/news')
             .subscribe((data: Array<News>) => {
+                data.sort((a, b) => {
+                    return b.id - a.id
+                })
                 data.forEach((news) => {
                     let post = new News(news.title, news.datePosted, news.content, news.id);
                     post.editable = false;
@@ -355,7 +358,7 @@ export class AdminPageComponent implements OnInit {
 
     addNews(n) {
         this.httpClient.put(environment.apiUrl + "/api/data/news", n.toJson()).toPromise().then((newPost: News) => {
-            this.news.push(new News(newPost.title, newPost.datePosted, newPost.content, newPost.id));
+            this.news.unshift(new News(newPost.title, newPost.datePosted, newPost.content, newPost.id));
             this.newPost = new News()
         });
     }

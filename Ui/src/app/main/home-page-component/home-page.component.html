@@ -2,10 +2,7 @@
 
 <mat-card class="card aboutInfo">
     <mat-card-content>
-        <div class="text-center">
-            <p>{{ aboutInfo.content  }}</p>
-        </div>
-
+        <div class="text-center" [innerHTML]="aboutInfo.content"></div>
     </mat-card-content>
 </mat-card>
 
