@@ -36,14 +36,6 @@ export class DownloadComponent implements OnInit {
             });
     }
 
-    onChangeVersion() {
-        let params = new HttpParams().set('version', this.selectedSoftware.version);
-        this.httpClient.get(environment.apiUrl + '/api/app/bugs', {params})
-            .subscribe((data: Array<object>) => {
-                console.log(data)
-            })
-    }
-
     download(selectedSoftware) {
         console.log(selectedSoftware.version);
         window.location.href = environment.apiUrl + "/api/app?version=" + selectedSoftware.version;

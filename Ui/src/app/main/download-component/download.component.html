@@ -6,7 +6,7 @@
     <h2>Application</h2>
     <mat-form-field>
         <mat-label>Select the version</mat-label>
-        <mat-select [(ngModel)]="selectedSoftware" (ngModelChange)="onChangeVersion()">
+        <mat-select [(ngModel)]="selectedSoftware">
             <mat-option *ngFor="let soft of software" [value]="soft">{{soft.label}}</mat-option>
         </mat-select>
     </mat-form-field>
