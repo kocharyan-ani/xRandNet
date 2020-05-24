@@ -56,16 +56,26 @@ namespace Core.Model.Engines
             Double timeStep = 0;
             Double currentTracingStep = tracingStepIncrement, currentActiveNodesCount = containerToChange.GetActiveNodesCount();
             Trajectory.Add(timeStep, currentActiveNodesCount / containerToChange.Size);
-            if(visualMode)
-                ActivesInformation.Add(containerToChange.GetActiveStatuses());
+            if (visualMode)
+            {
+                Byte[] bits = new Byte[containerToChange.GetActiveStatuses().Length + 1];
+                containerToChange.GetActiveStatuses().CopyTo(bits, 0);
+                BitArray arr = new BitArray(bits);
+                ActivesInformation.Add(arr);
+            }
 
             while (timeStep <= stepCount && currentActiveNodesCount != 0)
             {
                 processToRun(containerToChange);
                 currentActiveNodesCount = containerToChange.GetActiveNodesCount();
                 Trajectory.Add(++timeStep, currentActiveNodesCount / containerToChange.Size);
-                if(visualMode)
-                    ActivesInformation.Add(containerToChange.GetActiveStatuses());
+                if (visualMode)
+                {
+                    Byte[] bits = new Byte[containerToChange.GetActiveStatuses().Length + 1];
+                    containerToChange.GetActiveStatuses().CopyTo(bits, 0);
+                    BitArray arr = new BitArray(bits);
+                    ActivesInformation.Add(arr);
+                }
 
                 network.UpdateStatus(NetworkStatus.StepCompleted);
 

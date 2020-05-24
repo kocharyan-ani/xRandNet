@@ -15,7 +15,7 @@ namespace Draw
     {
         MainWindow MWindow = Application.Current.Windows[0] as MainWindow;
 
-        protected const int RESEARCH_STEP_DURATION_BY_MILISECONDS = 2000;
+        protected const int RESEARCH_STEP_DURATION_BY_MILISECONDS = 200;
 
         public AbstractDraw DrawObj { get; set; }
         public int StepCount { get; set; }

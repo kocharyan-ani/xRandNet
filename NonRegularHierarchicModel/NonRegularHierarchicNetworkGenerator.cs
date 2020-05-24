@@ -161,6 +161,7 @@ namespace NonRegularHierarchicModel
             {
                 if (treeMatrix[currentLevel].Length > 0)
                 {
+                    List<EdgesAddedOrRemoved> edgesOnCurrentLevel = new List<EdgesAddedOrRemoved>();
                     int branchSize = container.Branches[currentLevel][0];
                     int counter = 0, nodeNumber = 0;
                     for (int i = 0; i < treeMatrix[currentLevel].Length; i++)
@@ -177,6 +178,7 @@ namespace NonRegularHierarchicModel
                             if (k <= (1 / Math.Pow(container.CountLeaves(currentLevel, nodeNumber), mu)))
                             {
                                 treeMatrix[currentLevel][i][j] = true;
+                                edgesOnCurrentLevel.Add(new EdgesAddedOrRemoved(i, j, true));
                             }
                             else
                             {
@@ -185,6 +187,7 @@ namespace NonRegularHierarchicModel
                             ++counter;
                         }
                     }
+                    GenerationSteps.Add(edgesOnCurrentLevel);
                 }
             }
         }

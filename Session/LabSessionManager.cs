@@ -11,6 +11,7 @@ using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
 using System.Collections;
+using System.Xml.Serialization;
 
 namespace Session
 {
@@ -219,7 +220,8 @@ namespace Session
 
         private static List<BitArray> GetActivationSteps()
         {
-            List<BitArray> act = new List<BitArray>(){
+            return existingResearch.ActivesInformation;
+            /*List<BitArray> act = new List<BitArray>(){
             new BitArray(BitConverter.GetBytes(0)),
             new BitArray(BitConverter.GetBytes(1)),
             new BitArray(BitConverter.GetBytes(2)),
@@ -235,7 +237,7 @@ namespace Session
             new BitArray(BitConverter.GetBytes(12)),
             new BitArray(BitConverter.GetBytes(13)),
             new BitArray(BitConverter.GetBytes(14)) };
-            return act;
+            return act;*/
         }
 
         public static BitArray GetActivationStep(int stepNumber)
@@ -300,12 +302,16 @@ namespace Session
         {
             return existingResearch.EvolutionInformation;
         }
+
         public static List<int> GetTrianglesCount()
         {
-            return new List<int>() { 4, 5, 5, 7, 8 };
+            SortedDictionary<Double, Double> result = (SortedDictionary<Double, Double>)existingResearch.Result.EnsembleResults[0].Result[AnalyzeOption.Cycles3Evolution];
+            List<int> lResult = new List<int>();
+            foreach (Double v in result.Values)
+            {
+                lResult.Add((int)v);
+            }
+            return lResult;
         }
-
-
-
     }
 }

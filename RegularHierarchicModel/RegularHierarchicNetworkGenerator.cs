@@ -97,6 +97,7 @@ namespace RegularHierarchicModel
             Int32 maxLevel, 
             Double mu)
         {
+            List<EdgesAddedOrRemoved> edgesOnCurrentLevel = new List<EdgesAddedOrRemoved>();
             for (int i = 0; i < treeMatrix[maxLevel - currentLevel].Length; i++)
             {
                 for (int j = 0; j < treeMatrix[maxLevel - currentLevel][i].Length; j++)
@@ -104,7 +105,7 @@ namespace RegularHierarchicModel
                     if (rand.NextDouble() <= (1 / Math.Pow(branchingIndex, currentLevel * mu)))
                     {
                         treeMatrix[maxLevel - currentLevel][i][j] = true;
-
+                        edgesOnCurrentLevel.Add(new EdgesAddedOrRemoved(i, j, true));
                     }
                     else
                     {
@@ -112,6 +113,7 @@ namespace RegularHierarchicModel
                     }
                 }
             }
+            GenerationSteps.Add(edgesOnCurrentLevel);
         }
     }
 }

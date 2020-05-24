@@ -82,7 +82,7 @@ namespace Draw
 
         protected override void GetNetwork()
         {
-            for (int i = 0; i <= StepCount; i++)
+            for (int i = 0; i < StepCount; i++)
             {
                 steps.Add(LabSessionManager.GetStep(i));
             }
