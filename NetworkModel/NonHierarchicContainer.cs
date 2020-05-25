@@ -167,6 +167,11 @@ namespace NetworkModel
             Debug.Assert(secondVertex >= 0 && secondVertex < size, "Second vertex is out of range!");
             Debug.Assert(firstVertex != secondVertex, "Vertices are equal!");
 
+            if (evolutionInformation != null)
+            {
+                evolutionInformation.Add(firstVertex, secondVertex);
+            }
+
             if (firstVertex < secondVertex)
             {
                 int temp = firstVertex;
@@ -180,11 +185,6 @@ namespace NetworkModel
                 ++degrees[firstVertex];
                 ++degrees[secondVertex];
             }
-
-            if (evolutionInformation != null)
-            {
-                evolutionInformation.Add(firstVertex, secondVertex);                
-            }
         }
 
         public void RemoveConnection(int firstVertex, int secondVertex)
@@ -192,6 +192,11 @@ namespace NetworkModel
             Debug.Assert(firstVertex >= 0 && firstVertex < size, "First vertex is out of range!");
             Debug.Assert(secondVertex >= 0 && secondVertex < size, "Second vertex is out of range!");
             Debug.Assert(firstVertex != secondVertex, "Vertices are equal!");
+
+            if (evolutionInformation != null)
+            {
+                evolutionInformation.Remove(firstVertex, secondVertex);
+            }
 
             if (firstVertex < secondVertex)
             {
@@ -205,12 +210,7 @@ namespace NetworkModel
                 numberOfEdges--;
                 --degrees[firstVertex];
                 --degrees[secondVertex];
-            }
-
-            if (evolutionInformation != null)
-            {
-                evolutionInformation.Remove(firstVertex, secondVertex);                
-            }
+            }            
         }
         
         public override List<int> GetAdjacentVertices(int vertex)
@@ -252,9 +252,9 @@ namespace NetworkModel
         {
             Debug.Assert(evolutionInformation != null, "Evolution Information is not initialized.");
             RNGCrypto rand = new RNGCrypto();
-            int e1 = rand.Next(0, EdgesCount);
-            int e2 = rand.Next(0, EdgesCount);
-            Debug.Assert(e1 < evolutionInformation.existingEdges.Count && e2 < evolutionInformation.existingEdges.Count);
+            int e1 = rand.Next(0, evolutionInformation.existingEdges.Count);
+            int e2 = rand.Next(0, evolutionInformation.existingEdges.Count);
+            //Debug.Assert(e1 < evolutionInformation.existingEdges.Count && e2 < evolutionInformation.existingEdges.Count);
 
             while (e1 == e2 ||
                 evolutionInformation.existingEdges[e1].Key == evolutionInformation.existingEdges[e2].Key ||
@@ -264,9 +264,9 @@ namespace NetworkModel
                 AreConnected(evolutionInformation.existingEdges[e1].Key, evolutionInformation.existingEdges[e2].Key) ||
                 AreConnected(evolutionInformation.existingEdges[e1].Value, evolutionInformation.existingEdges[e2].Value))
             {
-                e1 = rand.Next(0, EdgesCount);
-                e2 = rand.Next(0, EdgesCount);
-                Debug.Assert(e1 < evolutionInformation.existingEdges.Count && e2 < evolutionInformation.existingEdges.Count);
+                e1 = rand.Next(0, evolutionInformation.existingEdges.Count);
+                e2 = rand.Next(0, evolutionInformation.existingEdges.Count);
+                //Debug.Assert(e1 < evolutionInformation.existingEdges.Count && e2 < evolutionInformation.existingEdges.Count);
             }
 
             int vertex1 = evolutionInformation.existingEdges[e1].Key, vertex2 = evolutionInformation.existingEdges[e1].Value;
