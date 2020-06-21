@@ -182,7 +182,7 @@ h2 {
 
 .links_section {
     display: grid;
-    width: 30%;
+    width: fit-content;
     margin: 0 auto;
     margin-top: 1%;
 }
